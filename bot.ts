@@ -18,8 +18,8 @@ client.login(config.discordToken)
 
 let lastMessage: Discord.Message<true> | undefined = undefined
 
-const updatePlayers = new CronJob("0 30 * * * *", async () => updatePlayersData())
-const updateEvent = new CronJob("0 0 * * * *", async () => { 
+const updatePlayers = new CronJob("0 35 * * * *", async () => updatePlayersData())
+const updateEvent = new CronJob("0 */15 * * * *", async () => { 
   await updatePlayerMetrics() 
   if (config.eventEnd < Date.now()) {
     updatePlayers.stop()
@@ -65,16 +65,14 @@ async function forceUpdate() {
 client.once("ready", async () => {
   console.log(`[${new Date().toISOString()}] Bot online.`)
   const timeSinceStart = Date.now() - config.eventStart 
-
+  updatePlayers.start()
   if (timeSinceStart < 0) {
-    await updatePlayersData()
     await new Promise(resolve => setTimeout(resolve, -timeSinceStart))
     await sendStartedEmbed()
     await updatePlayerMetrics()
   } else {
     await forceUpdate()
   }
-  updatePlayers.start()
   updateEvent.start()
 })
 
@@ -107,7 +105,7 @@ async function sendStartedEmbed() {
       .setDescription(`The Diana grinding event has started! Good luck to all participants.`)
       .setTimestamp()
     await channel.send({embeds: [embed]})
-    channel.send(`<@&${config.guildMemberRole}>`)
+    await channel.send(`<@&${config.guildMemberRole}>`)
   } catch (e) {
     console.log(e)
   }
@@ -122,7 +120,7 @@ async function sendEndEmbed() {
       .setDescription("The Diana grinding event has finished, and official results will be posted as soon as possible. Thanks for participating!")
       .setTimestamp()
     await channel.send({embeds: [embed]})
-    channel.send(`<@&${config.guildMemberRole}>`)
+    await channel.send(`<@&${config.guildMemberRole}>`)
   } catch (e) {
     console.log(e)
   }
@@ -133,7 +131,7 @@ async function sendUpdate(eventData: PlayerEventData[], metricData: {updated: nu
   let fields = eventData.slice(0, 10).map(({ rank, username, profileName, endingKills, score }) => {
     return {
       name: `${rank}. ${username} (${profileName})`,
-      value: `**${formatter.format(score)}** weight gained \n${formatter.format(endingKills)} total weight`,
+      value: `**${formatter.format(score)}** mythos kills`,
       inline: true
     }
   })
@@ -157,7 +155,7 @@ async function sendUpdate(eventData: PlayerEventData[], metricData: {updated: nu
     .setTitle("Shrimple Event Leaderboard")
     .setColor("DarkBlue")
     .setDescription(`
-Shrimple is having a mythological festival event for the duration of Diana! Score is based your Mythological Creature kills on your highest-kill profile.
+Shrimple is having a mythological festival event for the duration of Diana! Score is based your mythological kills on your highest-kill profile.
 
 **Start:** <t:${Math.round(config.eventStart / 1000)}:f>
 **End:** <t:${Math.round(config.eventEnd / 1000)}:f>

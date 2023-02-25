@@ -164,6 +164,3 @@ export function getLeaderboardData() {
 export function getTimeseries(username: string) {
   return selectTimeseries.all(username) as Timeseries[]
 }
-
-
-console.log(getLeaderboardData())
