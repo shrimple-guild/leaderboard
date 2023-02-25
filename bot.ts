@@ -70,8 +70,10 @@ client.once("ready", async () => {
     await updatePlayersData()
     await new Promise(resolve => setTimeout(resolve, -timeSinceStart))
     await sendStartedEmbed()
-  } 
-  await forceUpdate()
+    await updatePlayerMetrics()
+  } else {
+    await forceUpdate()
+  }
   updatePlayers.start()
   updateEvent.start()
 })
