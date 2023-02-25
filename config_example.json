@@ -1,0 +1,10 @@
+{
+  "apiKey": "YOUR_HYPIXEL_API_KEY",
+  "hypixelGuildId": "63d0278d8ea8c999a1004ef9",
+  "discordGuildId": "797687061033123850",
+  "discordChannelId": "1067295306762428516",
+  "discordToken": "YOUR_DISCORD_TOKEN",
+  "eventStart": 1677387600000,
+  "eventEnd": 1677474000000,
+  "guildMemberRole": "1067299969926709278"
+}

@@ -1,0 +1,702 @@
+[
+    {
+        "uuid": "e3c2d50e9e3c426592a717d19d9e7736",
+        "name": "Raspberry",
+        "id": "e3c2d50e9e3c426592a717d19d9e7736",
+        "weight": 10676.415856311085
+    },
+    {
+        "uuid": "b4f65141c5dd43939655919a519d957c",
+        "name": "Watermelon",
+        "id": "b4f65141c5dd43939655919a519d957c",
+        "weight": 11500.186164722552
+    },
+    {
+        "uuid": "2f87d3a1b2a042adbbe809e56da1670a",
+        "name": "Raspberry",
+        "id": "2f87d3a1b2a042adbbe809e56da1670a",
+        "weight": 13668.075715580388
+    },
+    {
+        "uuid": "eef0f9c8904c4013a6cd0de773867852",
+        "name": "Raspberry",
+        "id": "eef0f9c8904c4013a6cd0de773867852",
+        "weight": 11868.218135149276
+    },
+    {
+        "uuid": "39f797f0bec04189ae27314522496375",
+        "name": "Zucchini",
+        "id": "39f797f0bec04189ae27314522496375",
+        "weight": 12468.812705374734
+    },
+    {
+        "uuid": "cc4b5587ea134f9cbe089737e0f88d4c",
+        "name": "Lime",
+        "id": "e4a8eb57e98a4a20b0a06482f945f2c2",
+        "weight": 13841.58649530477
+    },
+    {
+        "uuid": "6ed122c7c4b6475da79d9462fa2f2460",
+        "name": "Lemon",
+        "id": "6ed122c7c4b6475da79d9462fa2f2460",
+        "weight": 12815.878649899854
+    },
+    {
+        "uuid": "d0a377b6368f4505aa71bfc2102b03b9",
+        "name": "Cucumber",
+        "id": "7d97e6decf504589a478573ea692d87c",
+        "weight": 25049.749770127415
+    },
+    {
+        "uuid": "5b34dd1cf5444b03b6369cedc2afcfb4",
+        "name": "Kiwi",
+        "id": "fe4255fb259844a4a1e510652c9b48d4",
+        "weight": 135.9659741632814
+    },
+    {
+        "uuid": "f948c7f9eba249ff830cd4f6fc07fe08",
+        "name": "Orange",
+        "id": "f94c4f48cfe64383abe0f6eb3eede45e",
+        "weight": 14580.958347964552
+    },
+    {
+        "uuid": "cb6fb35b25e74a33b91c6ccfc7af9c7b",
+        "name": "Banana",
+        "id": "fc047ea3d4cc4fba861736fc570ee393",
+        "weight": 12468.392132630972
+    },
+    {
+        "uuid": "f1dc3f263b914b98ade78f6daccd4b24",
+        "name": "Tomato",
+        "id": "b6cdb4d14d64407bb4d2d17b55e63d8c",
+        "weight": 8921.548164014454
+    },
+    {
+        "uuid": "bc3f53ede38840148c6faf7f47817aee",
+        "name": "Mango",
+        "id": "6064b4a17c5949bc841f88d8d8498d1a",
+        "weight": 21984.376693623017
+    },
+    {
+        "uuid": "80786128ee304774a2e36d94cc93d15b",
+        "name": "Lemon",
+        "id": "d099417faf5a46e1b89fea29650debd5",
+        "weight": 10476.431535939002
+    },
+    {
+        "uuid": "63b04e4683544ab585abb439acaaa643",
+        "name": "Lime",
+        "id": "ff86948902cf48b0818792005fd26099",
+        "weight": 10278.363919902624
+    },
+    {
+        "uuid": "f82a8174c8394035abb70b5f9a4c9697",
+        "name": "Tomato",
+        "id": "f82a8174c8394035abb70b5f9a4c9697",
+        "weight": 16866.50596700509
+    },
+    {
+        "uuid": "9402e2ca19a2468aa987d402e22be831",
+        "name": "Tomato",
+        "id": "423b739cb6f2400cbd8626416c6579da",
+        "weight": 10193.283244001337
+    },
+    {
+        "uuid": "b3c91bfb3e6e4aaa8b86cb9b217c443a",
+        "name": "Peach",
+        "id": "7e4589e1d2e74ba08358affbd6e15a82",
+        "weight": 17888.8239757994
+    },
+    {
+        "uuid": "a63507fc28a84a6fa3bbb6637b537319",
+        "name": "Grapes",
+        "id": "a63507fc28a84a6fa3bbb6637b537319",
+        "weight": 20638.050794249866
+    },
+    {
+        "uuid": "6bae95dcba5a4d73953acb22227aa901",
+        "name": "Watermelon",
+        "id": "91570d71cb9b4184bcd97ad074cededc",
+        "weight": 7855.034948197855
+    },
+    {
+        "uuid": "a68c45ffb8654bf68e3c008b620f7239",
+        "name": "Papaya",
+        "id": "25906f7a12d54e58b97c05a003e0f53b",
+        "weight": 14311.7047679057
+    },
+    {
+        "uuid": "8c43fee5887f4883a4e51dc7ff65ca2d",
+        "name": "Watermelon",
+        "id": "8c43fee5887f4883a4e51dc7ff65ca2d",
+        "weight": 12327.566676125916
+    },
+    {
+        "uuid": "abd088726a4c4afca7a09e765ee7b163",
+        "name": "Raspberry",
+        "id": "88a13d300df440dc8018899c13af287d",
+        "weight": 11828.857119401617
+    },
+    {
+        "uuid": "3a14040f93224931a86b6785fb1d32c3",
+        "name": "Orange",
+        "id": "35d9419e8cbd4651a20ae45365d3b152",
+        "weight": 25374.083111964756
+    },
+    {
+        "uuid": "e2fd850826994f18ab5188e8311ccf69",
+        "name": "Grapes",
+        "id": "4d70e4e65f5746569857872517a838c9",
+        "weight": 53.144991504484175
+    },
+    {
+        "uuid": "d20d732308f342cb9cdeb8f5fb5f4bc3",
+        "name": "Pomegranate",
+        "id": "165db71b19f44336989e56667f73fa59",
+        "weight": 10134.397041177097
+    },
+    {
+        "uuid": "ce5359be0b4744d997ebacf3b18a68ce",
+        "name": "Orange",
+        "id": "25906f7a12d54e58b97c05a003e0f53b",
+        "weight": 18081.832745621556
+    },
+    {
+        "uuid": "194efa0b9e964e148c874c10c6e554e9",
+        "name": "Lemon",
+        "id": "f679b5247e40448384688cf3cd9a4d68",
+        "weight": 10757.540977399862
+    },
+    {
+        "uuid": "b136542967974ad29108744f9af4324e",
+        "name": "Cucumber",
+        "id": "b136542967974ad29108744f9af4324e",
+        "weight": 15427.280917804466
+    },
+    {
+        "uuid": "ba8cd807a1cc4b5b8087ad7d4156c19a",
+        "name": "Tomato",
+        "id": "ba8cd807a1cc4b5b8087ad7d4156c19a",
+        "weight": 10464.496898816144
+    },
+    null,
+    null,
+    null,
+    null,
+    {
+        "uuid": "f91aea42ce3b4744b1dd0223235f8270",
+        "name": "Papaya",
+        "id": "f91aea42ce3b4744b1dd0223235f8270",
+        "weight": 23547.58005919346
+    },
+    {
+        "uuid": "9c6a566db61e43d0bf2d2af65a930e51",
+        "name": "Mango",
+        "id": "8a14c98b14e04465b3fb1b230e97e6c1",
+        "weight": 14523.507357294455
+    },
+    {
+        "uuid": "f8f5600b6f9f4543ae5a564e17d3c04d",
+        "name": "Strawberry",
+        "id": "f8f5600b6f9f4543ae5a564e17d3c04d",
+        "weight": 9192.688031723004
+    },
+    {
+        "uuid": "08f5aeecfd104a0f8481379a829d9942",
+        "name": "Apple",
+        "id": "08f5aeecfd104a0f8481379a829d9942",
+        "weight": 19264.055591188677
+    },
+    {
+        "uuid": "08060971cc7841a194414b39071d129f",
+        "name": "Tomato",
+        "id": "16065a1d6bd14a358f5be9780970ad82",
+        "weight": 9712.089626968436
+    },
+    {
+        "uuid": "49aef526030b40fca243836877c3ae6e",
+        "name": "Apple",
+        "id": "49aef526030b40fca243836877c3ae6e",
+        "weight": 17011.128916683352
+    },
+    {
+        "uuid": "5a0fa0851f1045d495b2f5638b1cc0ad",
+        "name": "Mango",
+        "id": "1306368b2c1045d387e677deccc227d0",
+        "weight": 17207.778854228905
+    },
+    {
+        "uuid": "9fa2ea0695ce489db4f8f74d3d489a20",
+        "name": "Cucumber",
+        "id": "d3fc0fcd01ac42d58de9d7f38925b50b",
+        "weight": 11801.116647100767
+    },
+    {
+        "uuid": "e091151cfd104ef598b8d37d60a217ef",
+        "name": "Banana",
+        "id": "e091151cfd104ef598b8d37d60a217ef",
+        "weight": 13834.886613680617
+    },
+    {
+        "uuid": "4f03560494a846c7bd4c728c2ac7301f",
+        "name": "Cucumber",
+        "id": "cf88f99f14ca44869c3abc5b6ca1d830",
+        "weight": 12918.827154409732
+    },
+    {
+        "uuid": "18a6438e0bb64ce5afbd2fc6e77e75c6",
+        "name": "Lime",
+        "id": "18a6438e0bb64ce5afbd2fc6e77e75c6",
+        "weight": 16010.609599412499
+    },
+    {
+        "uuid": "7c505b2e3d4d480088ff69455efdb9a8",
+        "name": "Apple",
+        "id": "88a695930c2041179a7de5e413c3b204",
+        "weight": 8742.127799753123
+    },
+    {
+        "uuid": "6f6431ea1f3e49a197e5a464b53c4051",
+        "name": "Apple",
+        "id": "a1cde04cb61a4e1e93d99f45b0dcfaf3",
+        "weight": 10635.028659885227
+    },
+    {
+        "uuid": "0f4bcb99c77c474bbfd532dd4f808ec7",
+        "name": "Apple",
+        "id": "0f4bcb99c77c474bbfd532dd4f808ec7",
+        "weight": 15457.423404881449
+    },
+    {
+        "uuid": "79ad6e9b7532409b93bb715e4b8389dc",
+        "name": "Watermelon",
+        "id": "79ad6e9b7532409b93bb715e4b8389dc",
+        "weight": 19987.972683318985
+    },
+    {
+        "uuid": "7c6196f5a3ba44c8b2b4f46e337d4759",
+        "name": "Pineapple",
+        "id": "bcd969e15c474a9c8223d27c647d8ecf",
+        "weight": 12425.958073968377
+    },
+    {
+        "uuid": "18fd8bd3e0944e1ca5e0b5abb260cf5c",
+        "name": "Orange",
+        "id": "54b76bec2b9344179adf86ce9b6de0ed",
+        "weight": 10213.33919532309
+    },
+    {
+        "uuid": "6ed2f37f63134d8eab93e78311f28197",
+        "name": "Kiwi",
+        "id": "94c9dae7e4e2416fa3ec67e0e5b81822",
+        "weight": 19179.801340841375
+    },
+    {
+        "uuid": "8d10e9c2a101417e893ef711005139f8",
+        "name": "Tomato",
+        "id": "8d10e9c2a101417e893ef711005139f8",
+        "weight": 19393.268081258535
+    },
+    {
+        "uuid": "c77b1c32231849748bf4fd44091cd89f",
+        "name": "Pineapple",
+        "id": "c77b1c32231849748bf4fd44091cd89f",
+        "weight": 11751.713281966955
+    },
+    {
+        "uuid": "cbc662d21dc84cac8c003ad7b29d8c72",
+        "name": "Orange",
+        "id": "32d7e322b2394e8a90a5f3fb213e4c33",
+        "weight": 12097.533895927054
+    },
+    {
+        "uuid": "5f0837f63c8847c2a64c1d8b2a031cbd",
+        "name": "Orange",
+        "id": "5f0837f63c8847c2a64c1d8b2a031cbd",
+        "weight": 13649.000512228231
+    },
+    {
+        "uuid": "ae0cb3dd55a9429da65a5ff863c42d98",
+        "name": "Orange",
+        "id": "0181f5445e244896bba9de7517934560",
+        "weight": 17830.920740505047
+    },
+    {
+        "uuid": "d45068dc4f684872b5e82108d104d251",
+        "name": "Lemon",
+        "id": "1c1662eef89e4937b442a3aa4154797d",
+        "weight": 20250.850480147114
+    },
+    {
+        "uuid": "8cbb5c45a1ac45b5bab166965cdbd4bc",
+        "name": "Orange",
+        "id": "910bc3ec4a7549df940d5f76f38ca873",
+        "weight": 13431.775716985247
+    },
+    {
+        "uuid": "6dab93be8f494e7b89f123c727a9aa56",
+        "name": "Lemon",
+        "id": "6dab93be8f494e7b89f123c727a9aa56",
+        "weight": 16232.28741699541
+    },
+    {
+        "uuid": "e48da9b1cf93438487e7add0bb1ee146",
+        "name": "Cucumber",
+        "id": "1c3129d0d536471e9a5cfe2ed8e7a53b",
+        "weight": 11577.585166530906
+    },
+    {
+        "uuid": "ab7de0b14ecb46b4824e6b33fd0bf393",
+        "name": "Banana",
+        "id": "ab7de0b14ecb46b4824e6b33fd0bf393",
+        "weight": 26228.7074171242
+    },
+    {
+        "uuid": "89a887c7255748a1b6fbd0ca9ddb10dd",
+        "name": "Peach",
+        "id": "89a887c7255748a1b6fbd0ca9ddb10dd",
+        "weight": 9499.483014455443
+    },
+    {
+        "uuid": "624945d2f1594ba7b068e7fc76e683a6",
+        "name": "Apple",
+        "id": "9c99a82daa614dc7afeece28f2e582fe",
+        "weight": 11534.417199166419
+    },
+    {
+        "uuid": "bd3bd61740254789b97cffe24fcf9223",
+        "name": "Zucchini",
+        "id": "04f06a2978f94f9f946095a9796f0de8",
+        "weight": 10501.10580960035
+    },
+    {
+        "uuid": "fbdf22708748477da36a28b8858f9035",
+        "name": "Lemon",
+        "id": "fbdf22708748477da36a28b8858f9035",
+        "weight": 8864.946951810269
+    },
+    {
+        "uuid": "f2e46d5976b74e6b94d28ebf25a9d4ab",
+        "name": "Peach",
+        "id": "d721dc05ce94417f8ac22fecb8543661",
+        "weight": 11860.59918170586
+    },
+    {
+        "uuid": "453f4166ae61451fabedf2897686cf86",
+        "name": "Pear",
+        "id": "0a4a72fcd5a14162b0d20bc63d2b0d7f",
+        "weight": 9495.630484816755
+    },
+    {
+        "uuid": "ded99d5c3d1e4c8bad89540db289637a",
+        "name": "Lime",
+        "id": "69459fe7651942e0bcac5a81735ef259",
+        "weight": 17729.689388026156
+    },
+    {
+        "uuid": "646d11f83f644808b59d85d1bf7de8c8",
+        "name": "Papaya",
+        "id": "65b36a5152704161a409d4aa0dfa6081",
+        "weight": 10689.158415549837
+    },
+    {
+        "uuid": "502642babf1340e68e17ea93732e4239",
+        "name": "Blueberry",
+        "id": "02fd4bfb542b4cc8a582e5a64e76d9f2",
+        "weight": 10258.679129644059
+    },
+    {
+        "uuid": "9165ea89fc9e4d28a24e110dddc053c5",
+        "name": "Grapes",
+        "id": "b6f56912099342528675bb3d4d244f4c",
+        "weight": 22660.772293421924
+    },
+    {
+        "uuid": "72879a78e1fa438c9b2063c04decc6c6",
+        "name": "Kiwi",
+        "id": "72879a78e1fa438c9b2063c04decc6c6",
+        "weight": 9322.726601095783
+    },
+    {
+        "uuid": "02622796bc0445d0ad7e301d73f15444",
+        "name": "Pomegranate",
+        "id": "02622796bc0445d0ad7e301d73f15444",
+        "weight": 15628.706664678853
+    },
+    {
+        "uuid": "7c6d0d2b14c941c189c72832ee438722",
+        "name": "Grapes",
+        "id": "7c6d0d2b14c941c189c72832ee438722",
+        "weight": 9552.170694294427
+    },
+    {
+        "uuid": "1c0bde58468c422f8bb05f0a4695430d",
+        "name": "Orange",
+        "id": "401309f003c44c8cafd84c1b16c46d04",
+        "weight": 2294.9941915175104
+    },
+    {
+        "uuid": "5872111858a64f10b5c3d4f32e7c1232",
+        "name": "Raspberry",
+        "id": "5872111858a64f10b5c3d4f32e7c1232",
+        "weight": 9583.502948892787
+    },
+    {
+        "uuid": "1934350d156c4a36af63234385fa1b2b",
+        "name": "Lemon",
+        "id": "1934350d156c4a36af63234385fa1b2b",
+        "weight": 30159.577596543404
+    },
+    {
+        "uuid": "4b03b84dee2c4846aeb4c8c57ab64b4c",
+        "name": "Zucchini",
+        "id": "f6e44c9e8e4144d68aa1cd9dd990c272",
+        "weight": 10266.241274492995
+    },
+    {
+        "uuid": "49d5329b51984a9683ff2d2bce58af73",
+        "name": "Cucumber",
+        "id": "7af339a0614647bbb6916588f3f0a0a6",
+        "weight": 19885.710515949315
+    },
+    {
+        "uuid": "3c73b83e9a064c1db4894a8fd1f37804",
+        "name": "Raspberry",
+        "id": "3c73b83e9a064c1db4894a8fd1f37804",
+        "weight": 16685.705582083778
+    },
+    {
+        "uuid": "72a4fc7d33924bd99474f4862fa90a91",
+        "name": "Papaya",
+        "id": "b929174d013643d897f853b21bec6527",
+        "weight": 11844.900500517733
+    },
+    {
+        "uuid": "20534a7719a649f99b9960eb1e48564d",
+        "name": "Zucchini",
+        "id": "b0629a10951e4978911e5ddb51b9b4ad",
+        "weight": 11372.651648721354
+    },
+    {
+        "uuid": "ea5786ab1c96456f832c4c0d07a02237",
+        "name": "Cucumber",
+        "id": "ea5786ab1c96456f832c4c0d07a02237",
+        "weight": 16052.541067821785
+    },
+    {
+        "uuid": "dd30efd3976340ed83fc18217cdbbd3a",
+        "name": "Papaya",
+        "id": "dd30efd3976340ed83fc18217cdbbd3a",
+        "weight": 15450.951512952139
+    },
+    {
+        "uuid": "05e8da1a974d44f9b6cfe86446082335",
+        "name": "Papaya",
+        "id": "e7784c83093a4d46b2288bfbf2127246",
+        "weight": 10123.447048531802
+    },
+    {
+        "uuid": "85ee5d0739c84404b5b5bbc9d321dfda",
+        "name": "Peach",
+        "id": "85ee5d0739c84404b5b5bbc9d321dfda",
+        "weight": 14433.294017238637
+    },
+    {
+        "uuid": "d8425e0874354af3be22ccd392e4d239",
+        "name": "Mango",
+        "id": "46e6ed328e584eadb680dca41d0f45ff",
+        "weight": 9777.512773860677
+    },
+    {
+        "uuid": "2b5fbcc3db3441babcca9d8efb61cdda",
+        "name": "Blueberry",
+        "id": "2b5fbcc3db3441babcca9d8efb61cdda",
+        "weight": 10276.992568552803
+    },
+    {
+        "uuid": "fb30d1d48f3746199bf688470ae593af",
+        "name": "Pomegranate",
+        "id": "c76067360cc84857ba23c0490bf52110",
+        "weight": 11584.713991793005
+    },
+    {
+        "uuid": "f0ba15da9ba84bb492b77c3158ca3639",
+        "name": "Kiwi",
+        "id": "f0ba15da9ba84bb492b77c3158ca3639",
+        "weight": 10384.08523600771
+    },
+    {
+        "uuid": "b4d88362b4dc4edaa5e152e92d61b543",
+        "name": "Kiwi",
+        "id": "b4d88362b4dc4edaa5e152e92d61b543",
+        "weight": 39550.191685545244
+    },
+    {
+        "uuid": "29e5272a543f4ba9a3cbcd5ec8d3dde1",
+        "name": "Lemon",
+        "id": "29e5272a543f4ba9a3cbcd5ec8d3dde1",
+        "weight": 23686.17432936299
+    },
+    {
+        "uuid": "aeb88558ceaa4a77a0889799a4e7da20",
+        "name": "Zucchini",
+        "id": "ef08b7558eba4411b65207fbd91d1bc1",
+        "weight": 24978.61824108732
+    },
+    {
+        "uuid": "b0cc676de217422fb563ce002bd625c0",
+        "name": "Apple",
+        "id": "88a695930c2041179a7de5e413c3b204",
+        "weight": 16651.895107723216
+    },
+    {
+        "uuid": "b9b21ef97dd84f2b842c21e46ade959a",
+        "name": "Peach",
+        "id": "b9b21ef97dd84f2b842c21e46ade959a",
+        "weight": 17615.68628771571
+    },
+    {
+        "uuid": "bfb22536d43a4be8a14e9bd11ad1a1db",
+        "name": "Banana",
+        "id": "06370c022d2445a19da4119012d4ef8d",
+        "weight": 21090.501316130736
+    },
+    {
+        "uuid": "c3d259a2c8e744b5a48a744645da1a3d",
+        "name": "Banana",
+        "id": "c3d259a2c8e744b5a48a744645da1a3d",
+        "weight": 13190.109815785087
+    },
+    {
+        "uuid": "dfe9e02b37cb432e8e55fd78afb777fa",
+        "name": "Coconut",
+        "id": "dce7826dbf064ea4a34a19bfbd0a5a1b",
+        "weight": 12510.236382638854
+    },
+    {
+        "uuid": "0425ae3e3be4476181e045be04ad2606",
+        "name": "Lime",
+        "id": "c8679c2e6db54e9ba9d14dd99a8537dc",
+        "weight": 10222.102411470327
+    },
+    {
+        "uuid": "83b6c0c42d664adbb29e4b4e1a88b49a",
+        "name": "Strawberry",
+        "id": "b6c5e8e8a5864d32bfec861b48faa6b3",
+        "weight": 7496.953820221252
+    },
+    {
+        "uuid": "b4170d7a24464a14aad85245cc9b9f6f",
+        "name": "Pear",
+        "id": "47d691fbaf02450eacbfb853d746da6f",
+        "weight": 29995.17732401727
+    },
+    {
+        "uuid": "04a994f07a1e4aa38a782fb400e2fdca",
+        "name": "Tomato",
+        "id": "04a994f07a1e4aa38a782fb400e2fdca",
+        "weight": 33151.2810371609
+    },
+    {
+        "uuid": "90801c134245479faaf9b5e7df8ecea0",
+        "name": "Pomegranate",
+        "id": "719501b18ead457fa4ba16a6eb1e9976",
+        "weight": 20214.30170420494
+    },
+    {
+        "uuid": "56a9fece35c447a2a02f5efd4d608d04",
+        "name": "Watermelon",
+        "id": "0d51138a4a044e4ea97d44f84ea52021",
+        "weight": 17374.306208394188
+    },
+    {
+        "uuid": "37965bc726d94a0a8f07ba922b7cf75d",
+        "name": "Pear",
+        "id": "465e2640b5f54a69ae6dde0a94bf8f39",
+        "weight": 20523.38629617878
+    },
+    {
+        "uuid": "b386266aaaeb4123856bf2fbede75c25",
+        "name": "Kiwi",
+        "id": "b386266aaaeb4123856bf2fbede75c25",
+        "weight": 13653.12095961097
+    },
+    {
+        "uuid": "8ff17d9e983b421c99a256c3de07fc21",
+        "name": "Zucchini",
+        "id": "cab9e06723874c2a9e18cd6fa9560bf7",
+        "weight": 8890.681706748672
+    },
+    {
+        "uuid": "8309d2f3473d42298762707e2fd39f38",
+        "name": "Pineapple",
+        "id": "b751414460044215aa01c6becb4f0e58",
+        "weight": 276.1393558005117
+    },
+    {
+        "uuid": "8da6618b07a842baaa1267d9f70a8037",
+        "name": "Banana",
+        "id": "397585ecf9e14eebbe983bb8f0a3d8b6",
+        "weight": 0
+    },
+    {
+        "uuid": "b486ab162d724fe5b0b9dd21f5c940d2",
+        "name": "Blueberry",
+        "id": "b486ab162d724fe5b0b9dd21f5c940d2",
+        "weight": 14948.403993988335
+    },
+    {
+        "uuid": "d11d7c31ba8747338a9ad36638155c7f",
+        "name": "Zucchini",
+        "id": "8cfdde0867a549d9998f51072d3dbe4f",
+        "weight": 14145.929531170963
+    },
+    {
+        "uuid": "9bd46e2f6ece447d9c2f8f10093d34b2",
+        "name": "Mango",
+        "id": "067c4212d69b43f28c48ab56064b8cf5",
+        "weight": 12474.916848774137
+    },
+    {
+        "uuid": "bd02e293d02d481db532d0997b0546b0",
+        "name": "Lemon",
+        "id": "7891ba2419234ecd88e79cab0d2f39c9",
+        "weight": 12881.485127532373
+    },
+    {
+        "uuid": "83d23a3a98974a0cbb17d827ac30fa01",
+        "name": "Zucchini",
+        "id": "d681b2ed27a24fa1ba7f7eb57551312f",
+        "weight": 9235.375566837967
+    },
+    {
+        "uuid": "d994d234dfd449feb26a050bd5e78aaf",
+        "name": "Peach",
+        "id": "1666b2e81ae5414bace4687d8b4f8207",
+        "weight": 16525.625271603854
+    },
+    {
+        "uuid": "59998433ceda41c1b0acffe7d9b33594",
+        "name": "Orange",
+        "id": "5d81ccb06c2745e58818c865b01edb69",
+        "weight": 35478.05392990481
+    },
+    {
+        "uuid": "129ac4ef111744d399dfb61dfa463e30",
+        "name": "Blueberry",
+        "id": "eb69e0e547224541832eb33dbb2b935a",
+        "weight": 13.53322149507722
+    },
+    {
+        "uuid": "d9990242a107405087d006676aa501a7",
+        "name": "Watermelon",
+        "id": "d9990242a107405087d006676aa501a7",
+        "weight": 12947.282471832481
+    },
+    {
+        "uuid": "5cd714e9b08b4018946256d38957762d",
+        "name": "Watermelon",
+        "id": "5cd714e9b08b4018946256d38957762d",
+        "weight": 12026.831503547173
+    }
+]
