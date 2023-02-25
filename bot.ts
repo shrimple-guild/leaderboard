@@ -165,7 +165,7 @@ Shrimple is having a mythological festival event for the duration of Diana! Scor
     .setImage("attachment://chart.png")
   if (lastMessage != null) {
     try {
-      await lastMessage.edit({ embeds: [embed], files: [chart] })
+      await lastMessage.edit({ embeds: [embed], files: [icon, chart] })
       return lastMessage
     } catch (e) {
       console.error(new Error("Previous message was expected but was not found."))
