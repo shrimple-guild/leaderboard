@@ -27,8 +27,7 @@ export function profileMemberSummary(member: any): ProfileMemberData {
       enderman: member?.slayer_bosses?.enderman?.xp,
     },
     misc: {
-      mythosKills: member?.experience_skill_taming
+      mythosKills: member?.stats?.mythos_kills
     }
   }
 }
-//member?.stats?.mythos_kills
