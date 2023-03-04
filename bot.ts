@@ -102,7 +102,7 @@ async function sendStartedEmbed() {
     const embed = new EmbedBuilder()
       .setTitle("The event has started!")
       .setColor("DarkBlue")
-      .setDescription(`The Diana grinding event has started! Good luck to all participants.`)
+      .setDescription(`The squid fishing event has started! Good luck to all participants.`)
       .setTimestamp()
     await channel.send({embeds: [embed]})
     await channel.send(`<@&${config.guildMemberRole}>`)
@@ -117,7 +117,7 @@ async function sendEndEmbed() {
     const embed = new EmbedBuilder()
       .setTitle("Event over")
       .setColor("DarkBlue")
-      .setDescription("The Diana grinding event has finished, and official results will be posted as soon as possible. Thanks for participating!")
+      .setDescription("The squid fishing event has finished, and official results will be posted as soon as possible. Thanks for participating!")
       .setTimestamp()
     await channel.send({embeds: [embed]})
     await channel.send(`<@&${config.guildMemberRole}>`)
@@ -131,7 +131,7 @@ async function sendUpdate(eventData: PlayerEventData[], metricData: {updated: nu
   let fields = eventData.slice(0, 10).map(({ rank, username, profileName, endingKills, score }) => {
     return {
       name: `${rank}. ${username} (${profileName})`,
-      value: `**${formatter.format(score)}** mythos kills`,
+      value: `**${formatter.format(score)}** ink gained`,
       inline: true
     }
   })
@@ -148,14 +148,14 @@ async function sendUpdate(eventData: PlayerEventData[], metricData: {updated: nu
       inline: false
     })
   }
-  const icon = new AttachmentBuilder("./assets/diana.png", { name: "diana.png" })
+  const icon = new AttachmentBuilder("./assets/vanessa.png", { name: "vanessa.png" })
   const chart = new AttachmentBuilder(generateLeaderboardPlot(eventData), { name: "chart.png" })
   const embed = new EmbedBuilder()
-    .setAuthor({ name: "Mayor Diana", iconURL: "attachment://diana.png"})
+    .setAuthor({ name: "Vanessa", iconURL: "attachment://vanessa.png"})
     .setTitle("Shrimple Event Leaderboard")
     .setColor("DarkBlue")
     .setDescription(`
-Shrimple is having a mythological festival event for the duration of Diana! Score is based your mythological kills on your highest-kill profile.
+Shrimple is having a ink festival event! Score is based your ink collection gained on your highest-ink profile.
 
 **Start:** <t:${Math.round(config.eventStart / 1000)}:f>
 **End:** <t:${Math.round(config.eventEnd / 1000)}:f>

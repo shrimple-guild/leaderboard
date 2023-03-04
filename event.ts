@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Metrics (
   timestamp INTEGER NOT NULL,
   profileName TEXT NOT NULL,
   profileId TEXT NOT NULL,
-  mythosKills REAL NOT NULL,
+  metric REAL NOT NULL,
   FOREIGN KEY(playerId) REFERENCES Players(id)
   PRIMARY KEY (playerId, timestamp)
 )
@@ -54,13 +54,13 @@ WHERE id = :uuid
 
 const insertMetric = db.prepare(`
 INSERT INTO Metrics
-VALUES (:uuid, :timestamp, :name, :id, :mythosKills)
+VALUES (:uuid, :timestamp, :name, :id, :metric)
 `)
 
 const selectTimeseries = db.prepare(`
 SELECT
   timestamp,
-  mythosKills
+  metric
 FROM Metrics
 INNER JOIN Players
   ON Players.id = Metrics.playerId
@@ -80,13 +80,13 @@ FROM (
   SELECT 
     Players.username AS username,
     Metrics.profileName AS profileName,
-    FIRST_VALUE(Metrics.mythosKills) OVER (
+    FIRST_VALUE(Metrics.metric) OVER (
       PARTITION BY Players.id
-      ORDER BY Metrics.mythosKills ASC
+      ORDER BY Metrics.metric ASC
     ) AS startingKills,
-    FIRST_VALUE(Metrics.mythosKills) OVER (
+    FIRST_VALUE(Metrics.metric) OVER (
       PARTITION BY Players.id
-      ORDER BY Metrics.mythosKills DESC
+      ORDER BY Metrics.metric DESC
     ) AS endingKills
   FROM Players
   INNER JOIN Metrics 
@@ -154,7 +154,7 @@ export type PlayerData = {
 
 export type Timeseries = {
   timestamp: number,
-  mythosKills: number
+  metric: number
 }
 
 export function getLeaderboardData() {

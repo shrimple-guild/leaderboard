@@ -40,7 +40,8 @@ export type ProfileResponse = {
   timestamp: number
   name: string
   id: string
-  mythosKills: number
+  level: number,
+  metric: number
 }
 
 export type PlayerResponse = {
@@ -69,9 +70,10 @@ async function profileData(uuid: string): Promise<ProfileResponse | undefined> {
         timestamp: Date.now(),
         name: profile.cute_name,
         id: profile.profile_id,
-        mythosKills: profileSummary.misc.mythosKills ?? 0
+        level: profileSummary.misc.level ?? 0,
+        metric: profileSummary.misc.metric ?? 0
       }
-    }).reduce((previous: any, current: any) => previous.mythosKills > current.mythosKills ? previous : current)
+    }).reduce((previous: any, current: any) => previous.metric > current.metric ? previous : current)
   } catch (e) {
     console.log(e)
     return undefined

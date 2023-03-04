@@ -7,6 +7,7 @@ export type ProfileMemberData = {
   dungeons: {[key in Dungeon]: number | undefined},
   slayers: {[key in Slayer]: number | undefined}
   misc: {
-    mythosKills: number | undefined
+    level: number | undefined
+    metric: number | undefined
   }
 }
