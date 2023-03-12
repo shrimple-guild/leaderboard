@@ -1,9 +1,8 @@
 import { Client, EmbedBuilder, AttachmentBuilder, ChannelType, Message, ActionRowBuilder, StringSelectMenuBuilder, Events } from "discord.js"
 import { CronJob } from "cron"
 import { generateLeaderboardPlot } from "./chart.js"
-
 import config from "./config.json" assert { type: "json" }
-import { update, UpdateData } from "./events.js"
+import { update } from "./events.js"
 import { EventMetric, EventParticipantData, eventRanking } from "./database.js"
 
 const formatter = Intl.NumberFormat('en', {
