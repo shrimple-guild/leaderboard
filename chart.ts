@@ -1,9 +1,6 @@
-import { writeFileSync } from "fs"
 import { createCanvas } from "canvas"
 import Chart from "chart.js/auto"
-import { getLeaderboardData, getTimeseries, PlayerData } from "./event.js"
-
-
+import { EventMetric, EventParticipantData, eventTimeseries } from "./database.js"
 
 function getColorFromIndex(index: number): string {
   if (index == 0) {
@@ -21,22 +18,22 @@ function getColorFromIndex(index: number): string {
   }
 }
 
-function processedTimeseries(username: string) {
-  const rawTimeseries = getTimeseries(username)
+function processedTimeseries(start: number, end: number, metric: EventMetric, username: string) {
+  const rawTimeseries = eventTimeseries(start, end, metric, username)
   return rawTimeseries.map((obj) => {
     return {
       x: (obj.timestamp - rawTimeseries[0].timestamp) / 3600000,
-      y: (obj.mythosKills - rawTimeseries[0].mythosKills)
+      y: ((obj.metric ?? 0) - (rawTimeseries[0].metric ?? 0))
     }
   })
 }
 
-export function generateLeaderboardPlot(eventData: PlayerData[]) {
+export function generateLeaderboardPlot(start: number, end: number, metric: EventMetric, eventData: EventParticipantData[]) {
   let shortResults = eventData
   const plotData = shortResults.map((data, index) => {
     return {
       label: `${data.username}`,
-      data: processedTimeseries(data.username),
+      data: processedTimeseries(start, end, metric, data.username),
       fill: false,
       borderColor: getColorFromIndex(index),
       pointBackgroundColor: getColorFromIndex(index),
@@ -101,5 +98,3 @@ export function generateLeaderboardPlot(eventData: PlayerData[]) {
   })
 }
 
-let buffer = generateLeaderboardPlot(getLeaderboardData())
-writeFileSync("results.png", buffer)

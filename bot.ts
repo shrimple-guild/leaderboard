@@ -1,11 +1,10 @@
-import Discord, { ChannelType } from "discord.js"
+import { Client, EmbedBuilder, AttachmentBuilder, ChannelType, Message, ActionRowBuilder, StringSelectMenuBuilder, Events } from "discord.js"
 import { CronJob } from "cron"
-import { getLeaderboardData, PlayerData as PlayerEventData, updateMetrics, updatePlayersInGuild, updateUsernames } from "./event.js"
 import { generateLeaderboardPlot } from "./chart.js"
 
 import config from "./config.json" assert { type: "json" }
-
-const { Client, EmbedBuilder, AttachmentBuilder } = Discord
+import { update, UpdateData } from "./events.js"
+import { EventMetric, EventParticipantData, eventRanking } from "./database.js"
 
 const formatter = Intl.NumberFormat('en', {
   notation: "compact",
@@ -13,81 +12,79 @@ const formatter = Intl.NumberFormat('en', {
   minimumSignificantDigits: 1
 })
 
+const dataRow = new ActionRowBuilder<StringSelectMenuBuilder>()
+  .addComponents(
+    new StringSelectMenuBuilder()
+      .setCustomId("selectData")
+      .setPlaceholder("View more data!")
+      .setOptions(
+        {
+          label: "Items fished",
+          description: "Number of items fished during event.",
+          value: "fishingItems"
+        },
+        {
+          label: "Creatures killed",
+          description: "Number of sea creature kills during event.",
+          value: "fishingCreatures"
+        },
+        {
+          label: "Trophy fish caught",
+          description: "Number of trophy fish caught during event.",
+          value: "fishingTrophy"
+        },
+        {
+          label: "Fishing XP gained",
+          description: "Amount of fishing XP gained during event.",
+          value: "fishingXp"
+        }
+      )
+  )
+
+let lastMessage: Message<true> | undefined = undefined
+
 const client = new Client({ intents: [] })
 client.login(config.discordToken)
 
-let lastMessage: Discord.Message<true> | undefined = undefined
-
-const updatePlayers = new CronJob("0 35 * * * *", async () => updatePlayersData())
-const updateEvent = new CronJob("0 */15 * * * *", async () => { 
-  await updatePlayerMetrics() 
-  if (config.eventEnd < Date.now()) {
-    updatePlayers.stop()
-    updateEvent.stop()
-    await sendEndEmbed()
-    process.exit(0)
+client.on(Events.InteractionCreate, (interaction) => {
+  try {
+    if (!interaction.inCachedGuild() || !interaction.isStringSelectMenu()) return
+    if (interaction.customId != "selectData") return
+    const option = interaction.values[0] as EventMetric
+    const data = leaderboardEmbed(config.eventStart, config.eventEnd, option)
+    data.embeds[0].setDescription(`Leaderboard for **${eventMetricOrdinal(option)}**. This is not the leaderboard for the overall event.`)
+    interaction.reply({ ...data, ephemeral: true })
+  } catch (e) {
+    console.log(e)
   }
 })
 
-async function timeIt<T>(description: string, cb: () => Promise<T>): Promise<T> {
-  const startDate = new Date()
-  process.stdout.write(`[${startDate.toISOString()}] ${description}...`)
-  const result = await cb()
-  const duration = ((Date.now() - startDate.valueOf()) / 1000).toFixed(2)
-  process.stdout.write(` completed in ${duration} seconds.\n`)
-  return result
-}
-
-async function updatePlayersData() {
+const updateEventJob = new CronJob("0 */15 * * * *", async () => { 
+  console.log(`[${new Date().toISOString()}] Beginning event update.`)
   try {
-    await timeIt("Updating guild members", () => updatePlayersInGuild(config.hypixelGuildId))
-    await timeIt("Updating player usernames", updateUsernames)
-  } catch (e) {
-    console.error(e)
-  } 
-}
-
-async function updatePlayerMetrics() {
-  try {
-    const metricData = await timeIt("Updating player metrics", updateMetrics)
-    const eventData = getLeaderboardData()
-    lastMessage = await timeIt("Sending leaderboard update", () => sendUpdate(eventData, metricData))
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-async function forceUpdate() {
-  await updatePlayersData()
-  await updatePlayerMetrics() 
-}
-
-client.once("ready", async () => {
-  console.log(`[${new Date().toISOString()}] Bot online.`)
-  const timeSinceStart = Date.now() - config.eventStart 
-  updatePlayers.start()
-  if (timeSinceStart < 0) {
-    await new Promise(resolve => setTimeout(resolve, -timeSinceStart))
-    await sendStartedEmbed()
-    await updatePlayerMetrics()
-  } else {
-    await forceUpdate()
-  }
-  updateEvent.start()
-})
-
-function continueData(start: number, data: PlayerEventData[]) {
-  const continuedData = data.slice(start, start + 5)
-  if (continuedData.length > 0) {
-    return {
-      name: "Continued",
-      value: continuedData.map(({ rank, username, score}) => `**${rank}.** ${username} (${formatter.format(score)})`).join("\n"),
-      inline: true
+    const updateData = await update(config.hypixelGuildId, Date.now())
+    console.log(`[${new Date().toISOString()}] Update complete (${updateData.profileUpdates} / ${updateData.players} players).`)
+    if (nextUpdateTime == config.eventStart) {
+      console.log(`[${new Date().toISOString()}] Sending start embed.`)
+      await sendStartEmbed()
+    } 
+    if (nextUpdateTime > config.eventStart && nextUpdateTime <= config.eventEnd) {
+      console.log(`[${new Date().toISOString()}] Sending update embed.`)
+      lastMessage = await sendUpdate(config.eventStart, config.eventEnd, "fishingActions")
     }
-  } else {
-    return undefined
+    if (nextUpdateTime == config.eventEnd) {
+      console.log(`[${new Date().toISOString()}] Ending event.`)
+      await sendEndEmbed()
+      updateEventJob.stop()
+    }
+    nextUpdateTime = updateEventJob.nextDate().toMillis()
+    console.log(`[${new Date().toISOString()}] Update complete; next update at ${updateEventJob.nextDate().toISO()}.`)
+  } catch (e) {
+    console.log(e)
   }
-}
+}, undefined, true)
+
+let nextUpdateTime = updateEventJob.nextDate().toMillis()
 
 async function fetchChannel() {
   const guild = await client.guilds.fetch(config.discordGuildId)
@@ -96,42 +93,34 @@ async function fetchChannel() {
   return channel
 }
 
-async function sendStartedEmbed() {
-  try {
-    const channel = await fetchChannel()
-    const embed = new EmbedBuilder()
-      .setTitle("The event has started!")
-      .setColor("DarkBlue")
-      .setDescription(`The squid fishing event has started! Good luck to all participants.`)
-      .setTimestamp()
-    await channel.send({embeds: [embed]})
-    await channel.send(`<@&${config.guildMemberRole}>`)
-  } catch (e) {
-    console.log(e)
-  }
+async function sendStartEmbed() {
+  const channel = await fetchChannel()
+  const embed = new EmbedBuilder()
+    .setTitle("The event has started!")
+    .setColor("DarkBlue")
+    .setDescription(`The fishing event has started! Good luck to all participants.`)
+    .setTimestamp()
+  await channel.send(`<@&${config.guildMemberRole}>`)
+  await channel.send({embeds: [embed]})
 }
 
 async function sendEndEmbed() {
-  try {
-    const channel = await fetchChannel()
-    const embed = new EmbedBuilder()
-      .setTitle("Event over")
-      .setColor("DarkBlue")
-      .setDescription("The squid fishing event has finished, and official results will be posted as soon as possible. Thanks for participating!")
-      .setTimestamp()
-    await channel.send({embeds: [embed]})
-    await channel.send(`<@&${config.guildMemberRole}>`)
-  } catch (e) {
-    console.log(e)
-  }
+  const channel = await fetchChannel()
+  const embed = new EmbedBuilder()
+    .setTitle("Event over")
+    .setColor("DarkBlue")
+    .setDescription("The fishing event has finished, and official results will be posted as soon as possible. Thanks for participating!")
+    .setTimestamp()
+  await channel.send(`<@&${config.guildMemberRole}>`)
+  await channel.send({embeds: [embed]})
 }
 
-async function sendUpdate(eventData: PlayerEventData[], metricData: {updated: number, players: number}): Promise<Discord.Message<true>> {
-  const channel = await fetchChannel()
-  let fields = eventData.slice(0, 10).map(({ rank, username, profileName, endingKills, score }) => {
+export function leaderboardEmbed(start: number, end: number, metric: EventMetric) {
+  const eventData = eventRanking(start, end, metric)
+  let fields = eventData.slice(0, 10).map(({ position, username, profileName, totalEventMetric }) => {
     return {
-      name: `${rank}. ${username} (${profileName})`,
-      value: `**${formatter.format(score)}** ink gained`,
+      name: `${position}. ${username} (${profileName})`,
+      value: `**${formatter.format(totalEventMetric)}** ${eventMetricOrdinal(metric)}`,
       inline: true
     }
   })
@@ -147,32 +136,55 @@ async function sendUpdate(eventData: PlayerEventData[], metricData: {updated: nu
       value: "Either there is no event data yet, or the leaderboard broke!",
       inline: false
     })
-  }
-  const icon = new AttachmentBuilder("./assets/vanessa.png", { name: "vanessa.png" })
-  const chart = new AttachmentBuilder(generateLeaderboardPlot(eventData), { name: "chart.png" })
+  } 
+  const icon = new AttachmentBuilder("./assets/marina.png", { name: "marina.png" })
+  const chart = new AttachmentBuilder(generateLeaderboardPlot(start, end, metric, eventData), { name: "chart.png" })
   const embed = new EmbedBuilder()
-    .setAuthor({ name: "Vanessa", iconURL: "attachment://vanessa.png"})
+    .setAuthor({ name: "Marina", iconURL: "attachment://marina.png"})
     .setTitle("Shrimple Event Leaderboard")
     .setColor("DarkBlue")
-    .setDescription(`
-Shrimple is having a ink festival event! Score is based your ink collection gained on your highest-ink profile.
-
-**Start:** <t:${Math.round(config.eventStart / 1000)}:f>
-**End:** <t:${Math.round(config.eventEnd / 1000)}:f>
-**Last updated:** <t:${Math.round(Date.now() / 1000)}:R> (\`${metricData.updated}/${metricData.players}\` players)`)
     .addFields(fields)
     .setTimestamp()
     .setImage("attachment://chart.png")
-  if (lastMessage != null) {
-    try {
-      await lastMessage.edit({ embeds: [embed], files: [icon, chart] })
-      return lastMessage
-    } catch (e) {
-      console.error(new Error("Previous message was expected but was not found."))
-      return channel.send({ embeds: [embed], files: [icon, chart] });
-    }
+  return { embeds: [embed], files: [icon, chart] }
+}
+
+async function sendUpdate(start: number, end: number, metric: EventMetric) {
+  const messageData = leaderboardEmbed(start, end, metric)
+  messageData.embeds[0].setDescription(`
+Shrimple is having a fishing actions event! Score is based your total fishing actions across all profiles.
+
+**Start:** <t:${Math.round(config.eventStart / 1000)}:f>
+**End:** <t:${Math.round(config.eventEnd / 1000)}:f>
+**Last updated:** <t:${Math.round(Date.now() / 1000)}:R>
+  `)
+  const channel = await fetchChannel()
+  if (lastMessage) {
+    return lastMessage.edit({...messageData, components: [dataRow] })
   } else {
-    return channel.send({ embeds: [embed], files: [icon, chart] });
+    return channel.send({...messageData, components: [dataRow] })
   }
 }
 
+function continueData(start: number, data: EventParticipantData[]) {
+  const continuedData = data.slice(start, start + 5)
+  if (continuedData.length > 0) {
+    return {
+      name: "Continued",
+      value: continuedData.map(({ position, username, totalEventMetric}) => `**${position}.** ${username} (${formatter.format(totalEventMetric)})`).join("\n"),
+      inline: true
+    }
+  } else {
+    return undefined
+  }
+}
+
+function eventMetricOrdinal(metric: EventMetric) {
+  switch (metric) {
+    case "fishingActions": return "actions"
+    case "fishingItems": return "items fished"
+    case "fishingCreatures": return "creatures killed"
+    case "fishingTrophy": return "trophy fish caught"
+    case "fishingXp": return "XP gained"
+  }
+}
