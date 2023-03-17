@@ -15,27 +15,32 @@ const dataRow = new ActionRowBuilder<StringSelectMenuBuilder>()
   .addComponents(
     new StringSelectMenuBuilder()
       .setCustomId("selectData")
-      .setPlaceholder("View more data!")
+      .setPlaceholder("View specific slayers!")
       .setOptions(
         {
-          label: "Items fished",
-          description: "Number of items fished during event.",
-          value: "fishingItems"
+          label: "Zombie",
+          description: "Revenant Horror",
+          value: "slayerZombie"
         },
         {
-          label: "Creatures killed",
-          description: "Number of sea creature kills during event.",
-          value: "fishingCreatures"
+          label: "Spider",
+          description: "Tarantula Broodfather",
+          value: "slayerSpider"
         },
         {
-          label: "Trophy fish caught",
-          description: "Number of trophy fish caught during event.",
-          value: "fishingTrophy"
+          label: "Wolf",
+          description: "Sven Packmaster",
+          value: "slayerWolf"
         },
         {
-          label: "Fishing XP gained",
-          description: "Amount of fishing XP gained during event.",
-          value: "fishingXp"
+          label: "Enderman",
+          description: "Voidgloom Seraph",
+          value: "slayerEnderman"
+        },
+        {
+          label: "Blaze",
+          description: "Inferno Demonhunter990",
+          value: "slayerBlaze"
         }
       )
   )
@@ -69,7 +74,7 @@ const updateEventJob = new CronJob("0 */15 * * * *", async () => {
     } 
     if (nextUpdateTime > config.eventStart && nextUpdateTime <= config.eventEnd) {
       console.log(`[${new Date().toISOString()}] Sending update embed.`)
-      lastMessage = await sendUpdate(config.eventStart, config.eventEnd, "fishingActions")
+      lastMessage = await sendUpdate(config.eventStart, config.eventEnd, "slayerScore")
     }
     if (nextUpdateTime == config.eventEnd) {
       console.log(`[${new Date().toISOString()}] Ending event.`)
@@ -97,7 +102,7 @@ async function sendStartEmbed() {
   const embed = new EmbedBuilder()
     .setTitle("The event has started!")
     .setColor("DarkBlue")
-    .setDescription(`The fishing event has started! Good luck to all participants.`)
+    .setDescription(`The slayer event has started! Good luck to all participants.`)
     .setTimestamp()
   await channel.send(`<@&${config.guildMemberRole}>`)
   await channel.send({embeds: [embed]})
@@ -108,7 +113,7 @@ async function sendEndEmbed() {
   const embed = new EmbedBuilder()
     .setTitle("Event over")
     .setColor("DarkBlue")
-    .setDescription("The fishing event has finished, and official results will be posted as soon as possible. Thanks for participating!")
+    .setDescription("The slayer event has finished, and official results will be posted as soon as possible. Thanks for participating!")
     .setTimestamp()
   await channel.send(`<@&${config.guildMemberRole}>`)
   await channel.send({embeds: [embed]})
@@ -139,7 +144,7 @@ export function leaderboardEmbed(start: number, end: number, metric: EventMetric
   const icon = new AttachmentBuilder("./assets/marina.png", { name: "marina.png" })
   const chart = new AttachmentBuilder(generateLeaderboardPlot(start, end, metric, eventData), { name: "chart.png" })
   const embed = new EmbedBuilder()
-    .setAuthor({ name: "Marina", iconURL: "attachment://marina.png"})
+    .setAuthor({ name: "Maddox", iconURL: "attachment://maddox.png" })
     .setTitle("Shrimple Event Leaderboard")
     .setColor("DarkBlue")
     .addFields(fields)
@@ -151,7 +156,7 @@ export function leaderboardEmbed(start: number, end: number, metric: EventMetric
 async function sendUpdate(start: number, end: number, metric: EventMetric) {
   const messageData = leaderboardEmbed(start, end, metric)
   messageData.embeds[0].setDescription(`
-Shrimple is having a fishing actions event! Score is based your total fishing actions across all profiles.
+Shrimple is having a slayer event! Score is the weighted sum of slayer XP gained across all profiles.
 
 **Start:** <t:${Math.round(config.eventStart / 1000)}:f>
 **End:** <t:${Math.round(config.eventEnd / 1000)}:f>
@@ -180,10 +185,11 @@ function continueData(start: number, data: EventParticipantData[]) {
 
 function eventMetricOrdinal(metric: EventMetric) {
   switch (metric) {
-    case "fishingActions": return "actions"
-    case "fishingItems": return "items fished"
-    case "fishingCreatures": return "creatures killed"
-    case "fishingTrophy": return "trophy fish caught"
-    case "fishingXp": return "XP gained"
+    case "slayerScore": return "score"
+    case "slayerZombie": return "xp gained"
+    case "slayerSpider": return "xp gained"
+    case "slayerWolf": return "xp gained"
+    case "slayerEnderman": return "xp gained"
+    case "slayerBlaze": return "xp gained"
   }
 }

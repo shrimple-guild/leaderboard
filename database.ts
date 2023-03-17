@@ -26,6 +26,18 @@ db.exec(`
     fishingItems REAL,
     fishingCreatures REAL,
     fishingActions REAL,
+    slayerZombie REAL NOT NULL,
+    slayerSpider REAL NOT NULL,
+    slayerWolf REAL NOT NULL,
+    slayerEnderman REAL NOT NULL,
+    slayerBlaze REAL NOT NULL,
+    slayerScore REAL GENERATED ALWAYS AS ( 
+        1 * slayerZombie 
+      + 1 * slayerSpider
+      + 1 * slayerWolf
+      + 1 * slayerEnderman
+      + 1 * slayerBlaze
+    ) STORED
     FOREIGN KEY (profileId) REFERENCES Profiles(id)
     UNIQUE (profileId, timestamp)
   );
@@ -65,7 +77,12 @@ export const insertProfileAndMetrics = (() => {
       fishingTrophy,
       fishingItems,
       fishingCreatures,
-      fishingActions
+      fishingActions,
+      slayerZombie REAL,
+      slayerSpider REAL,
+      slayerWolf REAL,
+      slayerEnderman REAL,
+      slayerBlaze REAL
     )
     SELECT 
       id, 
@@ -74,7 +91,12 @@ export const insertProfileAndMetrics = (() => {
       :fishingTrophy, 
       :fishingItems,
       :fishingCreatures,
-      :fishingActions
+      :fishingActions,
+      :slayerZombie,
+      :slayerSpider,
+      :slayerWolf,
+      :slayerEnderman,
+      :slayerBlaze
     FROM Profiles
     WHERE playerId = :playerId 
     AND hypixelProfileId = :hypixelProfileId
@@ -97,7 +119,7 @@ export const insertProfileAndMetrics = (() => {
   })
 })()
 
-export type EventMetric = "fishingActions" | "fishingTrophy" | "fishingItems" | "fishingCreatures" | "fishingXp"
+export type EventMetric = "slayerZombie" | "slayerSpider" | "slayerWolf" | "slayerEnderman" | "slayerBlaze" | "slayerScore"
 
 export function eventRanking(start: number, end: number, metric: EventMetric) {
   const stmt = db.prepare(`  
