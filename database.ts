@@ -1,7 +1,7 @@
 import Database from "better-sqlite3"
 import { Profile } from "./hypixel"
 
-const db = new Database("./data/leaderboard.db")
+const db = new Database("./data/maddox.db")
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS Players (
