@@ -56,7 +56,7 @@ client.on(Events.InteractionCreate, (interaction) => {
     if (interaction.customId != "selectData") return
     const option = interaction.values[0] as EventMetric
     const data = leaderboardEmbed(config.eventStart, config.eventEnd, option)
-    data.embeds[0].setDescription(`Leaderboard for **${eventMetricOrdinal(option)}**. This is not the leaderboard for the overall event.`)
+    data.embeds[0].setDescription(eventMetricDescription(option))
     interaction.reply({ ...data, ephemeral: true })
   } catch (e) {
     console.log(e)
@@ -141,7 +141,7 @@ export function leaderboardEmbed(start: number, end: number, metric: EventMetric
       inline: false
     })
   } 
-  const icon = new AttachmentBuilder("./assets/marina.png", { name: "marina.png" })
+  const icon = new AttachmentBuilder("./assets/maddox.png", { name: "maddox.png" })
   const chart = new AttachmentBuilder(generateLeaderboardPlot(start, end, metric, eventData), { name: "chart.png" })
   const embed = new EmbedBuilder()
     .setAuthor({ name: "Maddox", iconURL: "attachment://maddox.png" })
@@ -155,8 +155,9 @@ export function leaderboardEmbed(start: number, end: number, metric: EventMetric
 
 async function sendUpdate(start: number, end: number, metric: EventMetric) {
   const messageData = leaderboardEmbed(start, end, metric)
-  messageData.embeds[0].setDescription(`
-Shrimple is having a slayer event! Score is the weighted sum of slayer XP gained across all profiles.
+  messageData.embeds[0].setDescription(`Are you ready to take on a new challenge and elevate your slayer game to the next level? Our guild is excited to announce an upcoming event focused on gaining Slayer XP. As you know, slaying monsters is an integral part of the Hypixel Skyblock experience, and we want to help our guild members become the best slayers they can be.
+
+During this Slayer XP event, we will be focusing on a variety of different slayers, including zombie, spider, wolf, enderman, and blaze. Each of these slayers presents its unique challenges and rewards. There's something for everyone in this exciting Slayer XP event!
 
 **Start:** <t:${Math.round(config.eventStart / 1000)}:f>
 **End:** <t:${Math.round(config.eventEnd / 1000)}:f>
@@ -183,13 +184,25 @@ function continueData(start: number, data: EventParticipantData[]) {
   }
 }
 
+function eventMetricDescription(metric: EventMetric) {
+  switch (metric) {
+    case "slayerZombie": return "For zombie slayers, we will be targeting various types of zombies, including Revenants and Crypt Ghouls. These undead creatures are known for their strength and resilience, so you will need to come prepared with your strongest weapons and armor."
+    case "slayerSpider": return "Spider slayers, on the other hand, will require you to venture into the Spider's Den and take on the likes of Brood Mother and Weaver. These spiders are quick and agile, so make sure you have plenty of speed potions and spider armor to keep up with them."
+    case "slayerWolf": return "If you're a wolf slayer, you'll be hunting down various wolf packs and their leaders, including the Howling Alpha and Packmaster. These fierce canines are known for their ferocity and teamwork, so you'll need to work together with your guild members to take them down."
+    case "slayerEnderman": return "Enderman slayers will need to travel to The End and face off against the likes of Voidgloom Seraph and Endermite. These teleporting creatures are notoriously difficult to pin down, so be prepared to use your wits and quick reflexes."
+    case "slayerBlaze": return "Finally, for blaze slayers, we'll be heading to the blazing fortress to battle against Blazemen and the fearsome Blaze Boss. These fiery monsters are immune to most forms of damage, so you'll need to bring water buckets and fire resistance potions to survive."
+    default: return ""
+  }
+}
+
+
 function eventMetricOrdinal(metric: EventMetric) {
   switch (metric) {
     case "slayerScore": return "score"
-    case "slayerZombie": return "xp gained"
-    case "slayerSpider": return "xp gained"
-    case "slayerWolf": return "xp gained"
-    case "slayerEnderman": return "xp gained"
-    case "slayerBlaze": return "xp gained"
+    case "slayerZombie": return "zombie xp"
+    case "slayerSpider": return "spider xp"
+    case "slayerWolf": return "wolf xp"
+    case "slayerEnderman": return "enderman xp"
+    case "slayerBlaze": return "blaze xp"
   }
 }

@@ -32,13 +32,13 @@ db.exec(`
     slayerEnderman REAL NOT NULL,
     slayerBlaze REAL NOT NULL,
     slayerScore REAL GENERATED ALWAYS AS ( 
-        1 * slayerZombie 
-      + 1 * slayerSpider
-      + 1 * slayerWolf
-      + 1 * slayerEnderman
+        0.06 * slayerZombie 
+      + 0.09 * slayerSpider
+      + 0.3 * slayerWolf
+      + 0.66 * slayerEnderman
       + 1 * slayerBlaze
-    ) STORED
-    FOREIGN KEY (profileId) REFERENCES Profiles(id)
+    ) STORED,
+    FOREIGN KEY (profileId) REFERENCES Profiles(id),
     UNIQUE (profileId, timestamp)
   );
 `)
@@ -78,11 +78,11 @@ export const insertProfileAndMetrics = (() => {
       fishingItems,
       fishingCreatures,
       fishingActions,
-      slayerZombie REAL,
-      slayerSpider REAL,
-      slayerWolf REAL,
-      slayerEnderman REAL,
-      slayerBlaze REAL
+      slayerZombie,
+      slayerSpider,
+      slayerWolf,
+      slayerEnderman,
+      slayerBlaze
     )
     SELECT 
       id, 
