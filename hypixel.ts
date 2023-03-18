@@ -7,7 +7,12 @@ export type ProfileMetrics = {
   fishingTrophy: number, 
   fishingItems: number,
   fishingCreatures: number,
-  fishingActions: number
+  fishingActions: number,
+  slayerZombie: number,
+  slayerSpider: number,
+  slayerWolf: number,
+  slayerEnderman: number,
+  slayerBlaze: number
 }
 
 export type Profile = {
@@ -81,5 +86,10 @@ function getMetrics(member: any): ProfileMetrics {
     fishingItems: fishingItems, 
     fishingCreatures: fishingCreatures,
     fishingActions: fishingItems + fishingCreatures,
+    slayerZombie: member?.slayer_bosses?.zombie?.xp ?? 0,
+    slayerSpider: member?.slayer_bosses?.spider?.xp ?? 0,
+    slayerWolf: member?.slayer_bosses?.wolf?.xp ?? 0,
+    slayerEnderman: member?.slayer_bosses?.enderman?.xp ?? 0,
+    slayerBlaze: member?.slayer_bosses?.blaze?.xp ?? 0,
   }
 }

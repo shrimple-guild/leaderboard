@@ -1,4 +1,4 @@
-leaderboard.db
+*.db
 config.json
 results.png
 /node_modules

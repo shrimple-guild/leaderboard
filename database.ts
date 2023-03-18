@@ -1,7 +1,7 @@
 import Database from "better-sqlite3"
 import { Profile } from "./hypixel"
 
-const db = new Database("./data/leaderboard.db")
+const db = new Database("./data/maddox.db")
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS Players (
@@ -26,7 +26,19 @@ db.exec(`
     fishingItems REAL,
     fishingCreatures REAL,
     fishingActions REAL,
-    FOREIGN KEY (profileId) REFERENCES Profiles(id)
+    slayerZombie REAL NOT NULL,
+    slayerSpider REAL NOT NULL,
+    slayerWolf REAL NOT NULL,
+    slayerEnderman REAL NOT NULL,
+    slayerBlaze REAL NOT NULL,
+    slayerScore REAL GENERATED ALWAYS AS ( 
+        0.06 * slayerZombie 
+      + 0.09 * slayerSpider
+      + 0.3 * slayerWolf
+      + 0.66 * slayerEnderman
+      + 1 * slayerBlaze
+    ) STORED,
+    FOREIGN KEY (profileId) REFERENCES Profiles(id),
     UNIQUE (profileId, timestamp)
   );
 `)
@@ -65,7 +77,12 @@ export const insertProfileAndMetrics = (() => {
       fishingTrophy,
       fishingItems,
       fishingCreatures,
-      fishingActions
+      fishingActions,
+      slayerZombie,
+      slayerSpider,
+      slayerWolf,
+      slayerEnderman,
+      slayerBlaze
     )
     SELECT 
       id, 
@@ -74,7 +91,12 @@ export const insertProfileAndMetrics = (() => {
       :fishingTrophy, 
       :fishingItems,
       :fishingCreatures,
-      :fishingActions
+      :fishingActions,
+      :slayerZombie,
+      :slayerSpider,
+      :slayerWolf,
+      :slayerEnderman,
+      :slayerBlaze
     FROM Profiles
     WHERE playerId = :playerId 
     AND hypixelProfileId = :hypixelProfileId
@@ -97,7 +119,7 @@ export const insertProfileAndMetrics = (() => {
   })
 })()
 
-export type EventMetric = "fishingActions" | "fishingTrophy" | "fishingItems" | "fishingCreatures" | "fishingXp"
+export type EventMetric = "slayerZombie" | "slayerSpider" | "slayerWolf" | "slayerEnderman" | "slayerBlaze" | "slayerScore"
 
 export function eventRanking(start: number, end: number, metric: EventMetric) {
   const stmt = db.prepare(`  
