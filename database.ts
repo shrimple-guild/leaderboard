@@ -1,7 +1,7 @@
 import Database from "better-sqlite3"
 import { Profile } from "./hypixel"
 
-const db = new Database("./data/maddox.db")
+const db = new Database("./data/kuudra.db")
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS Players (
@@ -37,6 +37,14 @@ db.exec(`
       + 0.3 * slayerWolf
       + 0.66 * slayerEnderman
       + 1 * slayerBlaze
+    ) STORED,
+    kuudraBasic REAL NOT NULL,
+    kuudraHot REAL NOT NULL,
+    kuudraBurning REAL NOT NULL,
+    kuudraFiery REAL NOT NULL,
+    kuudraInfernal REAL NOT NULL,
+    kuudraCompletions REAL GENERATED ALWAYS AS (
+      kuudraBasic + kuudraHot + kuudraBurning + kuudraFiery + kuudraInfernal
     ) STORED,
     FOREIGN KEY (profileId) REFERENCES Profiles(id),
     UNIQUE (profileId, timestamp)
@@ -82,7 +90,12 @@ export const insertProfileAndMetrics = (() => {
       slayerSpider,
       slayerWolf,
       slayerEnderman,
-      slayerBlaze
+      slayerBlaze,
+      kuudraBasic,
+      kuudraHot,
+      kuudraBurning,
+      kuudraFiery,
+      kuudraInfernal
     )
     SELECT 
       id, 
@@ -96,7 +109,12 @@ export const insertProfileAndMetrics = (() => {
       :slayerSpider,
       :slayerWolf,
       :slayerEnderman,
-      :slayerBlaze
+      :slayerBlaze,
+      :kuudraBasic,
+      :kuudraHot,
+      :kuudraBurning,
+      :kuudraFiery,
+      :kuudraInfernal
     FROM Profiles
     WHERE playerId = :playerId 
     AND hypixelProfileId = :hypixelProfileId
@@ -119,7 +137,7 @@ export const insertProfileAndMetrics = (() => {
   })
 })()
 
-export type EventMetric = "slayerZombie" | "slayerSpider" | "slayerWolf" | "slayerEnderman" | "slayerBlaze" | "slayerScore"
+export type EventMetric = "kuudraBasic" | "kuudraHot" | "kuudraBurning" | "kuudraFiery" | "kuudraInfernal" | "kuudraScore"
 
 export function eventRanking(start: number, end: number, metric: EventMetric) {
   const stmt = db.prepare(`  

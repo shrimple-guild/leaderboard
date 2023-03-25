@@ -12,7 +12,12 @@ export type ProfileMetrics = {
   slayerSpider: number,
   slayerWolf: number,
   slayerEnderman: number,
-  slayerBlaze: number
+  slayerBlaze: number,
+  kuudraBasic: number,
+  kuudraHot: number,
+  kuudraBurning: number,
+  kuudraFiery: number,
+  kuudraInfernal: number
 }
 
 export type Profile = {
@@ -91,5 +96,10 @@ function getMetrics(member: any): ProfileMetrics {
     slayerWolf: member?.slayer_bosses?.wolf?.xp ?? 0,
     slayerEnderman: member?.slayer_bosses?.enderman?.xp ?? 0,
     slayerBlaze: member?.slayer_bosses?.blaze?.xp ?? 0,
+    kuudraBasic: member?.nether_island_player_data?.kuudra_completed_tiers?.none ?? 0,
+    kuudraHot: member?.nether_island_player_data?.kuudra_completed_tiers?.hot ?? 0,
+    kuudraBurning: member?.nether_island_player_data?.kuudra_completed_tiers?.burning ?? 0,
+    kuudraFiery: member?.nether_island_player_data?.kuudra_completed_tiers?.fiery ?? 0,
+    kuudraInfernal: member?.nether_island_player_data?.kuudra_completed_tiers?.infernal ?? 0,
   }
 }
