@@ -137,7 +137,7 @@ export const insertProfileAndMetrics = (() => {
   })
 })()
 
-export type EventMetric = "kuudraBasic" | "kuudraHot" | "kuudraBurning" | "kuudraFiery" | "kuudraInfernal" | "kuudraScore"
+export type EventMetric = "kuudraBasic" | "kuudraHot" | "kuudraBurning" | "kuudraFiery" | "kuudraInfernal" | "kuudraCompletions"
 
 export function eventRanking(start: number, end: number, metric: EventMetric) {
   const stmt = db.prepare(`  

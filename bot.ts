@@ -69,7 +69,7 @@ const updateEventJob = new CronJob("0 */15 * * * *", async () => {
     } 
     if (nextUpdateTime > config.eventStart && nextUpdateTime <= config.eventEnd) {
       console.log(`[${new Date().toISOString()}] Sending update embed.`)
-      lastMessage = await sendUpdate(config.eventStart, config.eventEnd, "kuudraScore")
+      lastMessage = await sendUpdate(config.eventStart, config.eventEnd, "kuudraCompletions")
     }
     if (nextUpdateTime == config.eventEnd) {
       console.log(`[${new Date().toISOString()}] Ending event.`)
@@ -195,6 +195,6 @@ function eventMetricOrdinal(metric: EventMetric) {
     case "kuudraBurning": return "completions"
     case "kuudraFiery": return "completions"
     case "kuudraInfernal": return "completions"
-    case "kuudraScore": return "score"
+    case "kuudraCompletions": return "completions"
   }
 }
