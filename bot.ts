@@ -4,6 +4,7 @@ import { generateLeaderboardPlot } from "./chart.js"
 import config from "./config.json" assert { type: "json" }
 import { update } from "./events.js"
 import { EventMetric, EventParticipantData, eventRanking } from "./database.js"
+import { getRandomIndex } from "./randomCrop.js"
 
 const formatter = Intl.NumberFormat('en', {
   notation: "compact",
@@ -11,52 +12,30 @@ const formatter = Intl.NumberFormat('en', {
   minimumSignificantDigits: 1
 })
 
-const dataRow = new ActionRowBuilder<StringSelectMenuBuilder>()
-  .addComponents(
-    new StringSelectMenuBuilder()
-      .setCustomId("selectData")
-      .setPlaceholder("View specific kuudra tiers!")
-      .setOptions(
-        {
-          label: "Basic Kuudra",
-          value: "kuudraBasic"
-        },
-        {
-          label: "Hot Kuudra",
-          value: "kuudraHot"
-        },
-        {
-          label: "Burning Kuudra",
-          value: "kuudraBurning"
-        },
-        {
-          label: "Fiery Kuudra",
-          value: "kuudraFiery"
-        },
-        {
-          label: "Infernal Kuudra",
-          value: "kuudraInfernal"
-        }
-      )
-  )
-
 let lastMessage: Message<true> | undefined = undefined
 
 const client = new Client({ intents: [] })
 client.login(config.discordToken)
 
-client.on(Events.InteractionCreate, (interaction) => {
-  try {
-    if (!interaction.inCachedGuild() || !interaction.isStringSelectMenu()) return
-    if (interaction.customId != "selectData") return
-    const option = interaction.values[0] as EventMetric
-    const data = leaderboardEmbed(config.eventStart, config.eventEnd, option)
-    data.embeds[0].setDescription(eventMetricDescription(option))
-    interaction.reply({ ...data, ephemeral: true })
-  } catch (e) {
-    console.log(e)
+let crop: EventMetric | undefined = undefined
+
+const possibleCrops: EventMetric[] = [
+  "collectionCocoaBean",
+  "collectionSugarCane",
+  "collectionPotato",
+  "collectionCarrot",
+  "collectionWheat"
+]
+
+async function getEventCrop() {
+  if (crop == null) {
+    const index = await getRandomIndex(config.eventStart, possibleCrops.length)
+    const eventCrop = crop ?? possibleCrops[index]
+    crop = eventCrop
+    return eventCrop
   }
-})
+  return crop
+}
 
 const updateEventJob = new CronJob("0 */15 * * * *", async () => { 
   console.log(`[${new Date().toISOString()}] Beginning event update.`)
@@ -64,12 +43,14 @@ const updateEventJob = new CronJob("0 */15 * * * *", async () => {
     const updateData = await update(config.hypixelGuildId, Date.now())
     console.log(`[${new Date().toISOString()}] Update complete (${updateData.profileUpdates} / ${updateData.players} players).`)
     if (nextUpdateTime == config.eventStart) {
+      const eventCrop = await getEventCrop()
       console.log(`[${new Date().toISOString()}] Sending start embed.`)
-      await sendStartEmbed()
+      await sendStartEmbed(eventCrop)
     } 
     if (nextUpdateTime > config.eventStart && nextUpdateTime <= config.eventEnd) {
+      const eventCrop = await getEventCrop()
       console.log(`[${new Date().toISOString()}] Sending update embed.`)
-      lastMessage = await sendUpdate(config.eventStart, config.eventEnd, "kuudraCompletions")
+      lastMessage = await sendUpdate(config.eventStart, config.eventEnd, eventCrop)
     }
     if (nextUpdateTime == config.eventEnd) {
       console.log(`[${new Date().toISOString()}] Ending event.`)
@@ -92,12 +73,12 @@ async function fetchChannel() {
   return channel
 }
 
-async function sendStartEmbed() {
+async function sendStartEmbed(eventCrop: EventMetric) {
   const channel = await fetchChannel()
   const embed = new EmbedBuilder()
     .setTitle("The event has started!")
     .setColor("DarkBlue")
-    .setDescription(`The Kuudra event has started! Good luck to all participants.`)
+    .setDescription(`The event crop is **${eventMetricName(eventCrop)}**. Good luck to all participants!`)
     .setTimestamp()
   await channel.send(`<@&${config.guildMemberRole}>`)
   await channel.send({embeds: [embed]})
@@ -108,7 +89,7 @@ async function sendEndEmbed() {
   const embed = new EmbedBuilder()
     .setTitle("Event over")
     .setColor("DarkBlue")
-    .setDescription("The Kuudra event has finished, and official results will be posted as soon as possible. Thanks for participating!")
+    .setDescription("The farming event has finished, and official results will be posted as soon as possible. Thanks for participating!")
     .setTimestamp()
   await channel.send(`<@&${config.guildMemberRole}>`)
   await channel.send({embeds: [embed]})
@@ -136,10 +117,10 @@ export function leaderboardEmbed(start: number, end: number, metric: EventMetric
       inline: false
     })
   } 
-  const icon = new AttachmentBuilder("./assets/elle.png", { name: "elle.png" })
+  const icon = new AttachmentBuilder("./assets/jacob.png", { name: "jacob.png" })
   const chart = new AttachmentBuilder(generateLeaderboardPlot(start, end, metric, eventData), { name: "chart.png" })
   const embed = new EmbedBuilder()
-    .setAuthor({ name: "Elle", iconURL: "attachment://elle.png" })
+    .setAuthor({ name: "Jacob", iconURL: "attachment://jacob.png" })
     .setTitle("Shrimple Event Leaderboard")
     .setColor("DarkBlue")
     .addFields(fields)
@@ -150,7 +131,7 @@ export function leaderboardEmbed(start: number, end: number, metric: EventMetric
 
 async function sendUpdate(start: number, end: number, metric: EventMetric) {
   const messageData = leaderboardEmbed(start, end, metric)
-  messageData.embeds[0].setDescription(`Attention hypixel skyblock guild members! Join us for an exciting guild event where we'll be competing to complete the most Kuudra runs in a single day. Kuudra runs are a challenging game mode that will test your skills and strategic planning as you navigate through obstacles and defeat bosses. Work with your guildmates to climb the leaderboard and emerge as the champion. The top player with the most completed runs will be rewarded with a special prize. Join us for a day of intense adventure and show us what you're made of in the Kuudra fight!
+  messageData.embeds[0].setDescription(`Shrimple ${1} **${eventMetricName(metric)}** leaderboard
 
 **Start:** <t:${Math.round(config.eventStart / 1000)}:f>
 **End:** <t:${Math.round(config.eventEnd / 1000)}:f>
@@ -158,9 +139,9 @@ async function sendUpdate(start: number, end: number, metric: EventMetric) {
   `)
   const channel = await fetchChannel()
   if (lastMessage) {
-    return lastMessage.edit({...messageData, components: [dataRow] })
+    return lastMessage.edit({...messageData })
   } else {
-    return channel.send({...messageData, components: [dataRow] })
+    return channel.send({...messageData })
   }
 }
 
@@ -177,24 +158,23 @@ function continueData(start: number, data: EventParticipantData[]) {
   }
 }
 
-function eventMetricDescription(metric: EventMetric) {
+
+function eventMetricOrdinal(metric: EventMetric) {
+  return "collection"
+}
+
+function eventMetricName(metric: EventMetric) {
   switch (metric) {
-    case "kuudraBasic": return "Basic kuudra completion leaderboard"
-    case "kuudraHot": return "Hot kuudra completion leaderboard."
-    case "kuudraBurning": return "Burning kuudra completion leaderboard."
-    case "kuudraFiery": return "Fiery kuudra completion leaderboard."
-    case "kuudraInfernal": return "Infernal kuudra completion leaderboard."
-    default: return ""
+    case "collectionCocoaBean": return "Cocoa Bean"
+    case "collectionMelon": return "Melon"
+    case "collectionPumpkin": return "Pumpkin"
+    case "collectionSugarCane": return "Sugar Cane"
+    case "collectionMushroom": return "Mushroom"
+    case "collectionCactus": return "Cactus"
+    case "collectionNetherWart": return "Nether Wart"
+    case "collectionPotato": return "Potato"
+    case "collectionCarrot": return "Carrot"
+    case "collectionWheat": return "Wheat"
   }
 }
 
-function eventMetricOrdinal(metric: EventMetric) {
-  switch (metric) {
-    case "kuudraBasic": return "completions"
-    case "kuudraHot": return "completions"
-    case "kuudraBurning": return "completions"
-    case "kuudraFiery": return "completions"
-    case "kuudraInfernal": return "completions"
-    case "kuudraCompletions": return "completions"
-  }
-}

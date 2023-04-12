@@ -1,7 +1,7 @@
 import Database from "better-sqlite3"
 import { Profile } from "./hypixel"
 
-const db = new Database("./data/kuudra.db")
+const db = new Database("./data/farming.db")
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS Players (
@@ -46,6 +46,16 @@ db.exec(`
     kuudraCompletions REAL GENERATED ALWAYS AS (
       kuudraBasic + kuudraHot + kuudraBurning + kuudraFiery + kuudraInfernal
     ) STORED,
+    collectionCocoaBean REAL,
+    collectionMelon REAL,
+    collectionPumpkin REAL,
+    collectionSugarCane REAL,
+    collectionMushroom REAL,
+    collectionCactus REAL,
+    collectionNetherWart REAL,
+    collectionPotato REAL,
+    collectionCarrot REAL,
+    collectionWheat REAL,
     FOREIGN KEY (profileId) REFERENCES Profiles(id),
     UNIQUE (profileId, timestamp)
   );
@@ -95,7 +105,17 @@ export const insertProfileAndMetrics = (() => {
       kuudraHot,
       kuudraBurning,
       kuudraFiery,
-      kuudraInfernal
+      kuudraInfernal,
+      collectionCocoaBean,
+      collectionMelon,
+      collectionPumpkin,
+      collectionSugarCane,
+      collectionMushroom,
+      collectionCactus,
+      collectionNetherWart,
+      collectionPotato,
+      collectionCarrot,
+      collectionWheat
     )
     SELECT 
       id, 
@@ -114,7 +134,17 @@ export const insertProfileAndMetrics = (() => {
       :kuudraHot,
       :kuudraBurning,
       :kuudraFiery,
-      :kuudraInfernal
+      :kuudraInfernal,
+      :collectionCocoaBean,
+      :collectionMelon,
+      :collectionPumpkin,
+      :collectionSugarCane,
+      :collectionMushroom,
+      :collectionCactus,
+      :collectionNetherWart,
+      :collectionPotato,
+      :collectionCarrot,
+      :collectionWheat
     FROM Profiles
     WHERE playerId = :playerId 
     AND hypixelProfileId = :hypixelProfileId
@@ -137,8 +167,7 @@ export const insertProfileAndMetrics = (() => {
   })
 })()
 
-export type EventMetric = "kuudraBasic" | "kuudraHot" | "kuudraBurning" | "kuudraFiery" | "kuudraInfernal" | "kuudraCompletions"
-
+export type EventMetric = "collectionCocoaBean" | "collectionMelon" | "collectionPumpkin" | "collectionSugarCane" | "collectionMushroom" | "collectionCactus" | "collectionNetherWart" | "collectionPotato" | "collectionCarrot" | "collectionWheat"
 export function eventRanking(start: number, end: number, metric: EventMetric) {
   const stmt = db.prepare(`  
     WITH EventMetrics AS (

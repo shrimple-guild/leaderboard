@@ -17,7 +17,17 @@ export type ProfileMetrics = {
   kuudraHot: number,
   kuudraBurning: number,
   kuudraFiery: number,
-  kuudraInfernal: number
+  kuudraInfernal: number,
+  collectionCocoaBean: number | undefined,
+  collectionMelon: number | undefined,
+  collectionPumpkin: number | undefined,
+  collectionSugarCane: number | undefined,
+  collectionMushroom: number | undefined,
+  collectionCactus: number | undefined,
+  collectionNetherWart: number | undefined,
+  collectionPotato: number | undefined,
+  collectionCarrot: number | undefined,
+  collectionWheat: number | undefined
 }
 
 export type Profile = {
@@ -40,14 +50,16 @@ const fetchHypixel = (() => {
   let lock = new AsyncLock()
   return async (url: string) => {
     return lock.acquire("hypixel", async () => {
-      const response = await fetch(url)
+      const response = await fetch(url, { signal: AbortSignal.timeout(3000) })
       if (response.status == 200) {
         const ratelimitRemaining = parseIntOrDefault(response.headers.get("ratelimit-remaining"), 0)
         const ratelimitReset = parseIntOrDefault(response.headers.get("ratelimit-reset"), 60)  
         if (ratelimitRemaining <= remainingRequestsAllowable) await sleep(ratelimitReset * 1000)
         return response.json()
-      } else {
+      } else if (response.status == 429) {
         await sleep(parseIntOrDefault(response.headers.get("retry-after"), 60) * 1000)
+        throw new Error(`Hypixel API returned status ${response.status} with url ${url}`)
+      } else {
         throw new Error(`Hypixel API returned status ${response.status} with url ${url}`)
       }
     })
@@ -101,5 +113,15 @@ function getMetrics(member: any): ProfileMetrics {
     kuudraBurning: member?.nether_island_player_data?.kuudra_completed_tiers?.burning ?? 0,
     kuudraFiery: member?.nether_island_player_data?.kuudra_completed_tiers?.fiery ?? 0,
     kuudraInfernal: member?.nether_island_player_data?.kuudra_completed_tiers?.infernal ?? 0,
+    collectionCocoaBean: member?.collection?.["INK_SACK:3"],
+    collectionMelon: member?.collection?.["MELON"],
+    collectionPumpkin: member?.collection?.["PUMPKIN"],
+    collectionSugarCane: member?.collection?.["SUGAR_CANE"],
+    collectionMushroom: member?.collection?.["MUSHROOM_COLLECTION"],
+    collectionCactus: member?.collection?.["CACTUS"],
+    collectionNetherWart: member?.collection?.["NETHER_STALK"],
+    collectionPotato: member?.collection?.["POTATO_ITEM"],
+    collectionCarrot: member?.collection?.["CARROT_ITEM"],
+    collectionWheat: member?.collection?.["WHEAT"]
   }
 }
