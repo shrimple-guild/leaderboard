@@ -1,5 +1,6 @@
 import Database from "better-sqlite3"
 import { Profile } from "./hypixel"
+import metrics from "./metrics.json" assert { type: "json" } 
 
 const db = new Database("./data/farming.db")
 
@@ -7,7 +8,7 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS Players (
     id TEXT PRIMARY KEY,
     username TEXT,
-    inGuild INTEGER NOT NULL
+    guildId TEXT
   );
   CREATE TABLE IF NOT EXISTS Profiles (
     id INTEGER PRIMARY KEY,
@@ -19,65 +20,41 @@ db.exec(`
   );
   CREATE TABLE IF NOT EXISTS Metrics (
     id INTEGER PRIMARY KEY,
-    profileId TEXT NOT NULL,
+    name TEXT UNIQUE NOT NULL,
+    counter TEXT NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS ProfileData (
+    profileId INTEGER NOT NULL,
     timestamp INTEGER NOT NULL,
-    fishingXp REAL,
-    fishingTrophy REAL,
-    fishingItems REAL,
-    fishingCreatures REAL,
-    fishingActions REAL,
-    slayerZombie REAL NOT NULL,
-    slayerSpider REAL NOT NULL,
-    slayerWolf REAL NOT NULL,
-    slayerEnderman REAL NOT NULL,
-    slayerBlaze REAL NOT NULL,
-    slayerScore REAL GENERATED ALWAYS AS ( 
-        0.06 * slayerZombie 
-      + 0.09 * slayerSpider
-      + 0.3 * slayerWolf
-      + 0.66 * slayerEnderman
-      + 1 * slayerBlaze
-    ) STORED,
-    kuudraBasic REAL NOT NULL,
-    kuudraHot REAL NOT NULL,
-    kuudraBurning REAL NOT NULL,
-    kuudraFiery REAL NOT NULL,
-    kuudraInfernal REAL NOT NULL,
-    kuudraCompletions REAL GENERATED ALWAYS AS (
-      kuudraBasic + kuudraHot + kuudraBurning + kuudraFiery + kuudraInfernal
-    ) STORED,
-    collectionCocoaBean REAL,
-    collectionMelon REAL,
-    collectionPumpkin REAL,
-    collectionSugarCane REAL,
-    collectionMushroom REAL,
-    collectionCactus REAL,
-    collectionNetherWart REAL,
-    collectionPotato REAL,
-    collectionCarrot REAL,
-    collectionWheat REAL,
+    metricId INTEGER NOT NULL,
+    value REAL NOT NULL,
     FOREIGN KEY (profileId) REFERENCES Profiles(id),
-    UNIQUE (profileId, timestamp)
+    PRIMARY KEY (profileId, timestamp, metricId)
   );
 `)
 
-export const insertGuildMembers = (() => {
-  const clearGuildMembers = db.prepare(`UPDATE Players SET inGuild = 0`)
-  const insertGuildMember = db.prepare(`INSERT INTO Players (id, inGuild) VALUES (?, 1) ON CONFLICT (id) DO UPDATE SET inGuild = 1`)
-  return db.transaction((members: string[]) => {
-    clearGuildMembers.run()
-    members.forEach(member => insertGuildMember.run(member))
+export const updateGuildMembers = (() => {
+  const clearGuildMembers = db.prepare(`UPDATE Players SET guildId = NULL WHERE guildId = ?`)
+  const insertGuildMember = db.prepare(`
+    INSERT INTO Players (id, guildId) VALUES (:id, :guildId) 
+    ON CONFLICT (id) DO UPDATE SET guildId = excluded.guildId
+  `)
+  return db.transaction((guildId: string, members: string[]) => {
+    clearGuildMembers.run(guildId)
+    members.forEach(member => insertGuildMember.run({ id: member, guildId: guildId }))
   })
 })()
 
-const getGuildMembers: () => string[] = (() => {
+export const getGuildMembers: () => string[] = (() => {
   const stmt = db.prepare(`SELECT id FROM players WHERE inGuild = 1`)
   return () => stmt.all().map(data => data.id)
 })()
 
-export const setPlayerUsername = (() => {
-  const stmt = db.prepare(`UPDATE Players SET username = :name WHERE id = :playerId`)
-  return (playerId: string, name: string) => stmt.run({ name: name, playerId: playerId })
+export const insertPlayer = (() => {
+  const stmt = db.prepare(`
+  INSERT INTO Players (id, username, inGuild) VALUES (:playerId, :username, 0)
+  ON CONFLICT (id) DO UPDATE SET username = excluded.username`)
+  return (playerId: string, name: string) => stmt.run({ username: name, playerId: playerId })
 })()
 
 export const insertProfileAndMetrics = (() => {
@@ -87,67 +64,22 @@ export const insertProfileAndMetrics = (() => {
     ON CONFLICT (playerId, hypixelProfileId)
     DO UPDATE SET cuteName = excluded.cuteName
   `)
-  const insertMetricStmt = db.prepare(`
-    INSERT INTO Metrics (
+  const insertDataStmt = db.prepare(`
+    INSERT INTO ProfileData (
       profileId,
       timestamp,
-      fishingXp,
-      fishingTrophy,
-      fishingItems,
-      fishingCreatures,
-      fishingActions,
-      slayerZombie,
-      slayerSpider,
-      slayerWolf,
-      slayerEnderman,
-      slayerBlaze,
-      kuudraBasic,
-      kuudraHot,
-      kuudraBurning,
-      kuudraFiery,
-      kuudraInfernal,
-      collectionCocoaBean,
-      collectionMelon,
-      collectionPumpkin,
-      collectionSugarCane,
-      collectionMushroom,
-      collectionCactus,
-      collectionNetherWart,
-      collectionPotato,
-      collectionCarrot,
-      collectionWheat
+      metricId,
+      value
     )
     SELECT 
-      id, 
-      :timestamp, 
-      :fishingXp, 
-      :fishingTrophy, 
-      :fishingItems,
-      :fishingCreatures,
-      :fishingActions,
-      :slayerZombie,
-      :slayerSpider,
-      :slayerWolf,
-      :slayerEnderman,
-      :slayerBlaze,
-      :kuudraBasic,
-      :kuudraHot,
-      :kuudraBurning,
-      :kuudraFiery,
-      :kuudraInfernal,
-      :collectionCocoaBean,
-      :collectionMelon,
-      :collectionPumpkin,
-      :collectionSugarCane,
-      :collectionMushroom,
-      :collectionCactus,
-      :collectionNetherWart,
-      :collectionPotato,
-      :collectionCarrot,
-      :collectionWheat
-    FROM Profiles
-    WHERE playerId = :playerId 
+      Profiles.id,
+      :timestamp,
+      Metrics.id,
+      :value
+    FROM Profiles, Metrics
+    WHERE Profiles.playerId = :playerId 
     AND hypixelProfileId = :hypixelProfileId
+    AND Metrics.name = :metricName
   `)
   return db.transaction((
     profile: Profile,
@@ -158,64 +90,18 @@ export const insertProfileAndMetrics = (() => {
       hypixelProfileId: profile.profileId, 
       cuteName: profile.cuteName
     })
-    insertMetricStmt.run({
-      playerId: profile.playerId,
-      hypixelProfileId: profile.profileId,
-      timestamp: timestamp,
-      ...profile.metrics
+    profile.metrics.forEach(({metric, value}) => {
+      insertDataStmt.run({
+        playerId: profile.playerId,
+        hypixelProfileId: profile.profileId,
+        timestamp: timestamp,
+        metricName: metric,
+        value: value
+      })
     })
   })
 })()
 
-export type EventMetric = "collectionCocoaBean" | "collectionMelon" | "collectionPumpkin" | "collectionSugarCane" | "collectionMushroom" | "collectionCactus" | "collectionNetherWart" | "collectionPotato" | "collectionCarrot" | "collectionWheat"
-export function eventRanking(start: number, end: number, metric: EventMetric) {
-  const stmt = db.prepare(`  
-    WITH EventMetrics AS (
-      SELECT 
-        Profiles.id AS profileId,
-        Profiles.cuteName AS profileName,
-        Profiles.playerId as playerId,
-        MAX(${metric}) - MIN(${metric}) AS eventMetric
-      FROM Metrics
-      INNER JOIN Profiles on profileId = Profiles.id
-      WHERE timestamp >= ${start} AND timestamp <= ${end} 
-      GROUP BY profileId
-      ORDER BY eventMetric DESC
-    )
-    SELECT
-      Players.username,
-      profileName,
-      SUM(eventMetric) AS totalEventMetric,
-      RANK() OVER (ORDER BY SUM(eventMetric) DESC) AS position
-    FROM EventMetrics
-    INNER JOIN Players ON playerId = Players.id
-    WHERE Players.inGuild = 1
-    GROUP BY playerId
-    HAVING totalEventMetric > 0
-    ORDER BY totalEventMetric DESC
-  `)
-  return stmt.all() as EventParticipantData[]
-}
-
-export type EventParticipantData = {
-  username: string,
-  profileName: string,
-  totalEventMetric: number,
-  position: number
-}
-
-export function eventTimeseries(start: number, end: number, metric: EventMetric, username: string) {
-  const stmt = db.prepare(`  
-    SELECT 
-      Metrics.timestamp,
-      SUM(Metrics.${metric}) AS metric
-    FROM Metrics
-    INNER JOIN Profiles ON profileId = Profiles.id
-    INNER JOIN Players ON Players.id = Profiles.playerId
-    WHERE timestamp >= :start AND timestamp <= :end AND Players.username = :name
-    GROUP BY Metrics.timestamp
-    HAVING metric IS NOT NULL
-  `)
-  return stmt.all({ start: start, end: end, name: username } ) as { timestamp: number, metric: number }[]
-}
+const insertMetricStmt = db.prepare(`INSERT OR REPLACE INTO Metrics (name, counter) VALUES (:name, :counter)`)
+metrics.forEach((metric) => insertMetricStmt.run(metric))
 

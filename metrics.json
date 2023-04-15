@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Wheat Collection",
+    "counter": "crops",
+    "path": "collection.WHEAT"
+  },
+  {
+    "name": "Carrot Collection",
+    "counter": "crops",
+    "path": "collection.CARROT_ITEM"
+  },
+  {
+    "name": "Potato Collection",
+    "counter": "crops",
+    "path": "collection.POTATO_ITEM"
+  },
+  {
+    "name": "Pumpkin Collection",
+    "counter": "crops",
+    "path": "collection.PUMPKIN"
+  },
+  {
+    "name": "Sugar Cane Collection",
+    "counter": "crops",
+    "path": "collection.SUGAR_CANE"
+  },
+  {
+    "name": "Melon Collection",
+    "counter": "crops",
+    "path": "collection.MELON"
+  },
+  {
+    "name": "Cactus Collection",
+    "counter": "crops",
+    "path": "collection.CACTUS"
+  },
+  {
+    "name": "Cocoa Bean Collection",
+    "counter": "crops",
+    "path": "collection.INK_SACK:3"
+  },
+  {
+    "name": "Mushroom Collection",
+    "counter": "crops",
+    "path": "collection.MUSHROOM_COLLECTION"
+  },
+  {
+    "name": "Nether Wart Collection",
+    "counter": "crops",
+    "path": "collection.NETHER_STALK"
+  }
+]

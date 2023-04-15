@@ -1,40 +1,14 @@
 import AsyncLock from "async-lock"
 import config from "./config.json" assert { type: "json" }
 import creatures from "./creatures.json" assert { type: "json" }
+import metrics from "./metrics.json" assert { type: "json" } 
 
-export type ProfileMetrics = {
-  fishingXp: number | undefined, 
-  fishingTrophy: number, 
-  fishingItems: number,
-  fishingCreatures: number,
-  fishingActions: number,
-  slayerZombie: number,
-  slayerSpider: number,
-  slayerWolf: number,
-  slayerEnderman: number,
-  slayerBlaze: number,
-  kuudraBasic: number,
-  kuudraHot: number,
-  kuudraBurning: number,
-  kuudraFiery: number,
-  kuudraInfernal: number,
-  collectionCocoaBean: number | undefined,
-  collectionMelon: number | undefined,
-  collectionPumpkin: number | undefined,
-  collectionSugarCane: number | undefined,
-  collectionMushroom: number | undefined,
-  collectionCactus: number | undefined,
-  collectionNetherWart: number | undefined,
-  collectionPotato: number | undefined,
-  collectionCarrot: number | undefined,
-  collectionWheat: number | undefined
-}
 
 export type Profile = {
   playerId: string,
   profileId: string,
   cuteName: string,
-  metrics: ProfileMetrics
+  metrics: {metric: string, value: number | undefined}[]
 }
 
 function sleep(ms: number) {
@@ -46,7 +20,7 @@ function parseIntOrDefault(str: string | null, num: number): number {
 }
 
 const fetchHypixel = (() => {
-  const remainingRequestsAllowable = 30
+  const remainingRequestsAllowable = 20
   let lock = new AsyncLock()
   return async (url: string) => {
     return lock.acquire("hypixel", async () => {
@@ -90,38 +64,10 @@ export async function fetchProfiles(uuid: string): Promise<Profile[]> {
   }) 
 }
 
-function getMetrics(member: any): ProfileMetrics {
-  const stats: { [key: string]: number | undefined } = member?.stats ?? {}
-  const fishingCreatures = creatures.map(creature => ({
-    creature: creature,
-    kills: stats[`kills_${creature}`] ?? 0
-  })).reduce((partialKills, data) => partialKills + data.kills, 0)
-  const fishingItems = member?.stats?.items_fished ?? 0
-  return {
-    fishingXp: member?.experience_skill_fishing,
-    fishingTrophy: member?.trophy_fish?.total_caught ?? 0,
-    fishingItems: fishingItems, 
-    fishingCreatures: fishingCreatures,
-    fishingActions: fishingItems + fishingCreatures,
-    slayerZombie: member?.slayer_bosses?.zombie?.xp ?? 0,
-    slayerSpider: member?.slayer_bosses?.spider?.xp ?? 0,
-    slayerWolf: member?.slayer_bosses?.wolf?.xp ?? 0,
-    slayerEnderman: member?.slayer_bosses?.enderman?.xp ?? 0,
-    slayerBlaze: member?.slayer_bosses?.blaze?.xp ?? 0,
-    kuudraBasic: member?.nether_island_player_data?.kuudra_completed_tiers?.none ?? 0,
-    kuudraHot: member?.nether_island_player_data?.kuudra_completed_tiers?.hot ?? 0,
-    kuudraBurning: member?.nether_island_player_data?.kuudra_completed_tiers?.burning ?? 0,
-    kuudraFiery: member?.nether_island_player_data?.kuudra_completed_tiers?.fiery ?? 0,
-    kuudraInfernal: member?.nether_island_player_data?.kuudra_completed_tiers?.infernal ?? 0,
-    collectionCocoaBean: member?.collection?.["INK_SACK:3"],
-    collectionMelon: member?.collection?.["MELON"],
-    collectionPumpkin: member?.collection?.["PUMPKIN"],
-    collectionSugarCane: member?.collection?.["SUGAR_CANE"],
-    collectionMushroom: member?.collection?.["MUSHROOM_COLLECTION"],
-    collectionCactus: member?.collection?.["CACTUS"],
-    collectionNetherWart: member?.collection?.["NETHER_STALK"],
-    collectionPotato: member?.collection?.["POTATO_ITEM"],
-    collectionCarrot: member?.collection?.["CARROT_ITEM"],
-    collectionWheat: member?.collection?.["WHEAT"]
-  }
+function getMetrics(member: any): {metric: string, value: number}[] {
+  return metrics.map(({name, path}) => ({
+    metric: name,
+    value: path.split(".").reduce((obj, attribute) => obj?.[attribute], member)
+  })).filter(obj => obj.value != null)
 }
+
