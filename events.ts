@@ -6,15 +6,16 @@ async function updateGuild(guildId: string) {
   updateGuildMembers(guildId, uuids)
 }
 
-async function updatePlayersInGuild() {
-  const uuids = getGuildMembers()
+async function updatePlayersInGuild(guildId: string) {
+  const uuids = getGuildMembers(guildId)
   const result = await Promise.allSettled(uuids.map(uuid => updatePlayer(uuid)))
   return successRate(result)
 }
 
-async function updateProfilesInGuild(timestamp: number) {
-  const uuids = getGuildMembers()
+async function updateProfilesInGuild(guildId: string, timestamp: number) {
+  const uuids = getGuildMembers(guildId)
   const result = await Promise.allSettled(uuids.map(uuid => updateProfiles(uuid, timestamp)))
+  console.log(result)
   return successRate(result)
 }
 
@@ -34,3 +35,6 @@ async function successRate<T>(settled: PromiseSettledResult<T>[]) {
     total: settled.length
   }
 }
+
+
+console.log(await updateProfilesInGuild("63d0278d8ea8c999a1004ef9", Date.now()))

@@ -45,14 +45,14 @@ export const updateGuildMembers = (() => {
   })
 })()
 
-export const getGuildMembers: () => string[] = (() => {
-  const stmt = db.prepare(`SELECT id FROM players WHERE inGuild = 1`)
-  return () => stmt.all().map(data => data.id)
+export const getGuildMembers: (guildId: string) => string[] = (() => {
+  const stmt = db.prepare(`SELECT id FROM players WHERE guildId = ?`)
+  return (guildId: string) => stmt.all(guildId).map(data => data.id)
 })()
 
 export const insertPlayer = (() => {
   const stmt = db.prepare(`
-  INSERT INTO Players (id, username, inGuild) VALUES (:playerId, :username, 0)
+  INSERT INTO Players (id, username, guildId) VALUES (:playerId, :username, NULL)
   ON CONFLICT (id) DO UPDATE SET username = excluded.username`)
   return (playerId: string, name: string) => stmt.run({ username: name, playerId: playerId })
 })()

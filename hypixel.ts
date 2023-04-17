@@ -1,8 +1,10 @@
 import AsyncLock from "async-lock"
 import config from "./config.json" assert { type: "json" }
-import creatures from "./creatures.json" assert { type: "json" }
 import metrics from "./metrics.json" assert { type: "json" } 
 
+import axios from 'axios';
+import axiosRetry, { isNetworkOrIdempotentRequestError as isNetworkError } from 'axios-retry';
+import rateLimit from 'axios-rate-limit';
 
 export type Profile = {
   playerId: string,
@@ -19,29 +21,24 @@ function parseIntOrDefault(str: string | null, num: number): number {
   return (str != null) ? (parseInt(str) || num) : num
 }
 
-const fetchHypixel = (() => {
-  const remainingRequestsAllowable = 20
-  let lock = new AsyncLock()
-  return async (url: string) => {
-    return lock.acquire("hypixel", async () => {
-      const response = await fetch(url, { signal: AbortSignal.timeout(3000) })
-      if (response.status == 200) {
-        const ratelimitRemaining = parseIntOrDefault(response.headers.get("ratelimit-remaining"), 0)
-        const ratelimitReset = parseIntOrDefault(response.headers.get("ratelimit-reset"), 60)  
-        if (ratelimitRemaining <= remainingRequestsAllowable) await sleep(ratelimitReset * 1000)
-        return response.json()
-      } else if (response.status == 429) {
-        await sleep(parseIntOrDefault(response.headers.get("retry-after"), 60) * 1000)
-        throw new Error(`Hypixel API returned status ${response.status} with url ${url}`)
-      } else {
-        throw new Error(`Hypixel API returned status ${response.status} with url ${url}`)
-      }
-    })
-  }
-})()
+const retryCount = 3
+
+let client = axios.create({ timeout: 3000, baseURL: "https://api.hypixel.net" })
+rateLimit(client, { maxRequests: 2, perMilliseconds: 1000 })
+axiosRetry(client, { 
+  retries: 10, 
+  shouldResetTimeout: true, 
+  onRetry: (retryCount, error, request) => {
+    console.log(`Retrying (attempt ${retryCount})`)
+  },
+  retryCondition: e => isNetworkError(e) || e.code == "ECONNABORTED",
+  retryDelay: retryCount => retryCount * 1000
+})
+
+
 
 export async function guildMembers(guildId: string) {
-  const response: any = await fetchHypixel(`https://api.hypixel.net/guild?id=${guildId}&key=${config.apiKey}`)
+  const response = (await client.get(`https://api.hypixel.net/guild?id=${guildId}&key=${config.apiKey}`)).data
   return response?.guild?.members.map((member: any) => member.uuid) as Array<string>
 }
 
@@ -52,7 +49,7 @@ export async function fetchName(uuid: string): Promise<string> {
 }
 
 export async function fetchProfiles(uuid: string): Promise<Profile[]> {
-  const profile = await fetchHypixel(`https://api.hypixel.net/skyblock/profiles?uuid=${uuid}&key=${config.apiKey}`)
+  const profile = (await client.get(`https://api.hypixel.net/skyblock/profiles?uuid=${uuid}&key=${config.apiKey}`)).data
   return (profile?.profiles as any[])?.map((profile: any) => {
     const profileMetrics = getMetrics(profile.members[uuid])
     return {
@@ -71,3 +68,4 @@ function getMetrics(member: any): {metric: string, value: number}[] {
   })).filter(obj => obj.value != null)
 }
 
+console.log(await fetchProfiles("b4d88362b4dc4edaa5e152e92d61b543d"))
