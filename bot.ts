@@ -2,8 +2,8 @@ import { Client, EmbedBuilder, AttachmentBuilder, ChannelType, Message, ActionRo
 import { CronJob } from "cron"
 import { generateLeaderboardPlot } from "./chart.js"
 import config from "./config.json" assert { type: "json" }
-import { update } from "./events.js"
-import { EventMetric, EventParticipantData, eventRanking } from "./database.js"
+import { update } from "./Leaderboard.js"
+import { EventMetric, EventParticipantData, eventRanking } from "./Database.js"
 import { getRandomIndex } from "./randomCrop.js"
 
 const formatter = Intl.NumberFormat('en', {

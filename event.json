@@ -1,0 +1,16 @@
+{
+  "name": "Shrimple Farming Event",
+  "intro": "The **{metric}** contest has begun! Good luck to all participants.",
+  "description": "Shrimple is hosting the first farming guild event! The event crop is **{metric}**",
+  "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
+  "icon": "jacob.png",
+  "start": 2139120312,
+  "duration": 86400000,
+  "metrics": [
+    "Wheat Collection",
+    "Sugar Cane Collection",
+    "Potato Collection",
+    "Carrot Collection",
+    "Cocoa Bean Collection"
+  ]
+}

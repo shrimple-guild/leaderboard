@@ -1,6 +1,6 @@
 import { createCanvas } from "canvas"
 import Chart from "chart.js/auto"
-import { EventMetric, EventParticipantData, eventTimeseries } from "./database.js"
+import { EventMetric, EventParticipantData, eventTimeseries } from "./Database.js"
 
 function getColorFromIndex(index: number): string {
   if (index == 0) {
