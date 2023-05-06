@@ -1,5 +1,5 @@
 import Sql from "better-sqlite3"
-import { LeaderboardPosition, Metric, Profile } from "./types"
+import { LeaderboardPosition, Metric, Profile, Timeseries } from "./types"
 
 export class Database {
   private db: Sql.Database
@@ -41,7 +41,7 @@ export class Database {
     this.addMetrics(metrics)
   } 
 
-  getLeaderboard(metric: string, start?: number, end?: number): LeaderboardPosition[] {
+  getLeaderboard(guildId: string, metric: string, start?: number, end?: number): LeaderboardPosition[] {
     const stmt = this.db.prepare(`
       WITH ProfileLeaderboard AS (
         SELECT profileId, MAX(value) - IIF(:start IS NOT NULL, MIN(value), 0) AS profileValue, name AS metric, counter
@@ -59,28 +59,26 @@ export class Database {
         counter
       FROM ProfileLeaderboard
       INNER JOIN Profiles on profileId = Profiles.id
-      INNER JOIN Players on playerId = Players.id
+      INNER JOIN Players on playerId = Players.id AND guildId = :guildId
       GROUP BY playerId
+      HAVING MAX(profileValue) > 0
       ORDER BY MAX(profileValue) DESC
     `)
-    return stmt.all({ metric: metric, start: start, end: end ?? Date.now() })
+    return stmt.all({ metric: metric, start: start, end: end ?? Date.now(), guildId: guildId })
   }
 
-  getMetrics(username: string, cuteName: string) {
+  getTimeseries(username: string, cuteName: string, metric: string, start?: number, end?: number): Timeseries[] {
     const stmt = this.db.prepare(`
       SELECT 
-        name, value, counter
+        timestamp - MIN(timestamp) OVER() AS time, value - MIN(value) OVER() AS value
       FROM ProfileData a
-      INNER JOIN Metrics ON metricId = Metrics.id
+      INNER JOIN Metrics ON metricId = Metrics.id AND name = :metric
       INNER JOIN Players ON playerId = Players.id AND username = :username
       INNER JOIN Profiles ON a.profileId = Profiles.id AND cuteName = :cuteName
-      INNER JOIN (
-        SELECT profileId, MAX(timestamp) timestamp
-        FROM ProfileData
-        GROUP BY profileId
-      ) b ON a.profileId = b.profileId AND a.timestamp = b.timestamp
+      WHERE timestamp >= COALESCE(:start, 0) AND timestamp <= COALESCE(:end, 9223372036854775807)
+      ORDER BY timestamp ASC
     `)
-    return stmt.all({ username: username, cuteName: cuteName })
+    return stmt.all({ username: username, cuteName: cuteName, metric: metric, start: start, end: end })
   }
 
   getGuildMembers(guildId: string): string[] {

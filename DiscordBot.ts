@@ -1,5 +1,6 @@
 import { GuildEvent } from "GuildEvent";
-import { ChannelType, EmbedBuilder, Events, GatewayIntentBits, Message, MessageCreateOptions, MessagePayload } from "discord.js";
+import { generateLeaderboardPlot } from "./chart.js";
+import { AttachmentBuilder, ChannelType, EmbedBuilder, Events, GatewayIntentBits, Message, MessageCreateOptions, MessagePayload } from "discord.js";
 import { Client } from "discord.js";
 
 export class DiscordBot {
@@ -39,6 +40,8 @@ export class DiscordBot {
   async sendLeaderboardEmbed(event: GuildEvent) {
     const leaderboard = event.getLeaderboard()
     if (!leaderboard) return
+    const plot = generateLeaderboardPlot(event, leaderboard)
+    if (!plot) return
     let fields = leaderboard.slice(0, 10).map(({ rank, username, cuteName, value, counter }) => {
       return {
         name: `${rank}. ${username} (${cuteName})`,
@@ -51,11 +54,13 @@ export class DiscordBot {
     
     const embed = new EmbedBuilder()
       .setTitle(event.parse(event.name))
+      .setAuthor({ name: event.author, iconURL: "attachment://icon.png" })
       .setColor("DarkBlue")
-      .setDescription(event.parse(event.description))
+      .setDescription(event.fullDescription)
       .addFields(fields)
+      .setImage("attachment://chart.png")
       .setTimestamp()
-    this.send(event, { embeds: [embed] }, true, false)
+    this.send(event, { embeds: [embed], files: [event.iconAttachment, new AttachmentBuilder(plot, { name: "chart.png" })] }, true, false)
   }
 
   async sendOutroEmbed(event: GuildEvent) {

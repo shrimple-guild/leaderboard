@@ -1,6 +1,7 @@
+import { GuildEvent } from "GuildEvent"
 import { createCanvas } from "canvas"
 import Chart from "chart.js/auto"
-import { EventMetric, EventParticipantData, eventTimeseries } from "./Database.js"
+import { LeaderboardPosition } from "types"
 
 function getColorFromIndex(index: number): string {
   if (index == 0) {
@@ -18,22 +19,16 @@ function getColorFromIndex(index: number): string {
   }
 }
 
-function processedTimeseries(start: number, end: number, metric: EventMetric, username: string) {
-  const rawTimeseries = eventTimeseries(start, end, metric, username)
-  return rawTimeseries.map((obj) => {
+export function generateLeaderboardPlot(event: GuildEvent, leaderboard: LeaderboardPosition[], metric?: string) {
+  const timeseriesMetric = metric ?? event.metric
+  if (timeseriesMetric == undefined) return undefined
+  const plotData = leaderboard.slice(0, 10).map((pos, index) => {
     return {
-      x: (obj.timestamp - rawTimeseries[0].timestamp) / 3600000,
-      y: ((obj.metric ?? 0) - (rawTimeseries[0].metric ?? 0))
-    }
-  })
-}
-
-export function generateLeaderboardPlot(start: number, end: number, metric: EventMetric, eventData: EventParticipantData[]) {
-  let shortResults = eventData
-  const plotData = shortResults.map((data, index) => {
-    return {
-      label: `${data.username}`,
-      data: processedTimeseries(start, end, metric, data.username),
+      label: `${pos.username}`,
+      data: event.getTimeseries(pos.username, pos.cuteName, timeseriesMetric)!.map(a => ({
+        x: a.time / 3_600_000, 
+        y: a.value 
+      })),
       fill: false,
       borderColor: getColorFromIndex(index),
       pointBackgroundColor: getColorFromIndex(index),
@@ -85,8 +80,7 @@ export function generateLeaderboardPlot(start: number, end: number, metric: Even
           point:{
               radius: 0
           }
-      }
-      
+      } 
     }
   })
   return canvas.toBuffer("image/png", {

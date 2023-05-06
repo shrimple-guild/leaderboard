@@ -23,7 +23,7 @@ export type LeaderboardPosition = {
   counter: string
 }
 
-export type Sendable = { 
-  embeds: EmbedBuilder[] | undefined, 
-  files: AttachmentBuilder[] | undefined 
+export type Timeseries = { 
+  time: number, 
+  value: number
 }

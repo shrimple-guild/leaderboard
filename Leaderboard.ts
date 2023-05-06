@@ -36,12 +36,12 @@ export class Leaderboard {
     profiles.map(profile => this.db.setProfile(profile, timestamp))
   }
 
-  getLeaderboard(metric: string, start?: number, end?: number) {
-    return this.db.getLeaderboard(metric, start, end)
+  getLeaderboard(guildId: string, metric: string, start?: number, end?: number) {
+    return this.db.getLeaderboard(guildId, metric, start, end)
   }
   
-  getMetrics(username: string, cuteName: string) {
-    return this.db.getMetrics(username, cuteName)
+  getTimeseries(username: string, cuteName: string, metric: string, start?: number, end?: number) {
+    return this.db.getTimeseries(username, cuteName, metric, start, end)
   }
 
   private successRate<T>(settled: PromiseSettledResult<T>[]) {
