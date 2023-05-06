@@ -2,6 +2,7 @@ import { GuildEvent } from "GuildEvent";
 import { generateLeaderboardPlot } from "./chart.js";
 import { AttachmentBuilder, ChannelType, EmbedBuilder, Events, GatewayIntentBits, Message, MessageCreateOptions, MessagePayload } from "discord.js";
 import { Client } from "discord.js";
+import { LeaderboardPosition } from "types.js";
 
 export class DiscordBot {
   currentMessage?: Message<true>
@@ -51,6 +52,17 @@ export class DiscordBot {
     })
     const blankField = { name: "\u200b", value: "\u200b", inline: true }
     fields = fields.flatMap((value, index) => ((index + 1) % 2) == 0 ? [value, blankField] : value)
+    const continued10 = continueData(10, leaderboard)
+    if (continued10 != null) fields.push(continued10)
+    const continued15 = continueData(15, leaderboard)
+    if (continued15 != null) fields.push(continued15, blankField)
+    if (fields.length == 0) {
+      fields.push({
+        name: "No data",
+        value: "Either there is no event data yet, or the leaderboard broke!",
+        inline: false
+      })
+    }
     
     const embed = new EmbedBuilder()
       .setTitle(event.parse(event.name))
@@ -88,4 +100,19 @@ const formatter = Intl.NumberFormat('en', {
   maximumSignificantDigits: 3,
   minimumSignificantDigits: 1
 })
+
+function continueData(start: number, data: LeaderboardPosition[]) {
+  const continuedData = data.slice(start, start + 5)
+  if (continuedData.length > 0) {
+    return {
+      name: "Continued",
+      value: continuedData.map(({ rank, username, cuteName, value, counter }) => (
+        `**${rank}.** ${username} (${formatter.format(value)})`
+      )).join("\n"),
+      inline: true
+    }
+  } else {
+    return undefined
+  }
+}
 
