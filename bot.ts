@@ -4,7 +4,7 @@ import { generateLeaderboardPlot } from "./chart.js"
 import config from "./config.json" assert { type: "json" }
 import { update } from "./Leaderboard.js"
 import { EventMetric, EventParticipantData, eventRanking } from "./Database.js"
-import { getRandomIndex } from "./randomCrop.js"
+import { getRandomIndex } from "./random.js"
 
 const formatter = Intl.NumberFormat('en', {
   notation: "compact",
@@ -75,13 +75,7 @@ async function fetchChannel() {
 
 async function sendStartEmbed(eventCrop: EventMetric) {
   const channel = await fetchChannel()
-  const embed = new EmbedBuilder()
-    .setTitle("The event has started!")
-    .setColor("DarkBlue")
-    .setDescription(`The event crop is **${eventMetricName(eventCrop)}**. Good luck to all participants!`)
-    .setTimestamp()
-  await channel.send(`<@&${config.guildMemberRole}>`)
-  await channel.send({embeds: [embed]})
+  
 }
 
 async function sendEndEmbed() {

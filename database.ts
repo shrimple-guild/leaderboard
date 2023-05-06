@@ -1,6 +1,5 @@
 import Sql from "better-sqlite3"
-import { Metric, Profile } from "./types"
-
+import { LeaderboardPosition, Metric, Profile } from "./types"
 
 export class Database {
   private db: Sql.Database
@@ -32,6 +31,7 @@ export class Database {
         metricId INTEGER NOT NULL,
         value REAL NOT NULL,
         FOREIGN KEY (profileId) REFERENCES Profiles(id),
+        FOREIGN KEY (metricId) REFERENCES Metrics(id),
         PRIMARY KEY (profileId, timestamp, metricId)
       );
       CREATE INDEX IF NOT EXISTS TimestampIndex ON ProfileData (timestamp);
@@ -41,29 +41,27 @@ export class Database {
     this.addMetrics(metrics)
   } 
 
-  getLeaderboard(metric: string, start?: number, end?: number) {
+  getLeaderboard(metric: string, start?: number, end?: number): LeaderboardPosition[] {
     const stmt = this.db.prepare(`
       WITH ProfileLeaderboard AS (
-        SELECT playerId, profileId, MAX(value) - IIF(:start IS NULL, 0, MIN(value)) AS profileMetric
+        SELECT profileId, MAX(value) - IIF(:start IS NOT NULL, MIN(value), 0) AS profileValue, name AS metric, counter
         FROM ProfileData
-        INNER JOIN Metrics ON metricId = Metrics.id AND Metrics.name = :metric
-        INNER JOIN Profiles ON profileId = Profiles.id
-        WHERE timestamp >= COALESCE(:start, 0) AND timestamp <= :end
+        INNER JOIN Metrics on metricId = Metrics.id
+        WHERE Metrics.name = :metric AND timestamp >= COALESCE(:start, 0) AND timestamp <= :end
         GROUP BY profileId
       )
       SELECT
-        username, cuteName, metric
-      FROM ProfileLeaderboard a
-      INNER JOIN (
-        SELECT profileId, MAX(profileMetric) AS metric
-        FROM ProfileLeaderboard
-        GROUP BY profileId
-      ) b ON a.profileId = b.profileId AND a.profileMetric = b.metric
-      INNER JOIN Players ON a.playerId = Players.id
-      INNER JOIN Profiles ON a.profileId = Profiles.id
-      WHERE metric > 0
-      GROUP BY a.playerId
-      ORDER BY MAX(profileMetric) DESC
+        RANK() OVER (ORDER BY MAX(profileValue) DESC) rank,
+        username,
+        cuteName,
+        MAX(profileValue) AS value,
+        metric, 
+        counter
+      FROM ProfileLeaderboard
+      INNER JOIN Profiles on profileId = Profiles.id
+      INNER JOIN Players on playerId = Players.id
+      GROUP BY playerId
+      ORDER BY MAX(profileValue) DESC
     `)
     return stmt.all({ metric: metric, start: start, end: end ?? Date.now() })
   }
@@ -71,7 +69,7 @@ export class Database {
   getMetrics(username: string, cuteName: string) {
     const stmt = this.db.prepare(`
       SELECT 
-        name, value
+        name, value, counter
       FROM ProfileData a
       INNER JOIN Metrics ON metricId = Metrics.id
       INNER JOIN Players ON playerId = Players.id AND username = :username

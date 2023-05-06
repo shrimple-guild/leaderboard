@@ -1,11 +1,15 @@
 {
-  "name": "Shrimple Farming Event",
+  "discordGuildId": "1063211009348743258",
+  "discordChannelId": "1065380231386501181",
+  "pingRoleId": "1067299969926709278",
+  "guildId": "63d0278d8ea8c999a1004ef9",
+  "name": "Shrimple {metric} Event",
   "intro": "The **{metric}** contest has begun! Good luck to all participants.",
   "description": "Shrimple is hosting the first farming guild event! The event crop is **{metric}**",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
   "icon": "jacob.png",
-  "start": 2139120312,
-  "duration": 86400000,
+  "start": 1683335700000,
+  "duration": 3600000,
   "metrics": [
     "Wheat Collection",
     "Sugar Cane Collection",

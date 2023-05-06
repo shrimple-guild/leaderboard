@@ -1,11 +1,14 @@
 import { Database } from "./Database.js"
 import { API } from "./API.js"
-import { GuildEvent } from "GuildEvent.js"
 
 export class Leaderboard {
   constructor(private api: API, private db: Database) {}
 
-  async getGuildMembers(guildId: string) {
+  getGuildMembers(guildId: string) {
+    return this.db.getGuildMembers(guildId)
+  }
+
+  async fetchGuildMembers(guildId: string) {
     return this.api.fetchGuildMembers(guildId)
   }
 
