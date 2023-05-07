@@ -30,7 +30,8 @@ export class GuildEvent {
   }
 
   async updateGuild() {
-    await this.lb.fetchGuildMembers(this.guildId)
+    const members = await this.lb.fetchGuildMembers(this.guildId)
+    this.lb.updateGuild(this.guildId, members)
   }
 
   async updatePlayers() {
