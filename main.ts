@@ -16,24 +16,37 @@ const discordBot = await DiscordBot.create(config.discordToken, [])
 
 const event = GuildEvent.from(eventConfig, lb)
 
+console.log("Event ready.")
+
 const updateEventJob = new CronJob("0 */15 * * * *", async () => { 
   try {
+    console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
     await event.updateGuild()
+    console.log("Guild updated.")
 
     if (updateTime < event.start) return
     if (!event.metric) await event.fetchMetric()
+    console.log(`Event metric: ${event.metric}`)
   
     await event.updatePlayers()
+    console.log(`Players updated.`)
+
     await event.updateProfiles(updateTime)
-  
+    console.log(`Profiles updated.`)
+
     if (updateTime == event.start) {
       await discordBot.sendIntroEmbed(event)
+      console.log(`Sent start embed.`)
+
     } else {
       await discordBot.sendLeaderboardEmbed(event)
+      console.log(`Sent leaderboard embed.`)
     }
   
     if (updateTime == event.end) {
       await discordBot.sendOutroEmbed(event)
+      console.log(`Sent outro embed; stopping.`)
+
       updateEventJob.stop()
     }
   
