@@ -7,7 +7,7 @@ import { DiscordBot } from "./DiscordBot.js"
 
 import metrics from "./metrics.json" assert { type: "json" }
 import config from "./config.json" assert { type: "json" }
-import eventConfig from "./event.json" assert { type: "json" }
+import eventConfig from "./event_testing.json" assert { type: "json" }
 
 const api = new API(config.apiKey, metrics)
 const database = new Database("./farming.db", metrics)
