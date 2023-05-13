@@ -17,6 +17,7 @@ export class GuildEvent {
   duration!: number
   metrics!: string[]
   metric: string | undefined
+  related: string[] | undefined
   iconAttachment!: AttachmentBuilder
   lb!: Leaderboard
   
@@ -59,7 +60,14 @@ export class GuildEvent {
   }
 
   async fetchMetric() {
-    this.metric = await pickRandom(this.metrics, this.start)
+    if (this.metric == null) {
+      if (this.metrics.length == 1) {
+        this.metric = this.metrics[0]
+      } else {
+        this.metric = await pickRandom(this.metrics, this.start)
+      }
+    }
+    return this.metric
   }
 
   parse(str: string) {

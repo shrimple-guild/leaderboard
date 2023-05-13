@@ -48,5 +48,24 @@
     "name": "Nether Wart Collection",
     "counter": "crops",
     "path": "collection.NETHER_STALK"
+  },
+  {
+    "name": "Fishing XP",
+    "counter": "xp",
+    "path": "experience_skill_fishing"
+  },
+  {
+    "name": "Shark Kills",
+    "counter": "kills"
+  },
+  {
+    "name": "Sea Creature Kills",
+    "counter": "kills",
+    "path": "stats.pet_milestone_sea_creatures_killed"
+  },
+  {
+    "name": "Items Fished",
+    "counter": "items",
+    "path": "stats.items_fished"
   }
 ]

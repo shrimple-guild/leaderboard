@@ -64,7 +64,7 @@ export class Database {
       HAVING MAX(profileValue) > 0
       ORDER BY MAX(profileValue) DESC
     `)
-    return stmt.all({ metric: metric, start: start, end: end ?? Date.now(), guildId: guildId })
+    return stmt.all({ metric: metric, start: start, end: end ?? Date.now(), guildId: guildId }) as LeaderboardPosition[]
   }
 
   getTimeseries(username: string, cuteName: string, metric: string, start?: number, end?: number): Timeseries[] {
@@ -78,12 +78,12 @@ export class Database {
       WHERE timestamp >= COALESCE(:start, 0) AND timestamp <= COALESCE(:end, 9223372036854775807)
       ORDER BY timestamp ASC
     `)
-    return stmt.all({ username: username, cuteName: cuteName, metric: metric, start: start, end: end })
+    return stmt.all({ username: username, cuteName: cuteName, metric: metric, start: start, end: end }) as Timeseries[]
   }
 
   getGuildMembers(guildId: string): string[] {
     const stmt = this.db.prepare(`SELECT id FROM players WHERE guildId = ?`)
-    return stmt.all(guildId).map(data => data.id)
+    return stmt.all(guildId).map((data: any) => data.id)
   }
 
   setGuildMembers(guildId: string, members: string[]) {

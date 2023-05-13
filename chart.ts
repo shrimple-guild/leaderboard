@@ -37,8 +37,8 @@ export function generateLeaderboardPlot(event: GuildEvent, leaderboard: Leaderbo
       showLine: true
     }
   })
-  const canvas = createCanvas(300, 150)
-  const chart = new Chart(canvas.getContext("2d"), {
+  const canvas = createCanvas(300, 150) 
+  const chart = new Chart(canvas.getContext("2d") as any, {
     type: "scatter",
     data: {
       datasets: plotData

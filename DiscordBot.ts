@@ -1,15 +1,35 @@
 import { GuildEvent } from "GuildEvent";
 import { generateLeaderboardPlot } from "./chart.js";
-import { AttachmentBuilder, ChannelType, EmbedBuilder, Events, GatewayIntentBits, Message, MessageCreateOptions, MessagePayload } from "discord.js";
+import { ActionRowBuilder, AttachmentBuilder, ChannelType, EmbedBuilder, Events, GatewayIntentBits, Message, MessageCreateOptions, MessageEditOptions, MessagePayload, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
 import { Client } from "discord.js";
 import { LeaderboardPosition } from "types.js";
 
 export class DiscordBot {
   currentMessage?: Message<true>
 
-  private constructor(private client: Client<true>) {}
+  // TODO: rework event field to allow multiple events per DiscordBot
+  private constructor(private client: Client<true>, event: GuildEvent) {
+    client.on(Events.InteractionCreate, async interaction => {
+      try {
+        if (!interaction.inCachedGuild() || !interaction.isStringSelectMenu()) return
+        if (interaction.customId != "leaderboardSelector") return
+        const metric = interaction.values[0]
+        const data = await this.getLeaderboardEmbed(event, metric)
+        if (!data) return
+        data.embed.setTitle(`${metric} Leaderboard`)
+  
+        await interaction.reply({ 
+          embeds: [data.embed], 
+          files: [event.iconAttachment, new AttachmentBuilder(data.attachment, { name: "chart.png" })],
+          ephemeral: true
+        })
+      } catch (e) {
+        console.error(e)
+      }
+    })
+  }
 
-  static async create(token: string, intents: GatewayIntentBits[]) {
+  static async create(token: string, intents: GatewayIntentBits[], event: GuildEvent) {
     const client = new Client({ intents: intents })
     client.login(token)
     const clientReady: Client<true> = await new Promise((resolve, reject) => {
@@ -19,7 +39,7 @@ export class DiscordBot {
         resolve(client)
       })
     })
-    return new DiscordBot(clientReady)
+    return new DiscordBot(clientReady, event)
   }
 
   async fetchLeaderboardChannel(event: GuildEvent) {
@@ -39,7 +59,40 @@ export class DiscordBot {
   }
 
   async sendLeaderboardEmbed(event: GuildEvent) {
-    const leaderboard = event.getLeaderboard()
+    const data = (await this.getLeaderboardEmbed(event))
+    if (!data) return
+    data.embed.setTitle(event.parse(event.name)).setDescription(event.fullDescription)
+
+    const actionBar = this.getActionBar(event)
+
+    this.send(event, { 
+      embeds: [data.embed], 
+      files: [event.iconAttachment, new AttachmentBuilder(data.attachment, { name: "chart.png" })],
+      components: actionBar
+     }, true, false)
+  }
+
+  async sendOutroEmbed(event: GuildEvent) {
+    const embed = new EmbedBuilder()
+      .setTitle("Event over")
+      .setColor("Red")
+      .setDescription(event.parse(event.outro))
+      .setTimestamp()
+    this.send(event, { embeds: [embed] }, false, true)
+  }
+
+  private async send(event: GuildEvent, message: string | MessagePayload | (MessageEditOptions & MessageCreateOptions), tryEdit: boolean, ping: boolean) {
+    const channel = await this.fetchLeaderboardChannel(event)
+    if (tryEdit && this.currentMessage) {
+      this.currentMessage = await this.currentMessage.edit(message)
+    } else {
+      this.currentMessage = await channel.send(message)
+    }
+    if (ping) await channel.send(`<@&${event.pingRoleId}>`)
+  }
+
+  private async getLeaderboardEmbed(event: GuildEvent, metric?: string) {
+    const leaderboard = event.getLeaderboard(metric)
     if (!leaderboard) return
     const plot = generateLeaderboardPlot(event, leaderboard)
     if (!plot) return
@@ -64,34 +117,30 @@ export class DiscordBot {
       })
     }
     
-    const embed = new EmbedBuilder()
-      .setTitle(event.parse(event.name))
+    return {
+      embed: new EmbedBuilder()
       .setAuthor({ name: event.author, iconURL: "attachment://icon.png" })
       .setColor("DarkBlue")
-      .setDescription(event.fullDescription)
       .addFields(fields)
       .setImage("attachment://chart.png")
-      .setTimestamp()
-    this.send(event, { embeds: [embed], files: [event.iconAttachment, new AttachmentBuilder(plot, { name: "chart.png" })] }, true, false)
-  }
-
-  async sendOutroEmbed(event: GuildEvent) {
-    const embed = new EmbedBuilder()
-      .setTitle("Event over")
-      .setColor("Red")
-      .setDescription(event.parse(event.outro))
-      .setTimestamp()
-    this.send(event, { embeds: [embed] }, false, true)
-  }
-
-  async send(event: GuildEvent, message: string | MessagePayload | MessageCreateOptions, tryEdit: boolean, ping: boolean) {
-    const channel = await this.fetchLeaderboardChannel(event)
-    if (tryEdit && this.currentMessage) {
-      this.currentMessage = await this.currentMessage.edit(message)
-    } else {
-      this.currentMessage = await channel.send(message)
+      .setTimestamp(),
+      attachment: plot
     }
-    if (ping) await channel.send(`<@&${event.pingRoleId}>`)
+  }
+
+  private getActionBar(event: GuildEvent) {
+    const options = event.related?.map(metric => (
+      new StringSelectMenuOptionBuilder()
+        .setLabel(metric)
+        .setValue(metric)
+    ))
+    if (options == null) return undefined
+    return [new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+      new StringSelectMenuBuilder()
+        .setCustomId("leaderboardSelector")
+        .setPlaceholder("View other leaderboards")
+        .addOptions(options)
+    )]
   }
 }
 

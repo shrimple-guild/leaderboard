@@ -1,21 +1,20 @@
 {
-  "discordGuildId": "797687061033123850",
-  "discordChannelId": "1067295306762428516",
+  "discordGuildId": "1063211009348743258",
+  "discordChannelId": "1065380231386501181",
   "pingRoleId": "1067299969926709278",
   "guildId": "63d0278d8ea8c999a1004ef9",
   "name": "Shrimple {metric} Event",
-  "intro": "The **{metric}** contest has begun! Good luck to all participants.",
-  "description": "Shrimple is hosting the first farming guild event! The event crop is **{metric}**. Good luck to all participants!",
+  "intro": "The **{metric}** contest has begun!",
+  "description": "Shrimple is hosting a **{metric}** event for the duration of Marina! Good luck to all participants!",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Jacob",
-  "icon": "jacob.png",
-  "start": 1683478800000,
-  "duration": 86400000,
-  "metrics": [
-    "Wheat Collection",
-    "Sugar Cane Collection",
-    "Potato Collection",
-    "Carrot Collection",
-    "Cocoa Bean Collection"
+  "author": "Marina",
+  "icon": "marina.png",
+  "start": 1683918900000,
+  "duration": 446400000,
+  "metric": "Fishing XP",
+  "related": [
+    "Sea Creature Kills",
+    "Shark Kills",
+    "Items Fished"
   ]
 }

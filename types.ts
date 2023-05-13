@@ -1,10 +1,12 @@
 import { AttachmentBuilder, EmbedBuilder } from "discord.js"
 import metric from "./metrics.json" assert { type: "json" }
 
+export function isNotNull<T>(val: T | null | undefined): val is T { return val != null }
+
 export type Metric = {
   name: string,
   counter: string,
-  path: string
+  path?: string
 }
 
 export type Profile = {

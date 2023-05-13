@@ -12,9 +12,10 @@ import eventConfig from "./event.json" assert { type: "json" }
 const api = new API(config.apiKey, metrics)
 const database = new Database("./farming.db", metrics)
 const lb = new Leaderboard(api, database)
-const discordBot = await DiscordBot.create(config.discordToken, [])
-
 const event = GuildEvent.from(eventConfig, lb)
+const discordBot = await DiscordBot.create(config.discordToken, [], event)
+
+console.log(JSON.stringify(await api.fetchProfiles("59998433ceda41c1b0acffe7d9b33594"), null, 4))
 
 console.log("Event ready.")
 
@@ -25,8 +26,8 @@ const updateEventJob = new CronJob("0 */15 * * * *", async () => {
     console.log("Guild updated.")
 
     if (updateTime < event.start) return
-    if (!event.metric) await event.fetchMetric()
-    console.log(`Event metric: ${event.metric}`)
+    const metric = await event.fetchMetric()
+    console.log(`Event metric: ${metric}`)
   
     await event.updatePlayers()
     console.log(`Players updated.`)

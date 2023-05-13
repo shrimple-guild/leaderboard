@@ -1,7 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
 import axiosRetry, { isNetworkOrIdempotentRequestError as isNetworkError } from 'axios-retry';
 import rateLimit from 'axios-rate-limit';
-import { Metric, Profile } from "./types";
+import creatures from "./creatures.json" assert { type: "json" }
+import { Metric, Profile } from 'types';
 
 export class API {
   client: AxiosInstance
@@ -42,11 +43,30 @@ export class API {
   }
 
   private fetchMetrics(member: any): {metric: string, value: number}[] {
-    return this.metrics.map(({name, path}) => ({
-      metric: name,
-      value: path.split(".").reduce((obj, attribute) => obj?.[attribute], member)
-    })).filter(obj => obj.value != null)
+    return this.metrics.map(metric => ({
+      metric: metric.name,
+      value: getMetric(member, metric)
+    })).filter(obj => obj.value != null) as {metric: string, value: number}[]
   }
+}
+
+function getMetric(member: any, metric: Metric): number | undefined {
+  if (metric.path) {
+    return metric.path.split(".").reduce((obj, attribute) => obj?.[attribute], member)
+  } else if (metric.name == "Shark Kills") {
+    return sumKills(member, creatures.shark)
+  } else if (metric.name == "Water Kills") {
+    const waterMobs = [creatures.shark, creatures.special, creatures.water].flat()
+    return sumKills(member, waterMobs)
+  } else if (metric.name == "Crimson Kills") {
+    return sumKills(member, creatures.crimson)
+  } 
+}
+
+function sumKills(member: any, mobs: string[]) {
+  return mobs.reduce((cum, cur) => (
+    cum + (member?.stats?.[`kills_${cur}`] ?? 0)
+  ), 0)
 }
 
 
