@@ -23,32 +23,32 @@ const updateEventJob = new CronJob("0 */15 * * * *", async () => {
     await event.updateGuild()
     console.log("Guild updated.")
 
-    if (updateTime < event.start) return
-    const metric = await event.fetchMetric()
-    console.log(`Event metric: ${metric}`)
-  
-    await event.updatePlayers()
-    console.log(`Players updated.`)
+    if (updateTime >= event.start) {
+      const metric = await event.fetchMetric()
+      console.log(`Event metric: ${metric}`)
+    
+      await event.updatePlayers()
+      console.log(`Players updated.`)
 
-    await event.updateProfiles(updateTime)
-    console.log(`Profiles updated.`)
+      await event.updateProfiles(updateTime)
+      console.log(`Profiles updated.`)
 
-    if (updateTime == event.start) {
-      await discordBot.sendIntroEmbed(event)
-      console.log(`Sent start embed.`)
+      if (updateTime == event.start) {
+        await discordBot.sendIntroEmbed(event)
+        console.log(`Sent start embed.`)
 
-    } else {
-      await discordBot.sendLeaderboardEmbed(event)
-      console.log(`Sent leaderboard embed.`)
+      } else {
+        await discordBot.sendLeaderboardEmbed(event)
+        console.log(`Sent leaderboard embed.`)
+      }
+    
+      if (updateTime == event.end) {
+        await discordBot.sendOutroEmbed(event)
+        console.log(`Sent outro embed; stopping.`)
+
+        updateEventJob.stop()
+      }
     }
-  
-    if (updateTime == event.end) {
-      await discordBot.sendOutroEmbed(event)
-      console.log(`Sent outro embed; stopping.`)
-
-      updateEventJob.stop()
-    }
-  
     updateTime = updateEventJob.nextDate().toMillis()
   } catch (e) {
     console.error(e)
