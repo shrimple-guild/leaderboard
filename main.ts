@@ -7,15 +7,13 @@ import { DiscordBot } from "./DiscordBot.js"
 
 import metrics from "./metrics.json" assert { type: "json" }
 import config from "./config.json" assert { type: "json" }
-import eventConfig from "./event_testing.json" assert { type: "json" }
+import eventConfig from "./event.json" assert { type: "json" }
 
 const api = new API(config.apiKey, metrics)
 const database = new Database("./farming.db", metrics)
 const lb = new Leaderboard(api, database)
 const event = GuildEvent.from(eventConfig, lb)
 const discordBot = await DiscordBot.create(config.discordToken, [], event)
-
-console.log(JSON.stringify(await api.fetchProfiles("59998433ceda41c1b0acffe7d9b33594"), null, 4))
 
 console.log("Event ready.")
 

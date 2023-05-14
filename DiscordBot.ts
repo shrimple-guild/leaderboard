@@ -94,7 +94,7 @@ export class DiscordBot {
   private async getLeaderboardEmbed(event: GuildEvent, metric?: string) {
     const leaderboard = event.getLeaderboard(metric)
     if (!leaderboard) return
-    const plot = generateLeaderboardPlot(event, leaderboard)
+    const plot = generateLeaderboardPlot(event, leaderboard, metric)
     if (!plot) return
     let fields = leaderboard.slice(0, 10).map(({ rank, username, cuteName, value, counter }) => {
       return {
