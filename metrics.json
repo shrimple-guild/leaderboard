@@ -67,5 +67,84 @@
     "name": "Items Fished",
     "counter": "items",
     "path": "stats.items_fished"
+  },
+  {
+    "name": "Entrance Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.0"
+  },
+  {
+    "name": "F1 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.1"
+  },
+  {
+    "name": "F2 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.2"
+  },
+  {
+    "name": "F3 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.3"
+  },
+  {
+    "name": "F4 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.4"
+  },
+  {
+    "name": "F5 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.5"
+  },
+  {
+    "name": "F6 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.6"
+  },
+  {
+    "name": "F7 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.7"
+  },
+  {
+    "name": "M1 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.1"
+  },
+  {
+    "name": "M2 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.2"
+  },
+  {
+    "name": "M3 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.3"
+  },
+  {
+    "name": "M4 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.4"
+  },
+  {
+    "name": "M5 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.5"
+  },
+  {
+    "name": "M6 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.6"
+  },
+  {
+    "name": "M7 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.7"
+  },
+  {
+    "name": "Dungeon Completions",
+    "counter": "completions"
   }
 ]

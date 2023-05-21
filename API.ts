@@ -29,7 +29,7 @@ export class API {
       const profileMetrics = this.fetchMetrics(profile.members[uuid])
       return {
         playerId: uuid,
-        profileId: profile.profile_id,
+        profileId: profile.profile_id.replaceAll("-", ""),
         cuteName: profile.cute_name,
         metrics: profileMetrics
       }
@@ -60,7 +60,11 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return sumKills(member, waterMobs)
   } else if (metric.name == "Crimson Kills") {
     return sumKills(member, creatures.crimson)
-  } 
+  } else if (metric.name == "Dungeon Completions") {
+    const normalCompletions: any[] = Object.values(member.dungeons?.dungeon_types?.catacombs?.tier_completions ?? {})
+    const masterCompletions: any[] = Object.values(member.dungeons?.dungeon_types?.master_catacombs?.tier_completions ?? {})
+    return [...normalCompletions, ...masterCompletions].reduce((cum, cur) => cum + cur, 0)
+  }
 }
 
 function sumKills(member: any, mobs: string[]) {
@@ -68,6 +72,7 @@ function sumKills(member: any, mobs: string[]) {
     cum + (member?.stats?.[`kills_${cur}`] ?? 0)
   ), 0)
 }
+
 
 
 
