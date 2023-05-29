@@ -76,7 +76,6 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return (member.mining_core?.powder_gemstone ?? 0) + (member.mining_core?.powder_gemstone_spent ?? 0)
   } else if (metric.name == "Linc Weight") {
     return (member.experience_skill_fishing ?? 0) * 0.2
-      + (member.experience_skill_fishing ?? 0) * 0.2
       + (member.experience_skill_mining ?? 0) * 0.18
       + (member.experience_skill_foraging ?? 0) * 1.33
       + (member.experience_skill_farming ?? 0) 
