@@ -55,6 +55,31 @@
     "path": "experience_skill_fishing"
   },
   {
+    "name": "Mining XP",
+    "counter": "xp",
+    "path": "experience_skill_mining"
+  },
+  {
+    "name": "Foraging XP",
+    "counter": "xp",
+    "path": "experience_skill_foraging"
+  },
+  {
+    "name": "Farming XP",
+    "counter": "xp",
+    "path": "experience_skill_farming"
+  },
+  {
+    "name": "Carpentry XP",
+    "counter": "xp",
+    "path": "experience_skill_carpentry"
+  },
+  {
+    "name": "Enchanting XP",
+    "counter": "xp",
+    "path": "experience_skill_enchanting"
+  },
+  {
     "name": "Shark Kills",
     "counter": "kills"
   },
@@ -146,5 +171,56 @@
   {
     "name": "Dungeon Completions",
     "counter": "completions"
+  },
+  {
+    "name": "Zombie XP",
+    "counter": "xp",
+    "path": "slayer_bosses.zombie.xp"
+  },
+  {
+    "name": "Spider XP",
+    "counter": "xp",
+    "path": "slayer_bosses.spider.xp"
+  },
+  {
+    "name": "Wolf XP",
+    "counter": "xp",
+    "path": "slayer_bosses.wolf.xp"
+  },
+  {
+    "name": "Enderman XP",
+    "counter": "xp",
+    "path": "slayer_bosses.enderman.xp"
+  },
+  {
+    "name": "Blaze XP",
+    "counter": "xp",
+    "path": "slayer_bosses.blaze.xp"
+  },
+  {
+    "name": "Slayer Weight",
+    "counter": "weight"
+  },
+  {
+    "name": "Mithril Powder",
+    "counter": "powder"
+  },
+  {
+    "name": "Gemstone Powder",
+    "counter": "powder"
+  },
+  {
+    "name": "Mythos Kills",
+    "counter": "kills",
+    "path": "stats.mythos_kills"
+  },
+  {
+    "name": "Skyblock Experience",
+    "counter": "xp",
+    "path": "leveling.experience"
+  },
+  {
+    "name": "Linc Weight",
+    "counter": "weight"
   }
 ]

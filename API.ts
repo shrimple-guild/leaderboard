@@ -64,6 +64,47 @@ function getMetric(member: any, metric: Metric): number | undefined {
     const normalCompletions: any[] = Object.values(member.dungeons?.dungeon_types?.catacombs?.tier_completions ?? {})
     const masterCompletions: any[] = Object.values(member.dungeons?.dungeon_types?.master_catacombs?.tier_completions ?? {})
     return [...normalCompletions, ...masterCompletions].reduce((cum, cur) => cum + cur, 0)
+  } else if (metric.name == "Slayer Weight") {
+    return (member.slayer_bosses?.zombie?.xp ?? 0) * 0.06 
+      + (member.slayer_bosses?.spider?.xp ?? 0) * 0.09 
+      + (member.slayer_bosses?.wolf?.xp ?? 0) * 0.30
+      + (member.slayer_bosses?.enderman?.xp ?? 0) * 0.33
+      + (member.slayer_bosses?.blaze?.xp ?? 0)
+  } else if (metric.name == "Mithril Powder") {
+    return (member.mining_core?.powder_mithril ?? 0) + (member.mining_core?.powder_mithril_spent ?? 0)
+  } else if (metric.name == "Gemstone Powder") {
+    return (member.mining_core?.powder_gemstone ?? 0) + (member.mining_core?.powder_gemstone_spent ?? 0)
+  } else if (metric.name == "Linc Weight") {
+    return (member.experience_skill_fishing ?? 0) * 0.2
+      + (member.experience_skill_fishing ?? 0) * 0.2
+      + (member.experience_skill_mining ?? 0) * 0.18
+      + (member.experience_skill_foraging ?? 0) * 1.33
+      + (member.experience_skill_farming ?? 0) 
+      + (member.experience_skill_enchanting ?? 0) * 0.01
+      + (member.experience_skill_carpentry ?? 0) * 0.01
+      + (member.slayer_bosses?.zombie?.xp ?? 0) * 3.12
+      + (member.slayer_bosses?.spider?.xp ?? 0) * 4.88
+      + (member.slayer_bosses?.wolf?.xp ?? 0) * 16.13
+      + (member.slayer_bosses?.enderman?.xp ?? 0) * 18.18
+      + (member.slayer_bosses?.blaze?.xp ?? 0) * 52.63
+      + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 25000
+      + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 25000
+      + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) * 25000
+      + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 42000
+      + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) * 33000
+      + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 50000
+      + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 143000
+      + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 33000
+      + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 33000
+      + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 42000
+      + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 50000
+      + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 42000
+      + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 59000
+      + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 125000
+      + (member.stats.mythos_kills ?? 0) * 3650
+      + ((member.mining_core?.powder_mithril ?? 0) + (member.mining_core?.powder_mithril_spent ?? 0)) * 2.94
+      + ((member.mining_core?.powder_gemstone ?? 0) + (member.mining_core?.powder_gemstone_spent ?? 0)) * 2.56
+      + (member.leveling?.experience ?? 0) * 4000
   }
 }
 
