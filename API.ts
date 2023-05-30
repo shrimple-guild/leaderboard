@@ -71,12 +71,12 @@ function getMetric(member: any, metric: Metric): number | undefined {
       + (member.slayer_bosses?.enderman?.xp ?? 0) * 0.33
       + (member.slayer_bosses?.blaze?.xp ?? 0)
   } else if (metric.name == "Mithril Powder") {
-    return (member.mining_core?.powder_mithril ?? 0) + (member.mining_core?.powder_mithril_spent ?? 0)
+    return (member.mining_core?.powder_mithril ?? 0) + (member.mining_core?.powder_spent_mithril ?? 0)
   } else if (metric.name == "Gemstone Powder") {
-    return (member.mining_core?.powder_gemstone ?? 0) + (member.mining_core?.powder_gemstone_spent ?? 0)
+    return (member.mining_core?.powder_gemstone ?? 0) + (member.mining_core?.powder_spent_gemstone ?? 0)
   } else if (metric.name == "Linc Weight") {
     return (member.experience_skill_fishing ?? 0) * 0.2
-      + (member.experience_skill_mining ?? 0) * 0.18
+      + (member.experience_skill_mining ?? 0) * 0.2
       + (member.experience_skill_foraging ?? 0) * 1.33
       + (member.experience_skill_farming ?? 0) 
       + (member.experience_skill_enchanting ?? 0) * 0.01
@@ -101,9 +101,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
       + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 59000
       + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 125000
       + (member.stats.mythos_kills ?? 0) * 3650
-      + ((member.mining_core?.powder_mithril ?? 0) + (member.mining_core?.powder_mithril_spent ?? 0)) * 2.94
-      + ((member.mining_core?.powder_gemstone ?? 0) + (member.mining_core?.powder_gemstone_spent ?? 0)) * 2.56
-      + (member.leveling?.experience ?? 0) * 4000
+      + (member.leveling?.experience ?? 0) * 1000
   }
 }
 
