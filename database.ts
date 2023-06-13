@@ -70,7 +70,7 @@ export class Database {
   getTimeseries(username: string, cuteName: string, metric: string, start?: number, end?: number): Timeseries[] {
     const stmt = this.db.prepare(`
       SELECT 
-        timestamp - MIN(timestamp) OVER() AS time, value - MIN(value) OVER() AS value
+        timestamp - :start AS time, value - MIN(value) OVER() AS value
       FROM ProfileData a
       INNER JOIN Metrics ON metricId = Metrics.id AND name = :metric
       INNER JOIN Players ON playerId = Players.id AND username = :username

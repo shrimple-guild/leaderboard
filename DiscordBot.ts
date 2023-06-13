@@ -134,7 +134,7 @@ export class DiscordBot {
         .setLabel(metric)
         .setValue(metric)
     ))
-    if (options == null) return undefined
+    if (options == null || options.length == 0) return undefined
     return [new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId("leaderboardSelector")

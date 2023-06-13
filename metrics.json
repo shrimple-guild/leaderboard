@@ -222,5 +222,9 @@
   {
     "name": "Linc Weight",
     "counter": "weight"
+  },
+  {
+    "name": "Powder Score",
+    "counter": "powder"
   }
 ]

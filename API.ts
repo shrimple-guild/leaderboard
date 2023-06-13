@@ -92,7 +92,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
       + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 42000
       + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) * 33000
       + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 50000
-      + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 143000
+      + (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 110000
       + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 33000
       + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 33000
       + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 42000
@@ -102,7 +102,12 @@ function getMetric(member: any, metric: Metric): number | undefined {
       + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 125000
       + (member.stats.mythos_kills ?? 0) * 3650
       + (member.leveling?.experience ?? 0) * 1000
-  }
+  } else if (metric.name == "Powder Score") {
+    return (member.mining_core?.powder_mithril ?? 0) * 1.15
+      + (member.mining_core?.powder_spent_mithril ?? 0) * 1.15
+      + (member.mining_core?.powder_gemstone ?? 0) 
+      + (member.mining_core?.powder_spent_gemstone ?? 0)
+  } 
 }
 
 function sumKills(member: any, mobs: string[]) {

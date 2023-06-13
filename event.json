@@ -3,21 +3,14 @@
   "discordChannelId": "1067295306762428516",
   "pingRoleId": "1067299969926709278",
   "guildId": "63d0278d8ea8c999a1004ef9",
-  "name": "Shrimple Mega Jerry Event",
+  "name": "Shrimple Foraging Event",
   "intro": "The **{metric}** contest has begun!",
-  "description": "Shrimple is hosting a **{metric}** event for the duration of Jerry! Good luck to all participants!",
+  "description": "Shrimple is hosting a **{metric}** event for 24 hours! Good luck to all participants!",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Jerry",
-  "icon": "jerry.png",
-  "start": 1685373300000,
-  "duration": 446400000,
-  "metric": "Linc Weight",
-  "related": [
-    "Skyblock Experience",
-    "Foraging XP",
-    "Farming XP",
-    "Mining XP",
-    "Enchanting XP",
-    "Carpentry XP"
-  ]
+  "author": "Vanessa",
+  "icon": "vanessa.png",
+  "start": 1686456000000,
+  "duration": 86400000,
+  "metric": "Foraging XP",
+  "related": []
 }
