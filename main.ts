@@ -10,7 +10,7 @@ import config from "./config.json" assert { type: "json" }
 import eventConfig from "./event.json" assert { type: "json" }
 
 const api = new API(config.apiKey, metrics)
-const database = new Database("./farming.db", metrics)
+const database = new Database("./main.db", metrics)
 const lb = new Leaderboard(api, database)
 const event = GuildEvent.from(eventConfig, lb)
 const discordBot = await DiscordBot.create(config.discordToken, [], event)

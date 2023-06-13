@@ -7,10 +7,16 @@
   "intro": "The **{metric}** contest has begun!",
   "description": "Shrimple is hosting a **{metric}** event for 24 hours! Good luck to all participants!",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Vanessa",
-  "icon": "vanessa.png",
-  "start": 1686456000000,
-  "duration": 86400000,
-  "metric": "Foraging XP",
-  "related": []
+  "author": "Marina",
+  "icon": "marina.png",
+  "start": 1686712500000,
+  "duration": 446400000,
+  "metric": "Fishing Actions",
+  "related": [
+    "Fishing XP",
+    "Sea Creature Kills",
+    "Shark Kills",
+    "Items Fished",
+    "Foraging XP"
+  ]
 }

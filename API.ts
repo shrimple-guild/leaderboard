@@ -100,14 +100,16 @@ function getMetric(member: any, metric: Metric): number | undefined {
       + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 42000
       + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 59000
       + (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 125000
-      + (member.stats.mythos_kills ?? 0) * 3650
+      + (member.stats?.mythos_kills ?? 0) * 3650
       + (member.leveling?.experience ?? 0) * 1000
   } else if (metric.name == "Powder Score") {
     return (member.mining_core?.powder_mithril ?? 0) * 1.15
       + (member.mining_core?.powder_spent_mithril ?? 0) * 1.15
       + (member.mining_core?.powder_gemstone ?? 0) 
       + (member.mining_core?.powder_spent_gemstone ?? 0)
-  } 
+  } else if (metric.name == "Fishing Actions") {
+    return (member.stats?.pet_milestone_sea_creatures_killed ?? 0) + (member.stats?.items_fished ?? 0)
+  }
 }
 
 function sumKills(member: any, mobs: string[]) {
