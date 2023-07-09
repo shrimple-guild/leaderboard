@@ -19,10 +19,12 @@ console.log("Event ready.")
 const updateEventJob = new CronJob("0 */15 * * * *", async () => { 
   try {
     console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
-    await event.updateGuild()
-    console.log("Guild updated.")
+    
 
     if (updateTime >= event.start) {
+      await event.updateGuild()
+      console.log("Guild updated.")
+
       const metric = await event.fetchMetric()
       console.log(`Event metric: ${metric}`)
     
@@ -47,6 +49,8 @@ const updateEventJob = new CronJob("0 */15 * * * *", async () => {
 
         updateEventJob.stop()
       }
+    } else {
+      console.log(`Skipping because the event hasn't started yet!`)
     }
     updateTime = updateEventJob.nextDate().toMillis()
   } catch (e) {
