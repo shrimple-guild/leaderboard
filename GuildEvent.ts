@@ -70,6 +70,13 @@ export class GuildEvent {
     return this.metric
   }
 
+  getPlayerMetrics(username: string) {
+    if (!this.metric) return undefined
+    const metrics = this.lb.getPlayerMetrics(username, this.metric, this.start, this.end)
+    const eventMetrics = [this.metric, ...this.metrics]
+    return metrics.filter(metric => eventMetrics.includes(metric.name))
+  }
+
   parse(str: string) {
     return str.replaceAll("{metric}", this.metric ?? "unknown")
   }

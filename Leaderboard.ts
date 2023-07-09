@@ -44,6 +44,10 @@ export class Leaderboard {
     return this.db.getTimeseries(username, cuteName, metric, start, end)
   }
 
+  getPlayerMetrics(username: string, metric: string, start: number, end: number) {
+    return this.db.getPlayerMetrics(username, metric, start, end)
+  }
+
   private successRate<T>(settled: PromiseSettledResult<T>[]) {
     return {
       fulfilled: settled.filter(value => value.status == "fulfilled").length,

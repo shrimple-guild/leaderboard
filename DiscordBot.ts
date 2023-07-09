@@ -1,6 +1,6 @@
 import { GuildEvent } from "GuildEvent";
 import { generateLeaderboardPlot } from "./chart.js";
-import { ActionRowBuilder, AttachmentBuilder, ChannelType, EmbedBuilder, Events, GatewayIntentBits, Message, MessageCreateOptions, MessageEditOptions, MessagePayload, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
+import { APIActionRowComponent, APIMessageActionRowComponent, ActionRowBuilder, AttachmentBuilder, ButtonBuilder, ButtonStyle, ChannelType, ComponentType, Embed, EmbedBuilder, Events, GatewayIntentBits, Message, MessageActionRowComponent, MessageCreateOptions, MessageEditOptions, MessagePayload, ModalAssertions, ModalBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextInputBuilder } from "discord.js";
 import { Client } from "discord.js";
 import { LeaderboardPosition } from "types.js";
 
@@ -21,6 +21,35 @@ export class DiscordBot {
         await interaction.reply({ 
           embeds: [data.embed], 
           files: [event.iconAttachment, new AttachmentBuilder(data.attachment, { name: "chart.png" })],
+          ephemeral: true
+        })
+      } catch (e) {
+        console.error(e)
+      }
+    })
+    client.on(Events.InteractionCreate, async interaction => {
+      try {
+        if (!interaction.inCachedGuild() || !interaction.isButton()) return
+        if (interaction.customId != "usernameModalButton") return
+
+        const modal = new ModalBuilder()
+        .setCustomId('usernameModal')
+        .setTitle('Enter username')
+        .addComponents([
+          new ActionRowBuilder<TextInputBuilder>().addComponents(new TextInputBuilder()
+            .setCustomId("usernameInput")
+            .setLabel("Input the username to view metrics")
+            .setPlaceholder("Milo77")
+            .setRequired(true)
+          )
+        ])
+        await interaction.showModal(modal)
+        const modalResponse = await interaction.awaitModalSubmit({ time: 60_000 })
+        const row = modalResponse.components[0]
+        const input = row.components[0]
+        if (input.type != ComponentType.TextInput) return
+        modalResponse.reply({
+          embeds: [await this.getMetricEmbed(input.value, event)],
           ephemeral: true
         })
       } catch (e) {
@@ -56,6 +85,25 @@ export class DiscordBot {
       .setDescription(event.parse(event.intro))
       .setTimestamp()
     this.send(event, { embeds: [embed] }, false, true)
+  }
+  
+  async getMetricEmbed(username: string, event: GuildEvent) {
+    const metrics = event.getPlayerMetrics(username)
+    
+    const embed = new EmbedBuilder()
+      .setTitle(`Event metrics for ${username}`)
+      .setColor("DarkBlue")
+
+    if (!metrics || metrics.length == 0) {
+      embed.setDescription("Could not find any metrics for this player!")
+    } else {
+      embed.setFields(metrics.map(metric => ({
+        name: metric.name,
+        value: formatter.format(metric.gain),
+        inline: true
+      })))
+    }
+    return embed
   }
 
   async sendLeaderboardEmbed(event: GuildEvent) {
@@ -129,18 +177,27 @@ export class DiscordBot {
   }
 
   private getActionBar(event: GuildEvent) {
+    const rows: ActionRowBuilder<StringSelectMenuBuilder | ButtonBuilder>[] = []
     const options = event.related?.map(metric => (
       new StringSelectMenuOptionBuilder()
         .setLabel(metric)
         .setValue(metric)
     ))
-    if (options == null || options.length == 0) return undefined
-    return [new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-      new StringSelectMenuBuilder()
-        .setCustomId("leaderboardSelector")
-        .setPlaceholder("View other leaderboards")
-        .addOptions(options)
-    )]
+    if (options != null && options.length >= 1) {
+      rows.push(new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+        new StringSelectMenuBuilder()
+          .setCustomId("leaderboardSelector")
+          .setPlaceholder("View other leaderboards")
+          .addOptions(options)
+      ))
+    }
+    rows.push(new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId("usernameModalButton")
+        .setLabel("Select a player")
+        .setStyle(ButtonStyle.Primary)
+    ))
+    return rows
   }
 }
 

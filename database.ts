@@ -106,6 +106,47 @@ export class Database {
     stmt.run({ username: name, playerId: uuid })
   }
 
+  getPlayerMetrics(username: string, eventMetric: string, start: number, end: number) {
+    return this.db.prepare(`
+      WITH Temp AS (
+        SELECT DISTINCT
+        Profiles.cuteName,
+        Metrics.name,
+        FIRST_VALUE(ProfileData.value) OVER (
+          PARTITION BY Profiles.id, Metrics.id 
+          ORDER BY ProfileData.timestamp DESC 
+        ) - FIRST_VALUE(ProfileData.value) OVER (
+          PARTITION BY Profiles.id, Metrics.id 
+          ORDER BY ProfileData.timestamp ASC
+        ) AS gain
+        FROM Players
+        JOIN Profiles ON Profiles.playerId = Players.id
+        JOIN ProfileData ON ProfileData.profileId = Profiles.id
+        JOIN Metrics ON Metrics.id = ProfileData.metricId
+        WHERE Players.username = @playerName
+        AND ProfileData.timestamp >= @startTime
+        AND ProfileData.timestamp <= @endTime
+        AND ProfileData.value IS NOT NULL
+      )
+      SELECT
+        name,
+        gain
+      FROM Temp
+      WHERE cuteName = (
+        SELECT cuteName
+        FROM Temp
+        WHERE name = @eventMetric
+        ORDER BY gain DESC
+        LIMIT 1
+      )
+    `).all({
+      playerName: username,
+      eventMetric: eventMetric,
+      startTime: start,
+      endTime: end
+    }) as { name: string, gain: number }[]
+  }
+
   setProfile(profile: Profile, timestamp: number) {
     const insertProfileStmt = this.db.prepare(`
       INSERT INTO Profiles (playerId, hypixelProfileId, cuteName)
