@@ -109,6 +109,8 @@ function getMetric(member: any, metric: Metric): number | undefined {
       + (member.mining_core?.powder_spent_gemstone ?? 0)
   } else if (metric.name == "Fishing Actions") {
     return (member.stats?.pet_milestone_sea_creatures_killed ?? 0) + (member.stats?.items_fished ?? 0)
+  } else if (metric.name == "Trophy Fish Weight") {
+    return trophyFishWeight(member.trophy_fish)
   }
 }
 
@@ -118,12 +120,50 @@ function sumKills(member: any, mobs: string[]) {
   ), 0)
 }
 
+const trophyFishBase: Record<string, number> = {
+  golden_fish: 400,
+  karate_fish: 160,
+  soul_fish: 80,
+  moldfin: 80,
+  skeleton_fish: 80,
+  vanille: 80,
+  volcanic_stonefish: 24,
+  mana_ray: 40,
+  lava_horse: 32,
+  flyfish: 12,
+  slugfish: 250,
+  obfuscated_fish_3: 40,
+  blobfish: 8,
+  obfuscated_fish_2: 22,
+  gusher: 8,
+  obfuscated_fish_1: 64,
+  steaming_hot_flounder: 4,
+  sulphur_skitter: 2
+}
 
+const trophyFishMultipliers: Record<string, number> = {
+  bronze: 1,
+  silver: 2.5,
+  gold: 25,
+  diamond: 100
+}
 
+const trophyFishWeights: Record<string, number> = {}
 
+for (const baseKey in trophyFishBase) {
+  for (const multiplierKey in trophyFishMultipliers) {
+    const concatenatedKey = `${baseKey}_${multiplierKey}`;
+    const baseValue = trophyFishBase[baseKey];
+    const multiplierValue = trophyFishMultipliers[multiplierKey];
+    trophyFishWeights[concatenatedKey] = baseValue * multiplierValue;
+  }
+}
 
-
-
-
+function trophyFishWeight(trophyFish: Record<string, number | undefined>): number {
+  const weights = Object.entries(trophyFishWeights).map(([fish, weight]) => (
+    (trophyFish[fish] ?? 0) * weight
+  ))
+  return weights.reduce((prev, cur) => prev + cur, 0)
+}
 
 
