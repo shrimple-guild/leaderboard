@@ -161,7 +161,7 @@ for (const baseKey in trophyFishBase) {
 
 function trophyFishWeight(trophyFish: Record<string, number | undefined>): number {
   const weights = Object.entries(trophyFishWeights).map(([fish, weight]) => (
-    (trophyFish[fish] ?? 0) * weight
+    (trophyFish?.[fish] ?? 0) * weight
   ))
   return weights.reduce((prev, cur) => prev + cur, 0)
 }

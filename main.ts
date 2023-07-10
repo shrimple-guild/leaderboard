@@ -20,7 +20,6 @@ const updateEventJob = new CronJob("0 */15 * * * *", async () => {
   try {
     console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
     
-
     if (updateTime >= event.start) {
       await event.updateGuild()
       console.log("Guild updated.")
