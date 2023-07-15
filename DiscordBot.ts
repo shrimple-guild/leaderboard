@@ -13,15 +13,15 @@ export class DiscordBot {
       try {
         if (!interaction.inCachedGuild() || !interaction.isStringSelectMenu()) return
         if (interaction.customId != "leaderboardSelector") return
+        await interaction.deferReply({ ephemeral: true })
         const metric = interaction.values[0]
         const data = await this.getLeaderboardEmbed(event, metric)
         if (!data) return
         data.embed.setTitle(`${metric} Leaderboard`)
   
-        await interaction.reply({ 
+        await interaction.editReply({ 
           embeds: [data.embed], 
-          files: [event.iconAttachment, new AttachmentBuilder(data.attachment, { name: "chart.png" })],
-          ephemeral: true
+          files: [event.iconAttachment, new AttachmentBuilder(data.attachment, { name: "chart.png" })]
         })
       } catch (e) {
         console.error(e)

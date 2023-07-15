@@ -25,6 +25,7 @@ type Row = {
   timestamp: number,
   sharkKills: number
 }
+
 const res = db.prepare(`
   SELECT 
   username,

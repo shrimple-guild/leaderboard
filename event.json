@@ -11,7 +11,7 @@
   "icon": "marina.png",
   "start": 1689390900000,
   "duration": 446400000,
-  "metric": "Fishing Weight",
+  "metric": "Marina Fishing Weight",
   "related": [
       "Shark Kills",
       "Fishing XP",
