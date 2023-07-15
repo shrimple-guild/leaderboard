@@ -111,6 +111,8 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return (member.stats?.pet_milestone_sea_creatures_killed ?? 0) + (member.stats?.items_fished ?? 0)
   } else if (metric.name == "Trophy Fish Weight") {
     return trophyFishWeight(member.trophy_fish)
+  } else if (metric.name == "Marina Fishing Weight") {
+    return sumKills(member, creatures.shark) * 10_000 + (member.experience_skill_fishing ?? 0)
   }
 }
 
