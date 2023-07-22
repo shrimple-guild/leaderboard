@@ -3,18 +3,18 @@
   "discordChannelId": "1067295306762428516",
   "pingRoleId": "1067299969926709278",
   "guildId": "63d0278d8ea8c999a1004ef9",
-  "name": "Marina Weighted Fishing Event",
+  "name": "Weekly Powder Event",
   "intro": "The **{metric}** contest has begun!",
-  "description": "Shrimple is hosting a major **{metric}** event for the duration of Marina! Good luck to all participants!",
+  "description": "Shrimple is hosting a major **{metric}** event for 24 hours! Good luck to all participants!",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Marina",
-  "icon": "marina.png",
-  "start": 1689390900000,
-  "duration": 446400000,
-  "metric": "Marina Fishing Weight",
+  "author": "Cole",
+  "icon": "cole.png",
+  "start": 1690084800000,
+  "duration": 86400000,
+  "metric": "Powder Score",
   "related": [
-      "Shark Kills",
-      "Fishing XP",
-      "Fishing Actions"
+    "Mithril Powder",
+    "Gemstone Powder",
+    "Mining XP"
   ]
 }

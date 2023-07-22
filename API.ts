@@ -51,6 +51,16 @@ export class API {
 }
 
 function getMetric(member: any, metric: Metric): number | undefined {
+  const mining = member.mining_core
+
+  const totalMithril = (mining?.powder_mithril ?? 0) 
+    + (mining?.powder_spent_mithril ?? 0)
+    + (potmMithril[(mining?.nodes?.special_0 ?? 0)] ?? 0)
+
+  const totalGemstone = (mining?.powder_gemstone ?? 0) 
+    + (mining?.powder_spent_gemstone ?? 0)
+    + (potmGemstone[(mining?.nodes?.special_0 ?? 0)] ?? 0)
+
   if (metric.path) {
     return metric.path.split(".").reduce((obj, attribute) => obj?.[attribute], member)
   } else if (metric.name == "Shark Kills") {
@@ -71,9 +81,9 @@ function getMetric(member: any, metric: Metric): number | undefined {
       + (member.slayer_bosses?.enderman?.xp ?? 0) * 0.33
       + (member.slayer_bosses?.blaze?.xp ?? 0)
   } else if (metric.name == "Mithril Powder") {
-    return (member.mining_core?.powder_mithril ?? 0) + (member.mining_core?.powder_spent_mithril ?? 0)
+    return totalMithril
   } else if (metric.name == "Gemstone Powder") {
-    return (member.mining_core?.powder_gemstone ?? 0) + (member.mining_core?.powder_spent_gemstone ?? 0)
+    return totalGemstone
   } else if (metric.name == "Linc Weight") {
     return (member.experience_skill_fishing ?? 0) * 0.2
       + (member.experience_skill_mining ?? 0) * 0.2
@@ -103,10 +113,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
       + (member.stats?.mythos_kills ?? 0) * 3650
       + (member.leveling?.experience ?? 0) * 1000
   } else if (metric.name == "Powder Score") {
-    return (member.mining_core?.powder_mithril ?? 0) * 1.15
-      + (member.mining_core?.powder_spent_mithril ?? 0) * 1.15
-      + (member.mining_core?.powder_gemstone ?? 0) 
-      + (member.mining_core?.powder_spent_gemstone ?? 0)
+    return totalMithril * 1.15 + totalGemstone
   } else if (metric.name == "Fishing Actions") {
     return (member.stats?.pet_milestone_sea_creatures_killed ?? 0) + (member.stats?.items_fished ?? 0)
   } else if (metric.name == "Trophy Fish Weight") {
@@ -168,4 +175,5 @@ function trophyFishWeight(trophyFish: Record<string, number | undefined>): numbe
   return weights.reduce((prev, cur) => prev + cur, 0)
 }
 
-
+const potmMithril = [0, 0, 50_000, 125_000, 225_000, 350_000, 350_000, 350_000]
+const potmGemstone = [0, 0, 0, 0, 0, 0, 500_000, 1_250_000]

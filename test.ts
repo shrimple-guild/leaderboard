@@ -15,5 +15,5 @@ const discordBot = await DiscordBot.create(config.discordToken, [], event)
 
 console.log(event.getTimeseries("Toebar", "Apple", "Shark Kills"))
 
-const res = await api.fetchProfiles("6e0560b84ae84b7bad8a4f9610060c00")
+const res = await api.fetchProfiles("59998433ceda41c1b0acffe7d9b33594")
 console.log(JSON.stringify(res, null, 4))
