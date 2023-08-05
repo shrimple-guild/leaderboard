@@ -5,18 +5,12 @@
   "guildId": "63d0278d8ea8c999a1004ef9",
   "name": "Weekly Slayer Event",
   "intro": "The **{metric}** contest has begun!",
-  "description": "Shrimple is hosting a weekly **{metric}** event for 24 hours! Good luck to all participants!",
+  "description": "Shrimple is hosting the first weekly **{metric}** event for 24 hours! Good luck to all participants!",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
   "author": "Maddox",
   "icon": "maddox.png",
   "start": 1690690500000,
-  "duration": 85500000,
-  "metric": "Slayer Weight",
-  "related": [
-    "Zombie XP",
-    "Spider XP",
-    "Wolf XP",
-    "Enderman XP",
-    "Blaze XP"
-  ]
+  "duration": 86400000,
+  "metric": "Bestiary Tiers",
+  "related": []
 }

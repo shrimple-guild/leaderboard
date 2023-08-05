@@ -6,14 +6,23 @@ import { DiscordBot } from "./DiscordBot.js"
 import metrics from "./metrics.json" assert { type: "json" }
 import config from "./config.json" assert { type: "json" }
 import eventConfig from "./event.json" assert { type: "json" }
+import { getBestiary, getBestiaryTiers } from "./bestiary.js"
 
 const api = new API(config.apiKey, metrics)
 const database = new Database("./main.db", metrics)
 const lb = new Leaderboard(api, database)
 const event = GuildEvent.from(eventConfig, lb)
-const discordBot = await DiscordBot.create(config.discordToken, [], event)
 
-console.log(event.getTimeseries("Toebar", "Apple", "Shark Kills"))
+const uuid = "b4d88362b4dc4edaa5e152e92d61b543"
+const profileName = "kiwi"
 
-const res = await api.fetchProfiles("59998433ceda41c1b0acffe7d9b33594")
-console.log(JSON.stringify(res, null, 4))
+const res = await fetch(`https://api.hypixel.net/skyblock/profiles?uuid=${uuid}&key=${config.apiKey}`).then(
+  res => res.json()
+)
+
+const member = res.profiles.find((profile: any) => (
+  profile.cute_name.toLocaleLowerCase() == profileName.toLocaleLowerCase()
+))?.members?.[uuid]
+
+const bestiary = getBestiaryTiers(member)
+console.log(bestiary)

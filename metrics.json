@@ -328,5 +328,9 @@
   {
     "name": "Marina Fishing Weight",
     "counter": "weight"
+  },
+  {
+    "name": "Bestiary Tiers",
+    "counter": "tiers"
   }
 ]
