@@ -63,7 +63,7 @@ const bestiaryCategories = flattenCategories(categories)
 
 export function getBestiary(member: any) {
   if (!member.bestiary) return
-  if (!member.bestiary.migration || !member.bestiary.migrated_stats) return
+  if (!member.bestiary.migration) return
   const bestiary: { [key: string]: number } = member.bestiary.kills ?? {}
   const bestiaryTiers: BestiaryTiers = {}
   Object.entries(bestiaryCategories).forEach(([category, families]) => {
