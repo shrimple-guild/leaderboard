@@ -3,7 +3,7 @@ import axiosRetry, { isNetworkOrIdempotentRequestError as isNetworkError } from 
 import rateLimit from 'axios-rate-limit';
 import creatures from "./creatures.json" assert { type: "json" }
 import { Metric, Profile } from 'types';
-import { getBestiaryTiers } from './bestiary.js';
+import { getBestiaryTiers, getMythologicalKills } from './bestiary.js';
 
 export class API {
   client: AxiosInstance
@@ -123,6 +123,10 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return sumKills(member, creatures.shark) * 10_000 + (member.experience_skill_fishing ?? 0)
   } else if (metric.name == "Bestiary Tiers") {
     return getBestiaryTiers(member)?.total
+  } else if (metric.name == "Inquisitor Bestiary") {
+    return getMythologicalKills(member)?.inquisitors
+  } else if (metric.name == "Mythological Bestiary") {
+    return getMythologicalKills(member)?.mythologicalKills
   }
 }
 

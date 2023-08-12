@@ -3,14 +3,16 @@
   "discordChannelId": "1067295306762428516",
   "pingRoleId": "1067299969926709278",
   "guildId": "63d0278d8ea8c999a1004ef9",
-  "name": "Weekly Slayer Event",
+  "name": "Weekly Mythological Event",
   "intro": "The **{metric}** contest has begun!",
-  "description": "Shrimple is hosting the first weekly **{metric}** event for 24 hours! Good luck to all participants!",
+  "description": "Shrimple is hosting a weekly **{metric}** event for 24 hours! Good luck to all participants!",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Maddox",
-  "icon": "maddox.png",
-  "start": 1691294400000,
+  "author": "Diana",
+  "icon": "diana.png",
+  "start": 1691899200000,
   "duration": 86400000,
-  "metric": "Bestiary Tiers",
-  "related": []
+  "metric": "Mythological Bestiary",
+  "related": [
+    "Inquisitor Bestiary"
+  ]
 }

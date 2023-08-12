@@ -332,5 +332,13 @@
   {
     "name": "Bestiary Tiers",
     "counter": "tiers"
+  },
+  {
+    "name": "Inquisitor Bestiary",
+    "counter": "kills"
+  },
+  {
+    "name": "Mythological Bestiary",
+    "counter": "kills"
   }
 ]

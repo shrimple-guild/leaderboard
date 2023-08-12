@@ -97,3 +97,13 @@ export function getBestiaryTiers(member: any) {
     categories: categories
   } 
 }
+
+export function getMythologicalKills(member: any) {
+  const bestiary = getBestiary(member)
+  if (!bestiary) return
+  const creatures = Object.values(bestiary.mythological_creatures)
+  return {
+    inquisitors: bestiary.mythological_creatures.minos_inquisitor.kills,
+    mythologicalKills: creatures.reduce((cum, cur) => cum + cur.kills, 0)
+  }
+}
