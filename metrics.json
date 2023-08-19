@@ -340,5 +340,32 @@
   {
     "name": "Mythological Bestiary",
     "counter": "kills"
+  },
+  {
+    "name": "Skill Weight",
+    "counter": "score"
+  },
+  {
+    "name": "Skill Weight",
+    "counter": "score"
+  },
+  {
+    "name": "Skill Weight",
+    "counter": "score"
+  },
+  {
+    "name": "Combat XP",
+    "counter": "xp",
+    "path": "experience_skill_combat"
+  },
+  {
+    "name": "Alchemy XP",
+    "counter": "xp",
+    "path": "experience_skill_alchemy"
+  },
+  {
+    "name": "Social XP",
+    "counter": "xp",
+    "path": "experience_skill_social2"
   }
 ]

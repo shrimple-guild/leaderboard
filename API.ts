@@ -127,6 +127,16 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return getMythologicalKills(member)?.inquisitors
   } else if (metric.name == "Mythological Bestiary") {
     return getMythologicalKills(member)?.mythologicalKills
+  } else if (metric.name == "Skill Weight") {
+    return (member.experience_skill_fishing ?? 0) * 0.4
+      + (member.experience_skill_mining ?? 0) * 0.2
+      + (member.experience_skill_combat ?? 0) * 1.2
+      + (member.experience_skill_foraging ?? 0) * 1.33
+      + (member.experience_skill_farming ?? 0) 
+      + (member.experience_skill_enchanting ?? 0) * 0.01
+      + (member.experience_skill_alchemy ?? 0) * 0.002
+      + (member.experience_skill_carpentry ?? 0) * 0.002
+      + (member.experience_skill_social2 ?? 0) * 7.77
   }
 }
 

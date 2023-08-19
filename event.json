@@ -3,16 +3,24 @@
   "discordChannelId": "1067295306762428516",
   "pingRoleId": "1067299969926709278",
   "guildId": "63d0278d8ea8c999a1004ef9",
-  "name": "Weekly Mythological Event",
-  "intro": "The **{metric}** contest has begun!",
-  "description": "Shrimple is hosting a weekly **{metric}** event for 24 hours! Good luck to all participants!",
+  "name": "Derpy Skill Grinding Event",
+  "intro": "The event has begun!",
+  "description": "Shrimple is hosting a skill grinding event for the duration of Derpy! Each skill is individually weighted.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Diana",
-  "icon": "diana.png",
-  "start": 1691899200000,
-  "duration": 86400000,
-  "metric": "Mythological Bestiary",
+  "author": "Derpy",
+  "icon": "derpy.png",
+  "start": 1692515700000,
+  "duration": 446400000,
+  "metric": "Skill Weight",
   "related": [
-    "Inquisitor Bestiary"
+    "Fishing XP",
+    "Mining XP",
+    "Combat XP",
+    "Foraging XP",
+    "Farming XP",
+    "Enchanting XP",
+    "Alchemy XP",
+    "Carpentry XP",
+    "Social XP"
   ]
 }
