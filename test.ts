@@ -19,10 +19,14 @@ const profileName = "peach"
 const res = await fetch(`https://api.hypixel.net/skyblock/profiles?uuid=${uuid}&key=${config.apiKey}`).then(
   res => res.json()
 )
-
+/*
 const member = res.profiles.find((profile: any) => (
   profile.cute_name.toLocaleLowerCase() == profileName.toLocaleLowerCase()
 ))?.members?.[uuid]
+*/
 
-const bestiary = getBestiary(member)
-console.log(bestiary)
+//const bestiary = getBestiary(member)
+//console.log(bestiary)
+
+const met = await api.fetchProfiles("59998433ceda41c1b0acffe7d9b33594")
+console.log(JSON.stringify(met, null, 4))
