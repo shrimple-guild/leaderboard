@@ -55,7 +55,7 @@ export class DiscordBot {
       .setColor("Green")
       .setDescription(event.parse(event.intro))
       .setTimestamp()
-    this.send(event, { embeds: [embed] }, false, true)
+    await this.send(event, { embeds: [embed] }, false, true)
   }
 
   async sendLeaderboardEmbed(event: GuildEvent) {
@@ -65,7 +65,7 @@ export class DiscordBot {
 
     const actionBar = this.getActionBar(event)
 
-    this.send(event, { 
+    await this.send(event, { 
       embeds: [data.embed], 
       files: [event.iconAttachment, new AttachmentBuilder(data.attachment, { name: "chart.png" })],
       components: actionBar
@@ -78,7 +78,7 @@ export class DiscordBot {
       .setColor("Red")
       .setDescription(event.parse(event.outro))
       .setTimestamp()
-    this.send(event, { embeds: [embed] }, false, true)
+    await this.send(event, { embeds: [embed] }, false, true)
   }
 
   private async send(event: GuildEvent, message: string | MessagePayload | (MessageEditOptions & MessageCreateOptions), tryEdit: boolean, ping: boolean) {
