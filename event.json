@@ -18,10 +18,10 @@
     "Pumpkin Collection",
     "Sugar Cane Collection",
     "Melon Collection",
-    "Cactus Collection",
     "Cocoa Bean Collection",
-    "Mushroom Collection",
     "Nether Wart Collection"
   ],
-  "related": []
+  "related": [
+    "Farming XP"
+  ]
 }
