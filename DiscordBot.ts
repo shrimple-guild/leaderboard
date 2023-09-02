@@ -29,7 +29,7 @@ export class DiscordBot {
         if (interaction.customId != "leaderboardSelector") return
         await interaction.deferReply({ ephemeral: true })
         const metric = interaction.values[0]
-        const data = await this.getLeaderboardEmbed(event, metric)
+        const data = await this.getLeaderboardEmbed(event, metric).catch(console.error)
         if (!data) return
         data.embed.setTitle(`${metric} Leaderboard`)
 
@@ -39,7 +39,7 @@ export class DiscordBot {
             event.iconAttachment,
             new AttachmentBuilder(data.attachment, { name: "chart.png" }),
           ],
-        })
+        }).catch(console.error)
       } catch (e) {
         console.error(e)
       }
@@ -124,11 +124,12 @@ export class DiscordBot {
   ) {
     const channel = await this.fetchLeaderboardChannel(event)
     if (tryEdit && this.currentMessage) {
-      this.currentMessage = await this.currentMessage.edit(message)
+      await this.currentMessage.edit(message).catch(console.error)
     } else {
-      this.currentMessage = await channel.send(message)
+      const ret = await channel.send(message).catch(console.error)
+      if (ret) this.currentMessage = ret
     }
-    if (ping) await channel.send(`<@&${event.pingRoleId}>`)
+    if (ping) await channel.send(`<@&${event.pingRoleId}>`).catch(console.error)
   }
 
   private async getLeaderboardEmbed(event: GuildEvent, metric?: string) {
