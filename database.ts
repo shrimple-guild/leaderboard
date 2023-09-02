@@ -39,9 +39,14 @@ export class Database {
       CREATE INDEX IF NOT EXISTS ValueIndex ON ProfileData (value);
     `)
     this.addMetrics(metrics)
-  } 
+  }
 
-  getLeaderboard(guildId: string, metric: string, start?: number, end?: number): LeaderboardPosition[] {
+  getLeaderboard(
+    guildId: string,
+    metric: string,
+    start?: number,
+    end?: number
+  ): LeaderboardPosition[] {
     const stmt = this.db.prepare(`
       WITH ProfileLeaderboard AS (
         SELECT profileId, MAX(value) - IIF(:start IS NOT NULL, MIN(value), 0) AS profileValue, name AS metric, counter
@@ -64,10 +69,21 @@ export class Database {
       HAVING MAX(profileValue) > 0
       ORDER BY MAX(profileValue) DESC
     `)
-    return stmt.all({ metric: metric, start: start, end: end ?? Date.now(), guildId: guildId }) as LeaderboardPosition[]
+    return stmt.all({
+      metric: metric,
+      start: start,
+      end: end ?? Date.now(),
+      guildId: guildId,
+    }) as LeaderboardPosition[]
   }
 
-  getTimeseries(username: string, cuteName: string, metric: string, start?: number, end?: number): Timeseries[] {
+  getTimeseries(
+    username: string,
+    cuteName: string,
+    metric: string,
+    start?: number,
+    end?: number
+  ): Timeseries[] {
     const stmt = this.db.prepare(`
       SELECT 
         timestamp - :start AS time, value - MIN(value) OVER() AS value
@@ -78,7 +94,13 @@ export class Database {
       WHERE timestamp >= COALESCE(:start, 0) AND timestamp <= COALESCE(:end, 9223372036854775807)
       ORDER BY timestamp ASC
     `)
-    return stmt.all({ username: username, cuteName: cuteName, metric: metric, start: start, end: end }) as Timeseries[]
+    return stmt.all({
+      username: username,
+      cuteName: cuteName,
+      metric: metric,
+      start: start,
+      end: end,
+    }) as Timeseries[]
   }
 
   getGuildMembers(guildId: string): string[] {
@@ -87,14 +109,18 @@ export class Database {
   }
 
   setGuildMembers(guildId: string, members: string[]) {
-    const clearGuildMembers = this.db.prepare(`UPDATE Players SET guildId = NULL WHERE guildId = ?`)
+    const clearGuildMembers = this.db.prepare(
+      `UPDATE Players SET guildId = NULL WHERE guildId = ?`
+    )
     const insertGuildMember = this.db.prepare(`
       INSERT INTO Players (id, guildId) VALUES (:id, :guildId) 
       ON CONFLICT (id) DO UPDATE SET guildId = excluded.guildId
     `)
     this.db.transaction(() => {
       clearGuildMembers.run(guildId)
-      members.forEach(member => insertGuildMember.run({ id: member, guildId: guildId }))
+      members.forEach(member =>
+        insertGuildMember.run({ id: member, guildId: guildId })
+      )
     })()
   }
 
@@ -122,18 +148,18 @@ export class Database {
       AND Metrics.name = :metricName
     `)
     this.db.transaction(() => {
-      insertProfileStmt.run({ 
-        playerId: profile.playerId, 
-        hypixelProfileId: profile.profileId, 
-        cuteName: profile.cuteName
+      insertProfileStmt.run({
+        playerId: profile.playerId,
+        hypixelProfileId: profile.profileId,
+        cuteName: profile.cuteName,
       })
-      profile.metrics.forEach(({metric, value}) => {
+      profile.metrics.forEach(({ metric, value }) => {
         insertDataStmt.run({
           playerId: profile.playerId,
           hypixelProfileId: profile.profileId,
           timestamp: timestamp,
           metricName: metric,
-          value: value
+          value: value,
         })
       })
     })()
@@ -144,6 +170,6 @@ export class Database {
       INSERT INTO Metrics (name, counter) VALUES (:name, :counter) 
       ON CONFLICT (name) DO UPDATE SET counter = excluded.counter
     `)
-    metrics.forEach((metric) => insertMetricStmt.run(metric))
+    metrics.forEach(metric => insertMetricStmt.run(metric))
   }
 }

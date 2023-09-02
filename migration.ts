@@ -1,15 +1,15 @@
-import Database from 'better-sqlite3';
+import Database from "better-sqlite3"
 
 interface ProfileData {
-  id: number;
-  username: string;
-  cuteName: string;
-  name: string;
-  timestamp: number;
-  value: number;
+  id: number
+  username: string
+  cuteName: string
+  name: string
+  timestamp: number
+  value: number
 }
 
-const db = new Database('farming.db');
+const db = new Database("farming.db")
 
 /*
 db.exec(`
@@ -131,4 +131,3 @@ const ranking = stmt.all({ metric: "Linc Weight", start: 1685373300000, end: 168
 console.log(ranking)
 
 */
-

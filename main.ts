@@ -16,17 +16,19 @@ const discordBot = await DiscordBot.create(config.discordToken, [], event)
 
 console.log("Event ready.")
 
-const updateEventJob = new CronJob("0 */15 * * * *", async () => { 
+const updateEventJob = new CronJob("0 */15 * * * *", async () => {
   try {
-    console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
-    
+    console.log(
+      `[${new Date(updateTime).toISOString()}] Starting event update.`
+    )
+
     if (updateTime >= event.start) {
       await event.updateGuild()
       console.log("Guild updated.")
 
       const metric = await event.fetchMetric()
       console.log(`Event metric: ${metric}`)
-    
+
       await event.updatePlayers()
       console.log(`Players updated.`)
 
@@ -36,12 +38,11 @@ const updateEventJob = new CronJob("0 */15 * * * *", async () => {
       if (updateTime == event.start) {
         await discordBot.sendIntroEmbed(event)
         console.log(`Sent start embed.`)
-
       } else {
         await discordBot.sendLeaderboardEmbed(event)
         console.log(`Sent leaderboard embed.`)
       }
-    
+
       if (updateTime == event.end) {
         await discordBot.sendOutroEmbed(event)
         console.log(`Sent outro embed; stopping.`)

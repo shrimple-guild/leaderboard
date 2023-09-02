@@ -5,8 +5,8 @@ const bestiaryConstants = await fetch(bestiaryRepo).then(resp => resp.json())
 
 import bestiaryConstants from "./bestiary.json" assert { type: "json" }
 
-type Brackets = { 
-  [key: number]: number[] 
+type Brackets = {
+  [key: number]: number[]
 }
 
 interface BestiaryFamily {
@@ -34,7 +34,7 @@ type BestiaryCategories = {
   [key: string]: BestiaryFamily[]
 }
 
-const {brackets, ...categories}: { brackets: Brackets } = bestiaryConstants
+const { brackets, ...categories }: { brackets: Brackets } = bestiaryConstants
 
 function flattenCategories(obj: NestedCategories): BestiaryCategories {
   const unnested: BestiaryCategories = {}
@@ -44,7 +44,7 @@ function flattenCategories(obj: NestedCategories): BestiaryCategories {
     } else {
       const nestedUnnested = flattenCategories(obj[key] as NestedCategories)
       for (const nestedKey in nestedUnnested) {
-        unnested[key + '_' + nestedKey] = nestedUnnested[nestedKey]
+        unnested[key + "_" + nestedKey] = nestedUnnested[nestedKey]
       }
     }
   }
@@ -69,16 +69,19 @@ export function getBestiary(member: any) {
   Object.entries(bestiaryCategories).forEach(([category, families]) => {
     bestiaryTiers[category] = {}
     families.forEach(family => {
-      const kills = family.mobs.reduce((cum, cur) => cum + (bestiary[cur] ?? 0), 0)
+      const kills = family.mobs.reduce(
+        (cum, cur) => cum + (bestiary[cur] ?? 0),
+        0
+      )
       const tierKills = Math.min(kills, family.cap)
       const familyName = family.name
         .toLocaleLowerCase()
         .replaceAll(" ", "_")
-        .replaceAll(/§[0-9a-fklmnor]/g, '')
+        .replaceAll(/§[0-9a-fklmnor]/g, "")
       bestiaryTiers[category][familyName] = {
         maxed: kills >= family.cap,
         tier: findMilestoneTier(tierKills, brackets[family.bracket]),
-        kills: kills
+        kills: kills,
       }
     })
   })
@@ -89,13 +92,17 @@ export function getBestiaryTiers(member: any) {
   const bestiary = getBestiary(member)
   if (!bestiary) return
   const categories: { [category: string]: number } = {}
-  Object.entries(bestiary).forEach(([category, families]) => (
-    categories[category] = Object.values(families).reduce((cum, cur) => cum + cur.tier, 0)
-  ))
+  Object.entries(bestiary).forEach(
+    ([category, families]) =>
+      (categories[category] = Object.values(families).reduce(
+        (cum, cur) => cum + cur.tier,
+        0
+      ))
+  )
   return {
     total: Object.values(categories).reduce((cum, cur) => cum + cur, 0),
-    categories: categories
-  } 
+    categories: categories,
+  }
 }
 
 export function getMythologicalKills(member: any) {
@@ -104,6 +111,6 @@ export function getMythologicalKills(member: any) {
   const creatures = Object.values(bestiary.mythological_creatures)
   return {
     inquisitors: bestiary.mythological_creatures.minos_inquisitor.kills,
-    mythologicalKills: creatures.reduce((cum, cur) => cum + cur.kills, 0)
+    mythologicalKills: creatures.reduce((cum, cur) => cum + cur.kills, 0),
   }
 }

@@ -10,5 +10,3 @@ WHERE ROWID IN (
   WHERE Metrics.name = 'Skill Weight' AND ProfileData.value = 0
 );
 `)
-
-

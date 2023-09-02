@@ -3,17 +3,25 @@
   "discordChannelId": "1067295306762428516",
   "pingRoleId": "1067299969926709278",
   "guildId": "63d0278d8ea8c999a1004ef9",
-  "name": "Powder Grinding Event",
+  "name": "{metric} Event",
   "intro": "The event has begun!",
-  "description": "Shrimple is hosting a powder grinding event for 24 hours since Hypixel made powder grinding 50 times better! Good luck all!",
+  "description": "Shrimple is hosting a {metric} event for 24 hours! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Cole",
-  "icon": "cole.png",
-  "start": 1693108800000,
+  "author": "Jacob",
+  "icon": "jacob.png",
+  "start": 1693713600000,
   "duration": 86400000,
-  "metric": "Powder Score",
-  "related": [
-    "Mithril Powder",
-    "Gemstone Powder"
-  ]
+  "metrics": [
+    "Wheat Collection",
+    "Carrot Collection",
+    "Potato Collection",
+    "Pumpkin Collection",
+    "Sugar Cane Collection",
+    "Melon Collection",
+    "Cactus Collection",
+    "Cocoa Bean Collection",
+    "Mushroom Collection",
+    "Nether Wart Collection"
+  ],
+  "related": []
 }

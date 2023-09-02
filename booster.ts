@@ -1,4 +1,4 @@
-import Database from "better-sqlite3";
+import Database from "better-sqlite3"
 
 const db = new Database("farming_BACKUP2.db")
 
@@ -19,14 +19,16 @@ HAVING sharkKills > 0
 `)
 
 type Row = {
-  username: string,
-  profileId: number,
-  cuteName: string,
-  timestamp: number,
+  username: string
+  profileId: number
+  cuteName: string
+  timestamp: number
   sharkKills: number
 }
 
-const res = db.prepare(`
+const res = db
+  .prepare(
+    `
   SELECT 
   username,
   profileId,
@@ -38,48 +40,63 @@ const res = db.prepare(`
   ) AS sharkKills
 FROM ProfileDataPivot
 ORDER BY profileId ASC, timestamp ASC
-`).all() as Row[]
-
-
+`
+  )
+  .all() as Row[]
 
 type GroupedElements<T> = {
-  [key: string]: T[];
-};
-
-function groupArrayElements<T>(array: T[], testingFunction: (element: T) => string): GroupedElements<T> {
-  const groupedElements: GroupedElements<T> = {};
-
-  for (const element of array) {
-    const key = testingFunction(element);
-    if (groupedElements[key]) {
-      groupedElements[key].push(element);
-    } else {
-      groupedElements[key] = [element];
-    }
-  }
-
-  return groupedElements;
+  [key: string]: T[]
 }
 
-const profiles = groupArrayElements(res, (row) => `${row.username.toLowerCase()}:${row.cuteName.toLowerCase()}`)
+function groupArrayElements<T>(
+  array: T[],
+  testingFunction: (element: T) => string
+): GroupedElements<T> {
+  const groupedElements: GroupedElements<T> = {}
 
-const average = (array: number[]) => array.reduce((a, b) => a + b) / array.length;
-
-const data = Object.fromEntries(Object.entries(profiles).map(([profile, data]) => {
-  let sharkKillsThisInterval = 0
-  let festivalResults = []
-  for (let i = 1; i <= data.length - 1; i++) {
-    let row = data[i]
-    if (row.sharkKills != 0) {
-      sharkKillsThisInterval += row.sharkKills
+  for (const element of array) {
+    const key = testingFunction(element)
+    if (groupedElements[key]) {
+      groupedElements[key].push(element)
     } else {
-      if (sharkKillsThisInterval > 0) {
-        festivalResults.push(sharkKillsThisInterval)
-      }
-      sharkKillsThisInterval = 0
+      groupedElements[key] = [element]
     }
   }
-  return [profile, festivalResults.length > 0 ? average(festivalResults) : 0]
-}).filter(val => val[1] != 0).sort((a: any, b: any) => b[1] - a[1]))
+
+  return groupedElements
+}
+
+const profiles = groupArrayElements(
+  res,
+  row => `${row.username.toLowerCase()}:${row.cuteName.toLowerCase()}`
+)
+
+const average = (array: number[]) =>
+  array.reduce((a, b) => a + b) / array.length
+
+const data = Object.fromEntries(
+  Object.entries(profiles)
+    .map(([profile, data]) => {
+      let sharkKillsThisInterval = 0
+      let festivalResults = []
+      for (let i = 1; i <= data.length - 1; i++) {
+        let row = data[i]
+        if (row.sharkKills != 0) {
+          sharkKillsThisInterval += row.sharkKills
+        } else {
+          if (sharkKillsThisInterval > 0) {
+            festivalResults.push(sharkKillsThisInterval)
+          }
+          sharkKillsThisInterval = 0
+        }
+      }
+      return [
+        profile,
+        festivalResults.length > 0 ? average(festivalResults) : 0,
+      ]
+    })
+    .filter(val => val[1] != 0)
+    .sort((a: any, b: any) => b[1] - a[1])
+)
 
 console.log(data)
