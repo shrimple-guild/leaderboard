@@ -9,7 +9,9 @@ import config from "./config.json" assert { type: "json" }
 import eventConfig from "./event.json" assert { type: "json" }
 
 const api = new API(config.apiKey, metrics)
-const database = new Database("./main.db", metrics)
+
+const dbName = `./lb_${eventConfig.start}_${eventConfig.start + eventConfig.duration}.db`
+const database = new Database(dbName, metrics)
 const lb = new Leaderboard(api, database)
 const event = GuildEvent.from(eventConfig, lb)
 const discordBot = await DiscordBot.create(config.discordToken, [], event)
@@ -18,9 +20,7 @@ console.log("Event ready.")
 
 const updateEventJob = new CronJob("0 */15 * * * *", async () => {
   try {
-    console.log(
-      `[${new Date(updateTime).toISOString()}] Starting event update.`
-    )
+    console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
 
     if (updateTime >= event.start) {
       await event.updateGuild()
