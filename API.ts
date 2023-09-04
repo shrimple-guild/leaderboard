@@ -1,7 +1,5 @@
 import axios, { AxiosInstance } from "axios"
-import axiosRetry, {
-  isNetworkOrIdempotentRequestError as isNetworkError,
-} from "axios-retry"
+import axiosRetry, { isNetworkOrIdempotentRequestError as isNetworkError } from "axios-retry"
 import rateLimit from "axios-rate-limit"
 import creatures from "./creatures.json" assert { type: "json" }
 import { Metric, Profile } from "types"
@@ -28,9 +26,7 @@ export class API {
     const response = await this.client.get("/guild", {
       params: { id: guildId, key: this.apiKey },
     })
-    return response.data?.guild?.members.map(
-      (member: any) => member.uuid
-    ) as Array<string>
+    return response.data?.guild?.members.map((member: any) => member.uuid) as Array<string>
   }
 
   async fetchProfiles(uuid: string): Promise<Profile[]> {
@@ -49,13 +45,8 @@ export class API {
   }
 
   async fetchName(uuid: string): Promise<string> {
-    const resp = await fetch(
-      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
-    )
-    if (resp.status != 200)
-      throw new Error(
-        `Failed to get Mojang data for ${uuid} (status ${resp.status})`
-      )
+    const resp = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
+    if (resp.status != 200) throw new Error(`Failed to get Mojang data for ${uuid} (status ${resp.status})`)
     return resp.json().then(data => data.name)
   }
 
@@ -83,31 +74,20 @@ function getMetric(member: any, metric: Metric): number | undefined {
     (potmGemstone[mining?.nodes?.special_0 ?? 0] ?? 0)
 
   if (metric.path) {
-    return metric.path
-      .split(".")
-      .reduce((obj, attribute) => obj?.[attribute], member)
+    return metric.path.split(".").reduce((obj, attribute) => obj?.[attribute], member)
   } else if (metric.name == "Shark Kills") {
     return sumKills(member, creatures.shark)
   } else if (metric.name == "Water Kills") {
-    const waterMobs = [
-      creatures.shark,
-      creatures.special,
-      creatures.water,
-    ].flat()
+    const waterMobs = [creatures.shark, creatures.special, creatures.water].flat()
     return sumKills(member, waterMobs)
   } else if (metric.name == "Crimson Kills") {
     return sumKills(member, creatures.crimson)
   } else if (metric.name == "Dungeon Completions") {
-    const normalCompletions: any[] = Object.values(
-      member.dungeons?.dungeon_types?.catacombs?.tier_completions ?? {}
-    )
+    const normalCompletions: any[] = Object.values(member.dungeons?.dungeon_types?.catacombs?.tier_completions ?? {})
     const masterCompletions: any[] = Object.values(
       member.dungeons?.dungeon_types?.master_catacombs?.tier_completions ?? {}
     )
-    return [...normalCompletions, ...masterCompletions].reduce(
-      (cum, cur) => cum + cur,
-      0
-    )
+    return [...normalCompletions, ...masterCompletions].reduce((cum, cur) => cum + cur, 0)
   } else if (metric.name == "Slayer Weight") {
     return (
       (member.slayer_bosses?.zombie?.xp ?? 0) * 0.06 +
@@ -133,58 +113,32 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (member.slayer_bosses?.wolf?.xp ?? 0) * 16.13 +
       (member.slayer_bosses?.enderman?.xp ?? 0) * 18.18 +
       (member.slayer_bosses?.blaze?.xp ?? 0) * 52.63 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) *
-        25000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) *
-        25000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) *
-        25000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) *
-        42000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) *
-        33000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) *
-        50000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) *
-        110000 +
-      (member.dungeons?.dungeon_types?.master_catacombs
-        ?.tier_completions?.[1] ?? 0) *
-        33000 +
-      (member.dungeons?.dungeon_types?.master_catacombs
-        ?.tier_completions?.[2] ?? 0) *
-        33000 +
-      (member.dungeons?.dungeon_types?.master_catacombs
-        ?.tier_completions?.[3] ?? 0) *
-        42000 +
-      (member.dungeons?.dungeon_types?.master_catacombs
-        ?.tier_completions?.[4] ?? 0) *
-        50000 +
-      (member.dungeons?.dungeon_types?.master_catacombs
-        ?.tier_completions?.[5] ?? 0) *
-        42000 +
-      (member.dungeons?.dungeon_types?.master_catacombs
-        ?.tier_completions?.[6] ?? 0) *
-        59000 +
-      (member.dungeons?.dungeon_types?.master_catacombs
-        ?.tier_completions?.[7] ?? 0) *
-        125000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 25000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 25000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) * 25000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 42000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) * 33000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 50000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 110000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 33000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 33000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 42000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 50000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 42000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 59000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 125000 +
       (member.stats?.mythos_kills ?? 0) * 3650 +
       (member.leveling?.experience ?? 0) * 1000
     )
   } else if (metric.name == "Powder Score") {
     return totalMithril + totalGemstone
   } else if (metric.name == "Fishing Actions") {
-    return (
-      (member.stats?.pet_milestone_sea_creatures_killed ?? 0) +
-      (member.stats?.items_fished ?? 0)
-    )
+    return (member.stats?.pet_milestone_sea_creatures_killed ?? 0) + (member.stats?.items_fished ?? 0)
   } else if (metric.name == "Trophy Fish Weight") {
     return trophyFishWeight(member.trophy_fish)
   } else if (metric.name == "Marina Fishing Weight") {
-    return (
-      sumKills(member, creatures.shark) * 10_000 +
-      (member.experience_skill_fishing ?? 0)
-    )
+    if (member.experience_skill_fishing == null) return undefined
+    return sumKills(member, creatures.shark) * 9_000 + member.experience_skill_fishing
   } else if (metric.name == "Bestiary Tiers") {
     return getBestiaryTiers(member)?.total
   } else if (metric.name == "Inquisitor Bestiary") {
@@ -219,10 +173,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
 }
 
 function sumKills(member: any, mobs: string[]) {
-  return mobs.reduce(
-    (cum, cur) => cum + (member?.stats?.[`kills_${cur}`] ?? 0),
-    0
-  )
+  return mobs.reduce((cum, cur) => cum + (member?.stats?.[`kills_${cur}`] ?? 0), 0)
 }
 
 const trophyFishBase: Record<string, number> = {
@@ -264,12 +215,8 @@ for (const baseKey in trophyFishBase) {
   }
 }
 
-function trophyFishWeight(
-  trophyFish: Record<string, number | undefined>
-): number {
-  const weights = Object.entries(trophyFishWeights).map(
-    ([fish, weight]) => (trophyFish?.[fish] ?? 0) * weight
-  )
+function trophyFishWeight(trophyFish: Record<string, number | undefined>): number {
+  const weights = Object.entries(trophyFishWeights).map(([fish, weight]) => (trophyFish?.[fish] ?? 0) * weight)
   return weights.reduce((prev, cur) => prev + cur, 0)
 }
 
