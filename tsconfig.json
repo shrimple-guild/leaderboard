@@ -6,6 +6,9 @@
     "target": "esnext",
     "moduleResolution": "node",
     "strict": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
+  },
+  "ts-node": {
+    "esm": true
   }
 }

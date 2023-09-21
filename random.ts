@@ -35,5 +35,3 @@ const randomCrop = await pickRandom(
   ],
   1693713600000
 )
-
-console.log(randomCrop)

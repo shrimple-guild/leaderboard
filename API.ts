@@ -3,7 +3,7 @@ import axiosRetry, { isNetworkOrIdempotentRequestError as isNetworkError } from 
 import rateLimit from "axios-rate-limit"
 import creatures from "./creatures.json" assert { type: "json" }
 import { Metric, Profile } from "types"
-import { getBestiaryTiers, getMythologicalKills } from "./bestiary.js"
+import { getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
 
 export class API {
   client: AxiosInstance
@@ -169,6 +169,29 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (member.experience_skill_carpentry ?? 0) * 0.002 +
       (member.experience_skill_social2 ?? 0) * 7.77
     )
+  } else if (metric.name == "Dungeon Boss Collections") {
+    const catacombs = member.dungeons?.dungeon_types?.catacombs?.tier_completions
+    const masterModeCatacombs = member.dungeons?.dungeon_types?.master_catacombs?.tier_completions
+    const penalty = 0.75
+    const f1 = (catacombs?.[1] ?? 0) + 2 * (masterModeCatacombs?.[1] ?? 0)
+    const f2 = (catacombs?.[2] ?? 0) + 2 * (masterModeCatacombs?.[2] ?? 0)
+    const f3 = (catacombs?.[3] ?? 0) + 2 * (masterModeCatacombs?.[3] ?? 0)
+    const f4 = (catacombs?.[4] ?? 0) + 2 * (masterModeCatacombs?.[4] ?? 0)
+    const f5 = (catacombs?.[5] ?? 0) + 2 * (masterModeCatacombs?.[5] ?? 0)
+    const f6 = (catacombs?.[6] ?? 0) + 2 * (masterModeCatacombs?.[6] ?? 0)
+    const f7 = (catacombs?.[7] ?? 0) + 2 * (masterModeCatacombs?.[7] ?? 0)
+
+    return (
+      (Math.min(1000, f1) + Math.max(0, f1 - 1000) * penalty) * 33 +
+      (Math.min(1000, f2) + Math.max(0, f2 - 1000) * penalty) * 33 +
+      (Math.min(1000, f3) + Math.max(0, f3 - 1000) * penalty) * 38 +
+      (Math.min(1000, f4) + Math.max(0, f4 - 1000) * penalty) * 50 +
+      (Math.min(1000, f5) + Math.max(0, f5 - 1000) * penalty) * 42 +
+      (Math.min(1000, f6) + Math.max(0, f6 - 1000) * penalty) * 45 +
+      (Math.min(1000, f7) + Math.max(0, f7 - 1000) * penalty) * 116
+    )
+  } else if (metric.name == "Rare Sea Creature Score") {
+    return getRareSeaCreatureScore(member)
   }
 }
 

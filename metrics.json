@@ -359,5 +359,13 @@
     "name": "Social XP",
     "counter": "xp",
     "path": "experience_skill_social2"
+  },
+  {
+    "name": "Dungeon Boss Collections",
+    "counter": "score"
+  },
+  {
+    "name": "Rare Sea Creature Score",
+    "counter": "score"
   }
 ]
