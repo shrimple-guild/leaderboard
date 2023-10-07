@@ -198,6 +198,11 @@
     "path": "slayer_bosses.blaze.xp"
   },
   {
+    "name": "Vampire XP",
+    "counter": "xp",
+    "path": "slayer_bosses.vampire.xp"
+  },
+  {
     "name": "Slayer Weight",
     "counter": "weight"
   },
