@@ -372,5 +372,10 @@
   {
     "name": "Rare Sea Creature Score",
     "counter": "score"
+  },
+  {
+    "name": "Gold Collection",
+    "counter": "collection",
+    "path": "collection.GOLD_INGOT"
   }
 ]

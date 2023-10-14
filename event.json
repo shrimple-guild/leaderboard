@@ -7,17 +7,10 @@
   "intro": "The {metric} event has begun!",
   "description": "Shrimple is hosting a weekly {metric} event for 24 hours! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Maddox",
-  "icon": "maddox.png",
-  "start": 1696737600000,
+  "author": "Cole",
+  "icon": "cole.png",
+  "start": 1697338800000,
   "duration": 86400000,
-  "metric": "Slayer Weight",
-  "related": [
-    "Zombie XP",
-    "Spider XP",
-    "Wolf XP",
-    "Enderman XP",
-    "Blaze XP",
-    "Vampire XP"
-  ]
+  "metric": "Gold Collection",
+  "related": ["Mining XP"]
 }
