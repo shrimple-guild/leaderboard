@@ -1,16 +1,16 @@
 {
   "discordGuildId": "797687061033123850",
-  "discordChannelId": "1067295306762428516",
-  "pingRoleId": "1067299969926709278",
-  "guildId": "63d0278d8ea8c999a1004ef9",
+  "discordChannelId": "1155990448985354300",
+  "pingRoleId": "1155991667145441350",
+  "guildId": "651316cd8ea8c9e6a31fbccb",
   "name": "{metric} Event",
   "intro": "The {metric} event has begun!",
-  "description": "Shrimple is hosting a {metric} event for the duration of Marina! Good luck to all participants.",
+  "description": "Prawn Academy is hosting its first-ever event! This {metric} event will last for the duration of Marina (slightly offset)! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
   "author": "Marina",
   "icon": "marina.png",
-  "start": 1697426100000,
-  "duration": 446400000,
+  "start": 1697426700000,
+  "duration": 445800000,
   "metric": "Marina Fishing Weight",
   "related": ["Fishing XP", "Shark Kills", "Sea Creature Kills"]
 }
