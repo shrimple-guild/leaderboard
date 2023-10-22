@@ -5,12 +5,18 @@
   "guildId": "63d0278d8ea8c999a1004ef9",
   "name": "{metric} Event",
   "intro": "The {metric} event has begun!",
-  "description": "Shrimple is hosting a {metric} event for the duration of Marina! Good luck to all participants.",
+  "description": "Shrimple is hosting a {metric} event for the next 24 hours! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Marina",
-  "icon": "marina.png",
-  "start": 1697426100000,
-  "duration": 446400000,
-  "metric": "Marina Fishing Weight",
-  "related": ["Fishing XP", "Shark Kills", "Sea Creature Kills"]
+  "author": "Paul",
+  "icon": "paul.png",
+  "start": 1697947200,
+  "duration": 86400000,
+  "metric": "Kuudra Completions",
+  "related": [
+    "Basic Kuudra Completions",
+    "Hot Kuudra Completions",
+    "Burning Kuudra Completions",
+    "Fiery Kuudra Completions",
+    "Infernal Kuudra Completions"
+  ]
 }
