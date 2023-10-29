@@ -7,16 +7,10 @@
   "intro": "The {metric} event has begun!",
   "description": "Shrimple is hosting a {metric} event for the next 24 hours! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Paul",
-  "icon": "paul.png",
-  "start": 1697947200,
+  "author": "Cole",
+  "icon": "cole.png",
+  "start": 1698552000000,
   "duration": 86400000,
-  "metric": "Kuudra Completions",
-  "related": [
-    "Basic Kuudra Completions",
-    "Hot Kuudra Completions",
-    "Burning Kuudra Completions",
-    "Fiery Kuudra Completions",
-    "Infernal Kuudra Completions"
-  ]
+  "metric": "Nucleus Runs",
+  "related": ["Mining XP", "Powder Score"]
 }
