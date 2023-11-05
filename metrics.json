@@ -411,5 +411,9 @@
     "name": "Nucleus Runs",
     "counter": "runs",
     "path": "leveling.completions.NUCLEUS_RUNS"
+  },
+  {
+    "name": "Weighted Dungeon Completions",
+    "counter": "score"
   }
 ]

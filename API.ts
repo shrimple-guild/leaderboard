@@ -196,6 +196,23 @@ function getMetric(member: any, metric: Metric): number | undefined {
   } else if (metric.name == "Kuudra Completions") {
     const tiers = member.nether_island_player_data?.kuudra_completed_tiers
     return (tiers?.none ?? 0) + (tiers?.hot ?? 0) + (tiers?.burning ?? 0) + (tiers?.fiery ?? 0) + (tiers?.infernal ?? 0)
+  } else if (metric.name == "Weighted Dungeon Completions") {
+    return (
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 25000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 25000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) * 25000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 42000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) * 33000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 37500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 104000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 29000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 33000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 38000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 46000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 36000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 39000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 100000
+    )
   }
 }
 
