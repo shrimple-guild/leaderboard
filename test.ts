@@ -1,4 +1,4 @@
-import { Database } from "./Database.js"
+import { Database } from "./database.js"
 import { API } from "./API.js"
 import { Leaderboard } from "./Leaderboard.js"
 import { GuildEvent } from "./GuildEvent.js"

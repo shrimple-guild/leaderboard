@@ -40,6 +40,7 @@ export class API {
         profileId: profile.profile_id.replaceAll("-", ""),
         cuteName: profile.cute_name,
         metrics: profileMetrics,
+        raw: JSON.stringify(profile),
       }
     })
   }
@@ -193,6 +194,26 @@ function getMetric(member: any, metric: Metric): number | undefined {
     )
   } else if (metric.name == "Rare Sea Creature Score") {
     return getRareSeaCreatureScore(member)
+  } else if (metric.name == "Kuudra Completions") {
+    const tiers = member.nether_island_player_data?.kuudra_completed_tiers
+    return (tiers?.none ?? 0) + (tiers?.hot ?? 0) + (tiers?.burning ?? 0) + (tiers?.fiery ?? 0) + (tiers?.infernal ?? 0)
+  } else if (metric.name == "Weighted Dungeon Completions") {
+    return (
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 25000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 25000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) * 25000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 42000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) * 33000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 37500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 104000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 29000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 33000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 38000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 46000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 36000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 39000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 100000
+    )
   }
 }
 
@@ -206,26 +227,26 @@ const trophyFishBase: Record<string, number> = {
   soul_fish: 80,
   moldfin: 80,
   skeleton_fish: 80,
-  vanille: 80,
-  volcanic_stonefish: 24,
+  vanille: 90,
+  volcanic_stonefish: 16,
   mana_ray: 40,
   lava_horse: 32,
   flyfish: 12,
-  slugfish: 250,
+  slugfish: 370,
   obfuscated_fish_3: 40,
   blobfish: 8,
   obfuscated_fish_2: 22,
   gusher: 8,
-  obfuscated_fish_1: 64,
-  steaming_hot_flounder: 4,
+  obfuscated_fish_1: 0,
+  steaming_hot_flounder: 5,
   sulphur_skitter: 2,
 }
 
 const trophyFishMultipliers: Record<string, number> = {
   bronze: 1,
   silver: 2.5,
-  gold: 25,
-  diamond: 100,
+  gold: 21.7391304348,
+  diamond: 86.9565217391,
 }
 
 const trophyFishWeights: Record<string, number> = {}

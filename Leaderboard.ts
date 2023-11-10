@@ -1,4 +1,4 @@
-import { Database } from "./Database.js"
+import { Database } from "./database.js"
 import { API } from "./API.js"
 
 export class Leaderboard {
@@ -17,16 +17,12 @@ export class Leaderboard {
   }
 
   async updatePlayersInGuild(members: string[]) {
-    const result = await Promise.allSettled(
-      members.map(uuid => this.updatePlayer(uuid))
-    )
+    const result = await Promise.allSettled(members.map(uuid => this.updatePlayer(uuid)))
     return this.successRate(result)
   }
 
-  async updateProfilesInGuild(members: string[], timestamp: number) {
-    const result = await Promise.allSettled(
-      members.map(uuid => this.updateProfiles(uuid, timestamp))
-    )
+  async updateProfilesInGuild(members: string[], timestamp: number, isStart?: boolean) {
+    const result = await Promise.allSettled(members.map(uuid => this.updateProfiles(uuid, timestamp, isStart)))
     return this.successRate(result)
   }
 
@@ -35,27 +31,21 @@ export class Leaderboard {
     this.db.setUsername(uuid, name)
   }
 
-  async updateProfiles(uuid: string, timestamp: number) {
+  async updateProfiles(uuid: string, timestamp: number, isStart?: boolean) {
     const profiles = await this.api.fetchProfiles(uuid)
-    profiles.map(profile => this.db.setProfile(profile, timestamp))
+    profiles.forEach(profile => {
+      this.db.setProfile(profile, timestamp)
+      if (isStart != null) {
+        this.db.insertProfileBackup(profile.profileId, isStart, profile.raw)
+      }
+    })
   }
 
-  getLeaderboard(
-    guildId: string,
-    metric: string,
-    start?: number,
-    end?: number
-  ) {
+  getLeaderboard(guildId: string, metric: string, start?: number, end?: number) {
     return this.db.getLeaderboard(guildId, metric, start, end)
   }
 
-  getTimeseries(
-    username: string,
-    cuteName: string,
-    metric: string,
-    start?: number,
-    end?: number
-  ) {
+  getTimeseries(username: string, cuteName: string, metric: string, start?: number, end?: number) {
     return this.db.getTimeseries(username, cuteName, metric, start, end)
   }
 

@@ -1,4 +1,4 @@
-import { Database } from "./Database.js"
+import { Database } from "./database.js"
 import { API } from "./API.js"
 import { Leaderboard } from "./Leaderboard.js"
 import { CronJob } from "cron"
@@ -10,7 +10,7 @@ import eventConfig from "./event.json" assert { type: "json" }
 
 const api = new API(config.apiKey, metrics)
 
-const dbName = `./lb_${eventConfig.start}_${eventConfig.start + eventConfig.duration}.db`
+const dbName = `./lb_${eventConfig.guildId}-${eventConfig.start}_${eventConfig.start + eventConfig.duration}.db`
 const database = new Database(dbName, metrics)
 const lb = new Leaderboard(api, database)
 const event = GuildEvent.from(eventConfig, lb)
@@ -18,7 +18,7 @@ const discordBot = await DiscordBot.create(config.discordToken, [], event)
 
 console.log("Event ready.")
 
-const updateEventJob = new CronJob("0 5-59/20 * * * *", async () => {
+const updateEventJob = new CronJob("0 */20 * * * *", async () => {
   try {
     console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
 
@@ -32,7 +32,10 @@ const updateEventJob = new CronJob("0 5-59/20 * * * *", async () => {
       await event.updatePlayers()
       console.log(`Players updated.`)
 
-      await event.updateProfiles(updateTime)
+      // tri state booleans B)
+      const isStart = updateTime == event.start ? true : updateTime == event.end ? false : undefined
+
+      await event.updateProfiles(updateTime, isStart)
       console.log(`Profiles updated.`)
 
       if (updateTime == event.start) {

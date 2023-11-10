@@ -377,5 +377,43 @@
     "name": "Gold Collection",
     "counter": "collection",
     "path": "collection.GOLD_INGOT"
+  },
+  {
+    "name": "Kuudra Completions",
+    "counter": "completions"
+  },
+  {
+    "name": "Basic Kuudra Completions",
+    "counter": "completions",
+    "path": "nether_island_player_data.kuudra_completed_tiers.none"
+  },
+  {
+    "name": "Hot Kuudra Completions",
+    "counter": "completions",
+    "path": "nether_island_player_data.kuudra_completed_tiers.hot"
+  },
+  {
+    "name": "Burning Kuudra Completions",
+    "counter": "completions",
+    "path": "nether_island_player_data.kuudra_completed_tiers.burning"
+  },
+  {
+    "name": "Fiery Kuudra Completions",
+    "counter": "completions",
+    "path": "nether_island_player_data.kuudra_completed_tiers.fiery"
+  },
+  {
+    "name": "Infernal Kuudra Completions",
+    "counter": "completions",
+    "path": "nether_island_player_data.kuudra_completed_tiers.infernal"
+  },
+  {
+    "name": "Nucleus Runs",
+    "counter": "runs",
+    "path": "leveling.completions.NUCLEUS_RUNS"
+  },
+  {
+    "name": "Weighted Dungeon Completions",
+    "counter": "score"
   }
 ]

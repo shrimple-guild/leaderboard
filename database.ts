@@ -34,6 +34,11 @@ export class Database {
         FOREIGN KEY (metricId) REFERENCES Metrics(id),
         PRIMARY KEY (profileId, timestamp, metricId)
       );
+      CREATE TABLE IF NOT EXISTS ProfileBackup (
+        profileId TEXT NOT NULL,
+        isStart INTEGER NOT NULL,
+        data TEXT NOT NULL
+      );
       CREATE INDEX IF NOT EXISTS TimestampIndex ON ProfileData (timestamp);
       CREATE INDEX IF NOT EXISTS MetricIndex ON ProfileData (metricId);
       CREATE INDEX IF NOT EXISTS ValueIndex ON ProfileData (value);
@@ -41,12 +46,7 @@ export class Database {
     this.addMetrics(metrics)
   }
 
-  getLeaderboard(
-    guildId: string,
-    metric: string,
-    start?: number,
-    end?: number
-  ): LeaderboardPosition[] {
+  getLeaderboard(guildId: string, metric: string, start?: number, end?: number): LeaderboardPosition[] {
     const stmt = this.db.prepare(`
       WITH ProfileLeaderboard AS (
         SELECT profileId, MAX(value) - IIF(:start IS NOT NULL, MIN(value), 0) AS profileValue, name AS metric, counter
@@ -77,13 +77,7 @@ export class Database {
     }) as LeaderboardPosition[]
   }
 
-  getTimeseries(
-    username: string,
-    cuteName: string,
-    metric: string,
-    start?: number,
-    end?: number
-  ): Timeseries[] {
+  getTimeseries(username: string, cuteName: string, metric: string, start?: number, end?: number): Timeseries[] {
     const stmt = this.db.prepare(`
       SELECT 
         timestamp - :start AS time, value - MIN(value) OVER() AS value
@@ -109,18 +103,14 @@ export class Database {
   }
 
   setGuildMembers(guildId: string, members: string[]) {
-    const clearGuildMembers = this.db.prepare(
-      `UPDATE Players SET guildId = NULL WHERE guildId = ?`
-    )
+    const clearGuildMembers = this.db.prepare(`UPDATE Players SET guildId = NULL WHERE guildId = ?`)
     const insertGuildMember = this.db.prepare(`
       INSERT INTO Players (id, guildId) VALUES (:id, :guildId) 
       ON CONFLICT (id) DO UPDATE SET guildId = excluded.guildId
     `)
     this.db.transaction(() => {
       clearGuildMembers.run(guildId)
-      members.forEach(member =>
-        insertGuildMember.run({ id: member, guildId: guildId })
-      )
+      members.forEach(member => insertGuildMember.run({ id: member, guildId: guildId }))
     })()
   }
 
@@ -171,5 +161,22 @@ export class Database {
       ON CONFLICT (name) DO UPDATE SET counter = excluded.counter
     `)
     metrics.forEach(metric => insertMetricStmt.run(metric))
+  }
+
+  insertProfileBackup(profileId: string, isStart: boolean, backupData: string) {
+    try {
+      const insertBackupStmt = this.db.prepare(`
+            INSERT INTO ProfileBackup (profileId, isStart, data)
+            VALUES (:profileId, :isStart, :backupData)
+          `)
+
+      insertBackupStmt.run({
+        profileId: profileId,
+        isStart: isStart ? 1 : 0,
+        backupData: backupData,
+      })
+    } catch (e: any) {
+      console.error(`Error while saving backup for profileId ${profileId}: ${e}`)
+    }
   }
 }
