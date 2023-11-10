@@ -43,33 +43,22 @@ export class GuildEvent {
     await this.lb.updatePlayersInGuild(guildMembers)
   }
 
-  async updateProfiles(time: number) {
+  async updateProfiles(time: number, isStart?: boolean) {
     const guildMembers = this.lb.getGuildMembers(this.guildId)
     this.lb.updateGuild(this.guildId, guildMembers)
-    await this.lb.updateProfilesInGuild(guildMembers, time)
+    await this.lb.updateProfilesInGuild(guildMembers, time, isStart)
   }
 
   getLeaderboard(metric?: string) {
     const leaderboardMetric = metric ?? this.metric
     if (leaderboardMetric == undefined) return undefined
-    return this.lb.getLeaderboard(
-      this.guildId,
-      leaderboardMetric,
-      this.start,
-      this.end
-    )
+    return this.lb.getLeaderboard(this.guildId, leaderboardMetric, this.start, this.end)
   }
 
   getTimeseries(username: string, cuteName: string, metric?: string) {
     const timeseriesMetric = metric ?? this.metric
     if (timeseriesMetric == undefined) return undefined
-    return this.lb.getTimeseries(
-      username,
-      cuteName,
-      timeseriesMetric,
-      this.start,
-      this.end
-    )
+    return this.lb.getTimeseries(username, cuteName, timeseriesMetric, this.start, this.end)
   }
 
   async fetchMetric() {

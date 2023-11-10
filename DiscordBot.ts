@@ -24,8 +24,7 @@ export class DiscordBot {
   private constructor(private client: Client<true>, event: GuildEvent) {
     client.on(Events.InteractionCreate, async interaction => {
       try {
-        if (!interaction.inCachedGuild() || !interaction.isStringSelectMenu())
-          return
+        if (!interaction.inCachedGuild() || !interaction.isStringSelectMenu()) return
         if (interaction.customId != "leaderboardSelector") return
         await interaction.deferReply({ ephemeral: true })
         const metric = interaction.values[0]
@@ -33,24 +32,19 @@ export class DiscordBot {
         if (!data) return
         data.embed.setTitle(`${metric} Leaderboard`)
 
-        await interaction.editReply({
-          embeds: [data.embed],
-          files: [
-            event.iconAttachment,
-            new AttachmentBuilder(data.attachment, { name: "chart.png" }),
-          ],
-        }).catch(console.error)
+        await interaction
+          .editReply({
+            embeds: [data.embed],
+            files: [event.iconAttachment, new AttachmentBuilder(data.attachment, { name: "chart.png" })],
+          })
+          .catch(console.error)
       } catch (e) {
         console.error(e)
       }
     })
   }
 
-  static async create(
-    token: string,
-    intents: GatewayIntentBits[],
-    event: GuildEvent
-  ) {
+  static async create(token: string, intents: GatewayIntentBits[], event: GuildEvent) {
     const client = new Client({ intents: intents })
     client.login(token)
     const clientReady: Client<true> = await new Promise((resolve, reject) => {
@@ -66,8 +60,7 @@ export class DiscordBot {
   async fetchLeaderboardChannel(event: GuildEvent) {
     const guild = await this.client.guilds.fetch(event.discordGuildId)
     const channel = await guild.channels.fetch(event.discordChannelId)
-    if (channel?.type != ChannelType.GuildText)
-      throw Error("Output channel is not a text channel.")
+    if (channel?.type != ChannelType.GuildText) throw Error("Output channel is not a text channel.")
     return channel
   }
 
@@ -83,9 +76,7 @@ export class DiscordBot {
   async sendLeaderboardEmbed(event: GuildEvent) {
     const data = await this.getLeaderboardEmbed(event)
     if (!data) return
-    data.embed
-      .setTitle(event.parse(event.name))
-      .setDescription(event.fullDescription)
+    data.embed.setTitle(event.parse(event.name)).setDescription(event.fullDescription)
 
     const actionBar = this.getActionBar(event)
 
@@ -93,10 +84,7 @@ export class DiscordBot {
       event,
       {
         embeds: [data.embed],
-        files: [
-          event.iconAttachment,
-          new AttachmentBuilder(data.attachment, { name: "chart.png" }),
-        ],
+        files: [event.iconAttachment, new AttachmentBuilder(data.attachment, { name: "chart.png" })],
         components: actionBar,
       },
       true,
@@ -115,10 +103,7 @@ export class DiscordBot {
 
   private async send(
     event: GuildEvent,
-    message:
-      | string
-      | MessagePayload
-      | (MessageEditOptions & MessageCreateOptions),
+    message: string | MessagePayload | (MessageEditOptions & MessageCreateOptions),
     tryEdit: boolean,
     ping: boolean
   ) {
@@ -137,19 +122,15 @@ export class DiscordBot {
     if (!leaderboard) return
     const plot = generateLeaderboardPlot(event, leaderboard, metric)
     if (!plot) return
-    let fields = leaderboard
-      .slice(0, 10)
-      .map(({ rank, username, cuteName, value, counter }) => {
-        return {
-          name: `${rank}. ${username} (${cuteName})`,
-          value: `**${formatter.format(value)}** ${counter}`,
-          inline: true,
-        }
-      })
+    let fields = leaderboard.slice(0, 10).map(({ rank, username, cuteName, value, counter }) => {
+      return {
+        name: `${rank}. ${username} (${cuteName})`,
+        value: `**${formatter.format(value)}** ${counter}`,
+        inline: true,
+      }
+    })
     const blankField = { name: "\u200b", value: "\u200b", inline: true }
-    fields = fields.flatMap((value, index) =>
-      (index + 1) % 2 == 0 ? [value, blankField] : value
-    )
+    fields = fields.flatMap((value, index) => ((index + 1) % 2 == 0 ? [value, blankField] : value))
     const continued10 = continueData(10, leaderboard)
     if (continued10 != null) fields.push(continued10)
     const continued15 = continueData(15, leaderboard)
@@ -174,9 +155,7 @@ export class DiscordBot {
   }
 
   private getActionBar(event: GuildEvent) {
-    const options = event.related?.map(metric =>
-      new StringSelectMenuOptionBuilder().setLabel(metric).setValue(metric)
-    )
+    const options = event.related?.map(metric => new StringSelectMenuOptionBuilder().setLabel(metric).setValue(metric))
     if (options == null || options.length == 0) return undefined
     return [
       new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
@@ -201,10 +180,7 @@ function continueData(start: number, data: LeaderboardPosition[]) {
     return {
       name: "Continued",
       value: continuedData
-        .map(
-          ({ rank, username, cuteName, value, counter }) =>
-            `**${rank}.** ${username} (${formatter.format(value)})`
-        )
+        .map(({ rank, username, cuteName, value, counter }) => `**${rank}.** ${username} (${formatter.format(value)})`)
         .join("\n"),
       inline: true,
     }

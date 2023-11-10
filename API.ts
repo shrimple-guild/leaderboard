@@ -40,6 +40,7 @@ export class API {
         profileId: profile.profile_id.replaceAll("-", ""),
         cuteName: profile.cute_name,
         metrics: profileMetrics,
+        raw: JSON.stringify(profile),
       }
     })
   }
@@ -226,26 +227,26 @@ const trophyFishBase: Record<string, number> = {
   soul_fish: 80,
   moldfin: 80,
   skeleton_fish: 80,
-  vanille: 80,
-  volcanic_stonefish: 24,
+  vanille: 90,
+  volcanic_stonefish: 16,
   mana_ray: 40,
   lava_horse: 32,
   flyfish: 12,
-  slugfish: 250,
+  slugfish: 370,
   obfuscated_fish_3: 40,
   blobfish: 8,
   obfuscated_fish_2: 22,
   gusher: 8,
-  obfuscated_fish_1: 64,
-  steaming_hot_flounder: 4,
+  obfuscated_fish_1: 0,
+  steaming_hot_flounder: 5,
   sulphur_skitter: 2,
 }
 
 const trophyFishMultipliers: Record<string, number> = {
   bronze: 1,
   silver: 2.5,
-  gold: 25,
-  diamond: 100,
+  gold: 21.7391304348,
+  diamond: 86.9565217391,
 }
 
 const trophyFishWeights: Record<string, number> = {}
