@@ -25,7 +25,7 @@ export class DiscordBot {
     client.on(Events.InteractionCreate, async interaction => {
       try {
         if (!interaction.inCachedGuild() || !interaction.isStringSelectMenu()) return
-        if (interaction.customId != "leaderboardSelector") return
+        if (interaction.customId != `leaderboardSelector_${event.guildId}`) return
         await interaction.deferReply({ ephemeral: true })
         const metric = interaction.values[0]
         const data = await this.getLeaderboardEmbed(event, metric).catch(console.error)
@@ -160,7 +160,7 @@ export class DiscordBot {
     return [
       new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
         new StringSelectMenuBuilder()
-          .setCustomId("leaderboardSelector")
+          .setCustomId(`leaderboardSelector_${event.guildId}`)
           .setPlaceholder("View other leaderboards")
           .addOptions(options)
       ),
