@@ -7,33 +7,10 @@
   "intro": "The {metric} event has begun!",
   "description": "Shrimple is hosting a {metric} event for 24 hours! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Jacob",
-  "icon": "jacob.png",
-  "start": 1700370000000,
-  "duration": 86400000,
-  "metrics": [
-    "Wheat Collection",
-    "Carrot Collection",
-    "Potato Collection",
-    "Pumpkin Collection",
-    "Sugar Cane Collection",
-    "Melon Collection",
-    "Cactus Collection",
-    "Cocoa Bean Collection",
-    "Mushroom Collection",
-    "Nether Wart Collection"
-  ],
-  "related": [
-    "Farming XP",
-    "Wheat Collection",
-    "Carrot Collection",
-    "Potato Collection",
-    "Pumpkin Collection",
-    "Sugar Cane Collection",
-    "Melon Collection",
-    "Cactus Collection",
-    "Cocoa Bean Collection",
-    "Mushroom Collection",
-    "Nether Wart Collection"
-  ]
+  "author": "Marina",
+  "icon": "marina.png",
+  "start": 1700997300000,
+  "duration": 446400000,
+  "metric": "Fishing XP",
+  "related": ["Shark Kills", "Sea Creature Kills"]
 }
