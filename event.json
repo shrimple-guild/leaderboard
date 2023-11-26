@@ -5,7 +5,7 @@
   "guildId": "63d0278d8ea8c999a1004ef9",
   "name": "{metric} Event",
   "intro": "The {metric} event has begun!",
-  "description": "Shrimple is hosting a {metric} event for 24 hours! Good luck to all participants.",
+  "description": "Shrimple is hosting a {metric} event for the duration of Marina! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
   "author": "Marina",
   "icon": "marina.png",
