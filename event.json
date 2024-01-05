@@ -5,12 +5,12 @@
   "guildId": "651316cd8ea8c9e6a31fbccb",
   "name": "{metric} Event",
   "intro": "The {metric} event has begun!",
-  "description": "Prawn Academy is hosting a {metric} event for the duration of Marina! Good luck to all participants.",
+  "description": "Prawn Academy is hosting a {metric} event for 52 hours (what?)! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Marina",
-  "icon": "marina.png",
-  "start": 1700997900000,
-  "duration": 446400000,
-  "metric": "Fishing XP",
-  "related": ["Shark Kills", "Sea Creature Kills"]
+  "author": "Vanessa",
+  "icon": "vanessa.png",
+  "start": 1704496200000,
+  "duration": 187200000,
+  "metric": "Ink Sac Collection",
+  "related": ["Fishing XP", "Sea Creature Kills", "Items Fished"]
 }
