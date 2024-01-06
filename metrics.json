@@ -415,5 +415,10 @@
   {
     "name": "Weighted Dungeon Completions",
     "counter": "score"
+  },
+  {
+    "name": "Ink Sac Collection",
+    "counter": "sacs",
+    "path": "collection.INK_SACK"
   }
 ]
