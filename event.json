@@ -5,12 +5,12 @@
   "guildId": "63d0278d8ea8c999a1004ef9",
   "name": "{metric} Event",
   "intro": "The {metric} event has begun!",
-  "description": "Shrimple is hosting a {metric} event for 5 days! Good luck to all participants.",
+  "description": "Shrimple is hosting a {metric} event until the end of Aatrox! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Vanessa",
-  "icon": "vanessa.png",
-  "start": 1704171600000,
-  "duration": 432000000,
-  "metric": "Ink Sac Collection",
-  "related": ["Fishing XP", "Sea Creature Kills", "Items Fished"]
+  "author": "Maddox",
+  "icon": "maddox.png",
+  "start": 1704603600000,
+  "duration": 411600000,
+  "metric": "Weighted Slayer XP",
+  "related": ["Zombie XP", "Spider XP", "Wolf XP", "Enderman XP", "Blaze XP"]
 }
