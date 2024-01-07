@@ -11,6 +11,6 @@
   "icon": "maddox.png",
   "start": 1704603600000,
   "duration": 411600000,
-  "metric": "Weighted Slayer XP",
+  "metric": "Slayer Weight",
   "related": ["Zombie XP", "Spider XP", "Wolf XP", "Enderman XP", "Blaze XP"]
 }
