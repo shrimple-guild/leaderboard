@@ -4,11 +4,14 @@ import rateLimit from "axios-rate-limit"
 import creatures from "./creatures.json" assert { type: "json" }
 import { Metric, Profile } from "types"
 import { getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
+import { LRUCache } from "lru-cache"
 
 export class API {
   client: AxiosInstance
+  private uuidCache: LRUCache<string, string>
 
   constructor(private apiKey: string, private metrics: Metric[]) {
+    this.uuidCache = new LRUCache({ max: 1000, ttl: 86400 * 1000 })
     this.client = axios.create({
       timeout: 3000,
       baseURL: "https://api.hypixel.net",
@@ -46,9 +49,15 @@ export class API {
   }
 
   async fetchName(uuid: string): Promise<string> {
+    const cachedUuid = this.uuidCache.get(uuid)
+    if (cachedUuid) {
+      return uuid
+    }
     const resp = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
     if (resp.status != 200) throw new Error(`Failed to get Mojang data for ${uuid} (status ${resp.status})`)
-    return resp.json().then(data => data.name)
+    const name = await resp.json().then(data => data.name)
+    this.uuidCache.set(uuid, name)
+    return name
   }
 
   private fetchMetrics(member: any): { metric: string; value: number }[] {
