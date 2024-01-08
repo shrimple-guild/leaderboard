@@ -8,10 +8,10 @@ import { LRUCache } from "lru-cache"
 
 export class API {
   client: AxiosInstance
-  private uuidCache: LRUCache<string, string>
+  private nameCache: LRUCache<string, string>
 
   constructor(private apiKey: string, private metrics: Metric[]) {
-    this.uuidCache = new LRUCache({ max: 1000, ttl: 86400 * 1000 })
+    this.nameCache = new LRUCache({ max: 1000, ttl: 86400 * 1000 })
     this.client = axios.create({
       timeout: 3000,
       baseURL: "https://api.hypixel.net",
@@ -49,14 +49,14 @@ export class API {
   }
 
   async fetchName(uuid: string): Promise<string> {
-    const cachedUuid = this.uuidCache.get(uuid)
-    if (cachedUuid) {
-      return uuid
+    const cachedName = this.nameCache.get(uuid)
+    if (cachedName) {
+      return cachedName
     }
     const resp = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
     if (resp.status != 200) throw new Error(`Failed to get Mojang data for ${uuid} (status ${resp.status})`)
     const name = await resp.json().then(data => data.name)
-    this.uuidCache.set(uuid, name)
+    this.nameCache.set(uuid, name)
     return name
   }
 
