@@ -53,7 +53,7 @@ export class API {
     if (cachedName) {
       return cachedName
     }
-    const resp = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
+    const resp = await fetch(`https://mowojang.matdoes.dev/session/minecraft/profile/${uuid}`)
     if (resp.status != 200) throw new Error(`Failed to get Mojang data for ${uuid} (status ${resp.status})`)
     const name = await resp.json().then(data => data.name)
     this.nameCache.set(uuid, name)

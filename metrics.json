@@ -420,5 +420,10 @@
     "name": "Ink Sac Collection",
     "counter": "sacs",
     "path": "collection.INK_SACK"
+  },
+  {
+    "name": "Oasis Sheep Bestiary",
+    "counter": "sheepies",
+    "path": "bestiary.kills.oasis_sheep_10"
   }
 ]
