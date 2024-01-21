@@ -425,5 +425,10 @@
     "name": "Oasis Sheep Bestiary",
     "counter": "sheepies",
     "path": "bestiary.kills.oasis_sheep_10"
+  },
+  {
+    "name": "Carrot King Bestiary",
+    "counter": "lucky clover cores",
+    "path": "bestiary.kills.carrot_king_25"
   }
 ]
