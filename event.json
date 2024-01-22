@@ -5,11 +5,11 @@
   "guildId": "63d0278d8ea8c999a1004ef9",
   "name": "{metric} Event",
   "intro": "The {metric} event has begun!",
-  "description": "Shrimple is hosting a 24-hour {metric} event sponsored by 🐑AyaDaSheep🐑! Good luck to all participants.",
+  "description": "Shrimple is hosting a major {metric} event sponsored by 🐑AyaDaSheep🐑! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Marina",
-  "icon": "marina.png",
-  "start": 1705813200000,
-  "duration": 86400000,
-  "metric": "Carrot King Bestiary"
+  "author": "Elle",
+  "icon": "elle.png",
+  "start": 1705899600000,
+  "duration": 432000000,
+  "metric": "Kuudra Completions (T4/5)"
 }

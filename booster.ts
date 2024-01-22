@@ -48,10 +48,7 @@ type GroupedElements<T> = {
   [key: string]: T[]
 }
 
-function groupArrayElements<T>(
-  array: T[],
-  testingFunction: (element: T) => string
-): GroupedElements<T> {
+function groupArrayElements<T>(array: T[], testingFunction: (element: T) => string): GroupedElements<T> {
   const groupedElements: GroupedElements<T> = {}
 
   for (const element of array) {
@@ -66,13 +63,9 @@ function groupArrayElements<T>(
   return groupedElements
 }
 
-const profiles = groupArrayElements(
-  res,
-  row => `${row.username.toLowerCase()}:${row.cuteName.toLowerCase()}`
-)
+const profiles = groupArrayElements(res, row => `${row.username.toLowerCase()}:${row.cuteName.toLowerCase()}`)
 
-const average = (array: number[]) =>
-  array.reduce((a, b) => a + b) / array.length
+const average = (array: number[]) => array.reduce((a, b) => a + b) / array.length
 
 const data = Object.fromEntries(
   Object.entries(profiles)
@@ -90,10 +83,7 @@ const data = Object.fromEntries(
           sharkKillsThisInterval = 0
         }
       }
-      return [
-        profile,
-        festivalResults.length > 0 ? average(festivalResults) : 0,
-      ]
+      return [profile, festivalResults.length > 0 ? average(festivalResults) : 0]
     })
     .filter(val => val[1] != 0)
     .sort((a: any, b: any) => b[1] - a[1])

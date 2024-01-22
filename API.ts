@@ -4,7 +4,7 @@ import rateLimit from "axios-rate-limit"
 import creatures from "./creatures.json" assert { type: "json" }
 import { Metric, Profile } from "types"
 import { getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
-import { LRUCache } from "lru-cache"
+import LRUCache from "lru-cache"
 
 export class API {
   client: AxiosInstance
@@ -206,6 +206,9 @@ function getMetric(member: any, metric: Metric): number | undefined {
   } else if (metric.name == "Kuudra Completions") {
     const tiers = member.nether_island_player_data?.kuudra_completed_tiers
     return (tiers?.none ?? 0) + (tiers?.hot ?? 0) + (tiers?.burning ?? 0) + (tiers?.fiery ?? 0) + (tiers?.infernal ?? 0)
+  } else if (metric.name == "Kuudra Completions (T4/5)") {
+    const tiers = member.nether_island_player_data?.kuudra_completed_tiers
+    return (tiers?.fiery ?? 0) + (tiers?.infernal ?? 0)
   } else if (metric.name == "Weighted Dungeon Completions") {
     return (
       (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 25000 +
