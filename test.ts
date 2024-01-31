@@ -16,15 +16,17 @@ const event = GuildEvent.from(eventConfig, lb)
 const uuid = "59998433ceda41c1b0acffe7d9b33594"
 const profileName = "orange"
 
+/*
 const res = await fetch(`https://api.hypixel.net/skyblock/profiles?uuid=${uuid}&key=${config.apiKey}`).then(res =>
   res.json()
 )
 
+
 const member = res.profiles.find(
   (profile: any) => profile.cute_name.toLocaleLowerCase() == profileName.toLocaleLowerCase()
 )?.members?.[uuid]
+*/
 
-const bestiary = getRareSeaCreatureScore(member)
-//console.log(bestiary)
-
-console.log(JSON.stringify(bestiary, null, 4))
+const profiles = await api.fetchProfiles(uuid)
+const profile = profiles.find(profile => profile.cuteName.toLowerCase() == profileName)
+console.log(profile!.metrics)
