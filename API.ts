@@ -61,6 +61,19 @@ export class API {
   }
 
   private fetchMetrics(member: any): { metric: string; value: number }[] {
+    // guard against skill api disablers destroying events
+    if (
+      member.experience_skill_fishing == null &&
+      member.experience_skill_mining == null &&
+      member.experience_skill_combat == null &&
+      member.experience_skill_foraging == null &&
+      member.experience_skill_farming == null &&
+      member.experience_skill_enchanting == null &&
+      member.experience_skill_alchemy == null &&
+      member.experience_skill_carpentry == null
+    ) {
+      return []
+    }
     return this.metrics
       .map(metric => ({
         metric: metric.name,
@@ -161,18 +174,6 @@ function getMetric(member: any, metric: Metric): number | undefined {
   } else if (metric.name == "Mythological Bestiary") {
     return getMythologicalKills(member)?.mythologicalKills
   } else if (metric.name == "Skill Weight") {
-    if (
-      member.experience_skill_fishing == null &&
-      member.experience_skill_mining == null &&
-      member.experience_skill_combat == null &&
-      member.experience_skill_foraging == null &&
-      member.experience_skill_farming == null &&
-      member.experience_skill_enchanting == null &&
-      member.experience_skill_alchemy == null &&
-      member.experience_skill_carpentry == null
-    ) {
-      return undefined
-    }
     return (
       (member.experience_skill_fishing ?? 0) * 0.4 +
       (member.experience_skill_mining ?? 0) * 0.2 +
