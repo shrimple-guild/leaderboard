@@ -23,7 +23,7 @@ const updateEventJob = new CronJob("0 */20 * * * *", async () => {
     console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
 
     if (updateTime >= event.start) {
-      await event.updateGuild()
+      await event.updateGuilds()
       console.log("Guild updated.")
 
       const metric = await event.fetchMetric()

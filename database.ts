@@ -1,5 +1,5 @@
 import Sql from "better-sqlite3"
-import { LeaderboardPosition, Metric, Profile, Timeseries } from "./types"
+import { LeaderboardPosition, LeaderboardPositionWithoutRank, Metric, Profile, Timeseries } from "./types"
 
 export class Database {
   private db: Sql.Database
@@ -46,7 +46,7 @@ export class Database {
     this.addMetrics(metrics)
   }
 
-  getLeaderboard(guildId: string, metric: string, start?: number, end?: number): LeaderboardPosition[] {
+  getLeaderboard(guildId: string, metric: string, start?: number, end?: number): LeaderboardPositionWithoutRank[] {
     const stmt = this.db.prepare(`
       WITH ProfileLeaderboard AS (
         SELECT profileId, MAX(value) - IIF(:start IS NOT NULL, MIN(value), 0) AS profileValue, name AS metric, counter
@@ -56,7 +56,6 @@ export class Database {
         GROUP BY profileId
       )
       SELECT
-        RANK() OVER (ORDER BY MAX(profileValue) DESC) rank,
         username,
         cuteName,
         MAX(profileValue) AS value,
@@ -67,7 +66,6 @@ export class Database {
       INNER JOIN Players on playerId = Players.id AND guildId = :guildId
       GROUP BY playerId
       HAVING MAX(profileValue) > 0
-      ORDER BY MAX(profileValue) DESC
     `)
     return stmt.all({
       metric: metric,

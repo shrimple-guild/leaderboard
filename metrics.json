@@ -80,5 +80,10 @@
   {
     "name": "Jerry Event Score",
     "counter": "score"
+  },
+  {
+    "name": "Mushroom Cow Bestiary",
+    "counter": "cyclamen dyes",
+    "path": "bestiary.kills.mushroom_cow_1"
   }
 ]
