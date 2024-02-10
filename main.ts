@@ -10,7 +10,9 @@ import eventConfig from "./event.json" assert { type: "json" }
 
 const api = new API(config.apiKey, metrics)
 
-const dbName = `./lb_${eventConfig.guildId}-${eventConfig.start}_${eventConfig.start + eventConfig.duration}.db`
+const dbName = `./lb_${eventConfig.guildIds.join("_")}-${eventConfig.start}_${
+  eventConfig.start + eventConfig.duration
+}.db`
 const database = new Database(dbName, metrics)
 const lb = new Leaderboard(api, database)
 const event = GuildEvent.from(eventConfig, lb)
@@ -24,7 +26,7 @@ const updateEventJob = new CronJob("0 */20 * * * *", async () => {
 
     if (updateTime >= event.start) {
       await event.updateGuilds()
-      console.log("Guild updated.")
+      console.log("Guilds updated.")
 
       const metric = await event.fetchMetric()
       console.log(`Event metric: ${metric}`)

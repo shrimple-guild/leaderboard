@@ -14,6 +14,7 @@ export class Leaderboard {
   }
 
   updateGuild(guildId: string, members: string[]) {
+    console.log(`Updating ${guildId} with ${members.length} members`)
     this.db.setGuildMembers(guildId, members)
   }
 

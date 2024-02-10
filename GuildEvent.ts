@@ -5,7 +5,7 @@ import { AttachmentBuilder } from "discord.js"
 export class GuildEvent {
   discordGuildId!: string
   discordChannelId!: string
-  pingRoleId!: string
+  pingRoleIds!: string[]
   guildIds!: string[]
   name!: string
   intro!: string

@@ -9,13 +9,11 @@ import eventConfig from "./event.json" assert { type: "json" }
 import { getBestiary, getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
 
 const api = new API(config.apiKey, metrics)
-const database = new Database("./lb_63d0278d8ea8c999a1004ef9-1706800500000_1707246900000.db", metrics)
+const database = new Database("./test.db", metrics)
 const lb = new Leaderboard(api, database)
 const event = GuildEvent.from(eventConfig, lb)
 
-const leaderboard = event.getLeaderboard("Jerry Event Score")
-
-console.log(leaderboard)
+await event.updateGuilds()
 
 const uuid = "59998433ceda41c1b0acffe7d9b33594"
 const profileName = "orange"
