@@ -9,8 +9,28 @@ interface ProfileData {
   value: number
 }
 
-const db = new Database("lb_63d0278d8ea8c999a1004ef9-1706800500000_1707246900000.db")
+const db = new Database("lb_63d0278d8ea8c999a1004ef9_651316cd8ea8c9e6a31fbccb-1707606000000_1707692400000.db")
 
+const res = db
+  .prepare(
+    `
+WITH ProfileLeaderboard AS (
+        SELECT profileId, MAX(value) - MIN(value) AS profileValue, name AS metric, counter
+        FROM ProfileData
+        INNER JOIN Metrics on metricId = Metrics.id
+        WHERE Metrics.name = 'Mushroom Cow Bestiary'
+        GROUP BY profileId
+      )
+      SELECT
+        SUM(profileValue) AS total
+      FROM ProfileLeaderboard
+`
+  )
+  .all()
+
+console.log(res)
+
+/*
 console.log("Removing invalid Jerry Event Scores from database.")
 
 const query = db
