@@ -4,7 +4,7 @@ import rateLimit from "axios-rate-limit"
 import creatures from "./creatures.json" assert { type: "json" }
 import { Metric, Profile } from "types"
 import { getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
-import { LRUCache } from "lru-cache"
+import LRUCache from "lru-cache"
 
 export class API {
   client: AxiosInstance

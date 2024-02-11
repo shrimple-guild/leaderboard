@@ -20,7 +20,7 @@ const discordBot = await DiscordBot.create(config.discordToken, [], event)
 
 console.log("Event ready.")
 
-const updateEventJob = new CronJob("0 10-59/20 * * * *", async () => {
+const updateEventJob = new CronJob("0 5-59/20 * * * *", async () => {
   try {
     console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
 
