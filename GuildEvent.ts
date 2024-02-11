@@ -5,8 +5,8 @@ import { AttachmentBuilder } from "discord.js"
 export class GuildEvent {
   discordGuildId!: string
   discordChannelId!: string
-  pingRoleId!: string
-  guildId!: string
+  pingRoleIds!: string[]
+  guildIds!: string[]
   name!: string
   intro!: string
   description!: string
@@ -32,27 +32,29 @@ export class GuildEvent {
     return obj
   }
 
-  async updateGuild() {
-    const members = await this.lb.fetchGuildMembers(this.guildId)
-    this.lb.updateGuild(this.guildId, members)
+  async updateGuilds() {
+    await Promise.all(this.guildIds.map(guildId => this.updateGuild(guildId)))
+  }
+
+  private async updateGuild(guildId: string) {
+    const members = await this.lb.fetchGuildMembers(guildId)
+    this.lb.updateGuild(guildId, members)
   }
 
   async updatePlayers() {
-    const guildMembers = this.lb.getGuildMembers(this.guildId)
-    this.lb.updateGuild(this.guildId, guildMembers)
-    await this.lb.updatePlayersInGuild(guildMembers)
+    const guildMembers = this.lb.getGuildMembers(this.guildIds)
+    await this.lb.updatePlayers(guildMembers)
   }
 
   async updateProfiles(time: number, isStart?: boolean) {
-    const guildMembers = this.lb.getGuildMembers(this.guildId)
-    this.lb.updateGuild(this.guildId, guildMembers)
-    await this.lb.updateProfilesInGuild(guildMembers, time, isStart)
+    const guildMembers = this.lb.getGuildMembers(this.guildIds)
+    await this.lb.updateProfiles(guildMembers, time, isStart)
   }
 
   getLeaderboard(metric?: string) {
     const leaderboardMetric = metric ?? this.metric
     if (leaderboardMetric == undefined) return undefined
-    return this.lb.getLeaderboard(this.guildId, leaderboardMetric, this.start, this.end)
+    return this.lb.getLeaderboard(this.guildIds, leaderboardMetric, this.start, this.end)
   }
 
   getTimeseries(username: string, cuteName: string, metric?: string) {

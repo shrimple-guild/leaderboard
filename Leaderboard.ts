@@ -1,11 +1,12 @@
 import { Database } from "./database.js"
 import { API } from "./API.js"
+import { LeaderboardPosition } from "types.js"
 
 export class Leaderboard {
   constructor(private api: API, private db: Database) {}
 
-  getGuildMembers(guildId: string) {
-    return this.db.getGuildMembers(guildId)
+  getGuildMembers(guildIds: string[]) {
+    return guildIds.flatMap(guildId => this.db.getGuildMembers(guildId))
   }
 
   async fetchGuildMembers(guildId: string) {
@@ -13,16 +14,17 @@ export class Leaderboard {
   }
 
   updateGuild(guildId: string, members: string[]) {
+    console.log(`Updating ${guildId} with ${members.length} members`)
     this.db.setGuildMembers(guildId, members)
   }
 
-  async updatePlayersInGuild(members: string[]) {
+  async updatePlayers(members: string[]) {
     const result = await Promise.allSettled(members.map(uuid => this.updatePlayer(uuid)))
     return this.successRate(result)
   }
 
-  async updateProfilesInGuild(members: string[], timestamp: number, isStart?: boolean) {
-    const result = await Promise.allSettled(members.map(uuid => this.updateProfiles(uuid, timestamp, isStart)))
+  async updateProfiles(members: string[], timestamp: number, isStart?: boolean) {
+    const result = await Promise.allSettled(members.map(uuid => this.updateProfilesOfPlayer(uuid, timestamp, isStart)))
     return this.successRate(result)
   }
 
@@ -31,7 +33,7 @@ export class Leaderboard {
     this.db.setUsername(uuid, name)
   }
 
-  async updateProfiles(uuid: string, timestamp: number, isStart?: boolean) {
+  async updateProfilesOfPlayer(uuid: string, timestamp: number, isStart?: boolean) {
     const profiles = await this.api.fetchProfiles(uuid)
     profiles.forEach(profile => {
       this.db.setProfile(profile, timestamp)
@@ -41,8 +43,10 @@ export class Leaderboard {
     })
   }
 
-  getLeaderboard(guildId: string, metric: string, start?: number, end?: number) {
-    return this.db.getLeaderboard(guildId, metric, start, end)
+  getLeaderboard(guildIds: string[], metric: string, start?: number, end?: number): LeaderboardPosition[] {
+    const data = guildIds.flatMap(guildId => this.db.getLeaderboard(guildId, metric, start, end))
+    const result = data.sort((a, b) => b.value - a.value)
+    return data.map((data, index) => ({ ...data, rank: index + 1 }))
   }
 
   getTimeseries(username: string, cuteName: string, metric: string, start?: number, end?: number) {

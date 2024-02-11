@@ -1,55 +1,5 @@
 [
   {
-    "name": "Wheat Collection",
-    "counter": "crops",
-    "path": "collection.WHEAT"
-  },
-  {
-    "name": "Carrot Collection",
-    "counter": "crops",
-    "path": "collection.CARROT_ITEM"
-  },
-  {
-    "name": "Potato Collection",
-    "counter": "crops",
-    "path": "collection.POTATO_ITEM"
-  },
-  {
-    "name": "Pumpkin Collection",
-    "counter": "crops",
-    "path": "collection.PUMPKIN"
-  },
-  {
-    "name": "Sugar Cane Collection",
-    "counter": "crops",
-    "path": "collection.SUGAR_CANE"
-  },
-  {
-    "name": "Melon Collection",
-    "counter": "crops",
-    "path": "collection.MELON"
-  },
-  {
-    "name": "Cactus Collection",
-    "counter": "crops",
-    "path": "collection.CACTUS"
-  },
-  {
-    "name": "Cocoa Bean Collection",
-    "counter": "crops",
-    "path": "collection.INK_SACK:3"
-  },
-  {
-    "name": "Mushroom Collection",
-    "counter": "crops",
-    "path": "collection.MUSHROOM_COLLECTION"
-  },
-  {
-    "name": "Nether Wart Collection",
-    "counter": "crops",
-    "path": "collection.NETHER_STALK"
-  },
-  {
     "name": "Fishing XP",
     "counter": "xp",
     "path": "experience_skill_fishing"
@@ -70,107 +20,9 @@
     "path": "experience_skill_farming"
   },
   {
-    "name": "Carpentry XP",
-    "counter": "xp",
-    "path": "experience_skill_carpentry"
-  },
-  {
     "name": "Enchanting XP",
     "counter": "xp",
     "path": "experience_skill_enchanting"
-  },
-  {
-    "name": "Shark Kills",
-    "counter": "kills"
-  },
-  {
-    "name": "Sea Creature Kills",
-    "counter": "kills",
-    "path": "stats.pet_milestone_sea_creatures_killed"
-  },
-  {
-    "name": "Items Fished",
-    "counter": "items",
-    "path": "stats.items_fished"
-  },
-  {
-    "name": "Entrance Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.0"
-  },
-  {
-    "name": "F1 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.1"
-  },
-  {
-    "name": "F2 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.2"
-  },
-  {
-    "name": "F3 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.3"
-  },
-  {
-    "name": "F4 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.4"
-  },
-  {
-    "name": "F5 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.5"
-  },
-  {
-    "name": "F6 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.6"
-  },
-  {
-    "name": "F7 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.7"
-  },
-  {
-    "name": "M1 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.1"
-  },
-  {
-    "name": "M2 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.2"
-  },
-  {
-    "name": "M3 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.3"
-  },
-  {
-    "name": "M4 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.4"
-  },
-  {
-    "name": "M5 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.5"
-  },
-  {
-    "name": "M6 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.6"
-  },
-  {
-    "name": "M7 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.7"
-  },
-  {
-    "name": "Dungeon Completions",
-    "counter": "completions"
   },
   {
     "name": "Zombie XP",
@@ -202,16 +54,13 @@
     "counter": "xp",
     "path": "slayer_bosses.vampire.xp"
   },
+
   {
-    "name": "Slayer Weight",
-    "counter": "weight"
+    "name": "Dungeon Completions",
+    "counter": "completions"
   },
   {
-    "name": "Mithril Powder",
-    "counter": "powder"
-  },
-  {
-    "name": "Gemstone Powder",
+    "name": "Total Powder",
     "counter": "powder"
   },
   {
@@ -225,200 +74,16 @@
     "path": "leveling.experience"
   },
   {
-    "name": "Linc Weight",
-    "counter": "weight"
-  },
-  {
-    "name": "Powder Score",
-    "counter": "powder"
-  },
-  {
-    "name": "Fishing Actions",
-    "counter": "actions"
-  },
-  {
-    "name": "Blobfish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.blobfish"
-  },
-  {
-    "name": "Volcanic Stonefish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.volcanic_stonefish"
-  },
-  {
-    "name": "Lavahorse Caught",
-    "counter": "fish",
-    "path": "trophy_fish.lava_horse"
-  },
-  {
-    "name": "Moldfin Caught",
-    "counter": "fish",
-    "path": "trophy_fish.moldfin"
-  },
-  {
-    "name": "Golden Fish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.golden_fish"
-  },
-  {
-    "name": "Mana Ray Caught",
-    "counter": "fish",
-    "path": "trophy_fish.mana_ray"
-  },
-  {
-    "name": "Vanille Caught",
-    "counter": "fish",
-    "path": "trophy_fish.vanille"
-  },
-  {
-    "name": "Obfuscated 1 Caught",
-    "counter": "fish",
-    "path": "trophy_fish.obfuscated_fish_1"
-  },
-  {
-    "name": "Obfuscated 2 Caught",
-    "counter": "fish",
-    "path": "trophy_fish.obfuscated_fish_2"
-  },
-  {
-    "name": "Obfuscated 3 Caught",
-    "counter": "fish",
-    "path": "trophy_fish.obfuscated_fish_3"
-  },
-  {
-    "name": "Gusher Caught",
-    "counter": "fish",
-    "path": "trophy_fish.gusher"
-  },
-  {
-    "name": "Flyfish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.flyfish"
-  },
-  {
-    "name": "Skeleton Fish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.skeleton_fish"
-  },
-  {
-    "name": "Karate Fish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.karate_fish"
-  },
-  {
-    "name": "Soul Fish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.soul_fish"
-  },
-  {
-    "name": "Sulphur Skitter Caught",
-    "counter": "fish",
-    "path": "trophy_fish.sulphur_skitter"
-  },
-  {
-    "name": "Steaming-Hot Flounder Caught",
-    "counter": "fish",
-    "path": "trophy_fish.steaming_hot_flounder"
-  },
-  {
-    "name": "Slugfish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.slugfish"
-  },
-  {
-    "name": "Trophy Fish Weight",
-    "counter": "weight"
-  },
-  {
-    "name": "Marina Fishing Weight",
-    "counter": "weight"
-  },
-  {
-    "name": "Bestiary Tiers",
-    "counter": "tiers"
-  },
-  {
-    "name": "Inquisitor Bestiary",
-    "counter": "kills"
-  },
-  {
-    "name": "Mythological Bestiary",
-    "counter": "kills"
-  },
-  {
-    "name": "Skill Weight",
-    "counter": "score"
-  },
-  {
-    "name": "Combat XP",
-    "counter": "xp",
-    "path": "experience_skill_combat"
-  },
-  {
-    "name": "Alchemy XP",
-    "counter": "xp",
-    "path": "experience_skill_alchemy"
-  },
-  {
-    "name": "Social XP",
-    "counter": "xp",
-    "path": "experience_skill_social2"
-  },
-  {
-    "name": "Dungeon Boss Collections",
-    "counter": "score"
-  },
-  {
-    "name": "Rare Sea Creature Score",
-    "counter": "score"
-  },
-  {
-    "name": "Gold Collection",
-    "counter": "collection",
-    "path": "collection.GOLD_INGOT"
-  },
-  {
-    "name": "Kuudra Completions",
+    "name": "Kuudra Completions (T4/5)",
     "counter": "completions"
   },
   {
-    "name": "Basic Kuudra Completions",
-    "counter": "completions",
-    "path": "nether_island_player_data.kuudra_completed_tiers.none"
-  },
-  {
-    "name": "Hot Kuudra Completions",
-    "counter": "completions",
-    "path": "nether_island_player_data.kuudra_completed_tiers.hot"
-  },
-  {
-    "name": "Burning Kuudra Completions",
-    "counter": "completions",
-    "path": "nether_island_player_data.kuudra_completed_tiers.burning"
-  },
-  {
-    "name": "Fiery Kuudra Completions",
-    "counter": "completions",
-    "path": "nether_island_player_data.kuudra_completed_tiers.fiery"
-  },
-  {
-    "name": "Infernal Kuudra Completions",
-    "counter": "completions",
-    "path": "nether_island_player_data.kuudra_completed_tiers.infernal"
-  },
-  {
-    "name": "Nucleus Runs",
-    "counter": "runs",
-    "path": "leveling.completions.NUCLEUS_RUNS"
-  },
-  {
-    "name": "Weighted Dungeon Completions",
+    "name": "Jerry Event Score",
     "counter": "score"
   },
   {
-    "name": "Ink Sac Collection",
-    "counter": "sacs",
-    "path": "collection.INK_SACK"
+    "name": "Mushroom Cow Bestiary",
+    "counter": "cyclamen dyes",
+    "path": "bestiary.kills.mushroom_cow_1"
   }
 ]

@@ -19,8 +19,9 @@ export type Profile = {
   raw: any
 }
 
-export type LeaderboardPosition = {
-  rank: number
+export type LeaderboardPosition = LeaderboardPositionWithoutRank & { rank: number }
+
+export type LeaderboardPositionWithoutRank = {
   username: string
   cuteName: string
   value: number

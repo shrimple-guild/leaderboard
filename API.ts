@@ -4,11 +4,14 @@ import rateLimit from "axios-rate-limit"
 import creatures from "./creatures.json" assert { type: "json" }
 import { Metric, Profile } from "types"
 import { getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
+import { LRUCache } from "lru-cache"
 
 export class API {
   client: AxiosInstance
+  private nameCache: LRUCache<string, string>
 
   constructor(private apiKey: string, private metrics: Metric[]) {
+    this.nameCache = new LRUCache({ max: 1000, ttl: 86400 * 1000 })
     this.client = axios.create({
       timeout: 3000,
       baseURL: "https://api.hypixel.net",
@@ -46,12 +49,31 @@ export class API {
   }
 
   async fetchName(uuid: string): Promise<string> {
-    const resp = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
+    const cachedName = this.nameCache.get(uuid)
+    if (cachedName) {
+      return cachedName
+    }
+    const resp = await fetch(`https://mowojang.matdoes.dev/session/minecraft/profile/${uuid}`)
     if (resp.status != 200) throw new Error(`Failed to get Mojang data for ${uuid} (status ${resp.status})`)
-    return resp.json().then(data => data.name)
+    const name = await resp.json().then(data => data.name)
+    this.nameCache.set(uuid, name)
+    return name
   }
 
   private fetchMetrics(member: any): { metric: string; value: number }[] {
+    // guard against skill api disablers destroying events
+    if (
+      member.experience_skill_fishing == null &&
+      member.experience_skill_mining == null &&
+      member.experience_skill_combat == null &&
+      member.experience_skill_foraging == null &&
+      member.experience_skill_farming == null &&
+      member.experience_skill_enchanting == null &&
+      member.experience_skill_alchemy == null &&
+      member.experience_skill_carpentry == null
+    ) {
+      return []
+    }
     return this.metrics
       .map(metric => ({
         metric: metric.name,
@@ -94,45 +116,49 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (member.slayer_bosses?.zombie?.xp ?? 0) * 0.06 +
       (member.slayer_bosses?.spider?.xp ?? 0) * 0.09 +
       (member.slayer_bosses?.wolf?.xp ?? 0) * 0.3 +
-      (member.slayer_bosses?.enderman?.xp ?? 0) * 0.33 +
+      (member.slayer_bosses?.enderman?.xp ?? 0) * 0.4 +
       (member.slayer_bosses?.blaze?.xp ?? 0) +
-      (member.slayer_bosses?.vampire?.xp ?? 0) * 10
+      (member.slayer_bosses?.vampire?.xp ?? 0) * 12.5
     )
   } else if (metric.name == "Mithril Powder") {
     return totalMithril
   } else if (metric.name == "Gemstone Powder") {
     return totalGemstone
-  } else if (metric.name == "Linc Weight") {
+  } else if (metric.name == "Jerry Event Score") {
     return (
-      (member.experience_skill_fishing ?? 0) * 0.2 +
+      (member.experience_skill_fishing ?? 0) * 0.5 +
       (member.experience_skill_mining ?? 0) * 0.2 +
-      (member.experience_skill_foraging ?? 0) * 1.33 +
+      (member.experience_skill_foraging ?? 0) * 1.6 +
       (member.experience_skill_farming ?? 0) +
       (member.experience_skill_enchanting ?? 0) * 0.01 +
-      (member.experience_skill_carpentry ?? 0) * 0.01 +
-      (member.slayer_bosses?.zombie?.xp ?? 0) * 3.12 +
+      (member.slayer_bosses?.zombie?.xp ?? 0) * 4.68 +
       (member.slayer_bosses?.spider?.xp ?? 0) * 4.88 +
-      (member.slayer_bosses?.wolf?.xp ?? 0) * 16.13 +
-      (member.slayer_bosses?.enderman?.xp ?? 0) * 18.18 +
-      (member.slayer_bosses?.blaze?.xp ?? 0) * 52.63 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 25000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 25000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) * 25000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 42000 +
+      (member.slayer_bosses?.wolf?.xp ?? 0) * 17.14 +
+      (member.slayer_bosses?.enderman?.xp ?? 0) * 32.32 +
+      (member.slayer_bosses?.blaze?.xp ?? 0) * 60 +
+      (member.slayer_bosses?.vampire?.xp ?? 0) * 730 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 37500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 37500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) * 37500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 56000 +
       (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) * 33000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 50000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 110000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 33000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 33000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 42000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 50000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 42000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 59000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 125000 +
-      (member.stats?.mythos_kills ?? 0) * 3650 +
-      (member.leveling?.experience ?? 0) * 1000
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 62000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 143000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 43500 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 48000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 56000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 69000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 43500 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 69000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 154000 +
+      (member.nether_island_player_data?.kuudra_completed_tiers?.fiery ?? 0) * 41500 +
+      (member.nether_island_player_data?.kuudra_completed_tiers?.infernal ?? 0) * 41500 +
+      (member.stats?.mythos_kills ?? 0) * 5400 +
+      totalMithril * 3.75 +
+      totalGemstone * 3.75 +
+      (member.leveling?.experience ?? 0) * 1500
     )
-  } else if (metric.name == "Powder Score") {
+  } else if (metric.name == "Total Powder") {
     return totalMithril + totalGemstone
   } else if (metric.name == "Fishing Actions") {
     return (member.stats?.pet_milestone_sea_creatures_killed ?? 0) + (member.stats?.items_fished ?? 0)
@@ -148,18 +174,6 @@ function getMetric(member: any, metric: Metric): number | undefined {
   } else if (metric.name == "Mythological Bestiary") {
     return getMythologicalKills(member)?.mythologicalKills
   } else if (metric.name == "Skill Weight") {
-    if (
-      member.experience_skill_fishing == null &&
-      member.experience_skill_mining == null &&
-      member.experience_skill_combat == null &&
-      member.experience_skill_foraging == null &&
-      member.experience_skill_farming == null &&
-      member.experience_skill_enchanting == null &&
-      member.experience_skill_alchemy == null &&
-      member.experience_skill_carpentry == null
-    ) {
-      return undefined
-    }
     return (
       (member.experience_skill_fishing ?? 0) * 0.4 +
       (member.experience_skill_mining ?? 0) * 0.2 +
@@ -197,22 +211,25 @@ function getMetric(member: any, metric: Metric): number | undefined {
   } else if (metric.name == "Kuudra Completions") {
     const tiers = member.nether_island_player_data?.kuudra_completed_tiers
     return (tiers?.none ?? 0) + (tiers?.hot ?? 0) + (tiers?.burning ?? 0) + (tiers?.fiery ?? 0) + (tiers?.infernal ?? 0)
-  } else if (metric.name == "Weighted Dungeon Completions") {
+  } else if (metric.name == "Kuudra Completions (T4/5)") {
+    const tiers = member.nether_island_player_data?.kuudra_completed_tiers
+    return (tiers?.fiery ?? 0) + (tiers?.infernal ?? 0)
+  } else if (metric.name == "Dungeon Completions") {
     return (
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 25000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 25000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) * 25000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 42000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) * 33000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 37500 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 104000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 29000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 33000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 38000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 46000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 36000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 39000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 100000
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0)
     )
   }
 }
