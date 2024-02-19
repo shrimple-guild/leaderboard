@@ -5,11 +5,11 @@
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
   "intro": "The {metric} joint guild event has begun. Both Prawn and Shrimple members can participate!",
-  "description": "Shrimple and Prawn Academy are hosting a combined weekly {metric} event so we can drop the first cyclamen dye ever! Good luck to all participants.",
+  "description": "Shrimple and Prawn Academy are hosting a combined {metric} event! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Toebar",
-  "icon": "pleadingburger.png",
-  "start": 1707606000000,
-  "duration": 86400000,
-  "metric": "Mushroom Cow Bestiary"
+  "author": "Marina",
+  "icon": "marina.png",
+  "start": 1708320000000,
+  "duration": 432000000,
+  "metric": "Flaming Worm Bestiary"
 }
