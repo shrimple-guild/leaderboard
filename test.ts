@@ -13,9 +13,12 @@ const database = new Database("./test.db", metrics)
 const lb = new Leaderboard(api, database)
 //const event = GuildEvent.from(eventConfig, lb)
 
-
 const uuid = "59998433ceda41c1b0acffe7d9b33594"
 const profileName = "orange"
+
+const profiles = await api.fetchProfiles(uuid)
+const profile = profiles.find(profile => profile.cuteName.toLowerCase() == profileName)
+console.log(profile!.metrics)
 
 /*
 const res = await fetch(`https://api.hypixel.net/skyblock/profiles?uuid=${uuid}&key=${config.apiKey}`).then(res =>
