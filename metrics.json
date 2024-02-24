@@ -85,5 +85,10 @@
     "name": "Flaming Worm Bestiary",
     "counter": "kills",
     "path": "bestiary.kills.flaming_worm_50"
+  },
+  {
+    "name": "Mythos Kills",
+    "counter": "kills",
+    "path": "stats.mythos_kills"
   }
 ]

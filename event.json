@@ -1,15 +1,15 @@
 {
   "discordGuildId": "797687061033123850",
-  "discordChannelId": "797986145002323968",
-  "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
-  "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
+  "discordChannelId": "1067295306762428516",
+  "pingRoleIds": ["1067299969926709278"],
+  "guildIds": ["63d0278d8ea8c999a1004ef9"],
   "name": "{metric} Event",
-  "intro": "The {metric} joint guild event has begun. Both Prawn and Shrimple members can participate!",
-  "description": "Shrimple and Prawn Academy are hosting a combined {metric} event! Good luck to all participants.",
+  "intro": "The {metric} weekly guild event has begun. All Shrimple members can participate!",
+  "description": "Shrimple is hosting a weekly {metric} event! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Marina",
-  "icon": "marina.png",
-  "start": 1708320000000,
-  "duration": 432000000,
-  "metric": "Flaming Worm Bestiary"
+  "author": "Diana",
+  "icon": "diana.png",
+  "start": 1708837200000,
+  "duration": 86400000,
+  "metric": "Mythos Kills"
 }
