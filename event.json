@@ -5,11 +5,11 @@
   "guildIds": ["651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
   "intro": "The {metric} guild event has begun!",
-  "description": "Prawn Academy is hosting a {metric} event over the duration of Marina! Good luck to all participants.",
+  "description": "Prawn Academy is hosting a weekly {metric} event! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
-  "author": "Marina",
-  "icon": "marina.png",
-  "start": 1707693900000,
-  "duration": 446400000,
-  "metric": "Fishing XP"
+  "author": "Diana",
+  "icon": "diana.png",
+  "start": 1708837800000,
+  "duration": 86400000,
+  "metric": "Mythos Kills"
 }

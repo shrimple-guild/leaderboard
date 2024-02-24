@@ -82,8 +82,13 @@
     "counter": "score"
   },
   {
-    "name": "Mushroom Cow Bestiary",
-    "counter": "cyclamen dyes",
-    "path": "bestiary.kills.mushroom_cow_1"
+    "name": "Flaming Worm Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.flaming_worm_50"
+  },
+  {
+    "name": "Mythos Kills",
+    "counter": "kills",
+    "path": "stats.mythos_kills"
   }
 ]
