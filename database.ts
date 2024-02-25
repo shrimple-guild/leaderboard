@@ -135,22 +135,27 @@ export class Database {
       AND hypixelProfileId = :hypixelProfileId 
       AND Metrics.name = :metricName
     `)
-    this.db.transaction(() => {
-      insertProfileStmt.run({
-        playerId: profile.playerId,
-        hypixelProfileId: profile.profileId,
-        cuteName: profile.cuteName,
-      })
-      profile.metrics.forEach(({ metric, value }) => {
-        insertDataStmt.run({
+    try {
+      this.db.transaction(() => {
+        insertProfileStmt.run({
           playerId: profile.playerId,
           hypixelProfileId: profile.profileId,
-          timestamp: timestamp,
-          metricName: metric,
-          value: value,
+          cuteName: profile.cuteName,
         })
-      })
-    })()
+        profile.metrics.forEach(({ metric, value }) => {
+          insertDataStmt.run({
+            playerId: profile.playerId,
+            hypixelProfileId: profile.profileId,
+            timestamp: timestamp,
+            metricName: metric,
+            value: value,
+          })
+        })
+      })()
+    } catch (e) {
+      console.error(e)
+      throw e
+    }
   }
 
   private addMetrics(metrics: Metric[]) {
