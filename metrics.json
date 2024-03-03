@@ -85,5 +85,10 @@
     "name": "Flaming Worm Bestiary",
     "counter": "kills",
     "path": "bestiary.kills.flaming_worm_50"
+  },
+  {
+    "name": "Sea Walker Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.sea_walker_4"
   }
 ]
