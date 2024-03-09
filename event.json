@@ -5,11 +5,11 @@
   "guildIds": ["63d0278d8ea8c999a1004ef9"],
   "name": "{metric} Event",
   "intro": "The {metric} guild event has begun. All Shrimple members can participate!",
-  "description": "Shrimple is hosting an {metric} event! Thanks to Hydrus and Leech for sponsoring, and good luck to all participants.",
+  "description": "Shrimple is hosting a weekly {metric} event! Good luck to all participants.",
   "outro": "The event has finished, and official results will be posted as soon as possible. Thanks for participating!",
   "author": "Marina",
   "icon": "marina.png",
-  "start": 1709529600000,
-  "duration": 432000000,
-  "metric": "Sea Walker Bestiary"
+  "start": 1710046800000,
+  "duration": 86400000,
+  "metric": "Fishing XP"
 }
