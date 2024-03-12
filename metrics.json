@@ -90,5 +90,99 @@
     "name": "Sea Walker Bestiary",
     "counter": "kills",
     "path": "bestiary.kills.sea_walker_4"
+  },
+  {
+    "name": "Trophy Fish Weight",
+    "counter": "weight"
+  },
+  {
+    "name": "Blobfish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.blobfish"
+  },
+  {
+    "name": "Volcanic Stonefish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.volcanic_stonefish"
+  },
+  {
+    "name": "Lavahorse Caught",
+    "counter": "fish",
+    "path": "trophy_fish.lava_horse"
+  },
+  {
+    "name": "Moldfin Caught",
+    "counter": "fish",
+    "path": "trophy_fish.moldfin"
+  },
+  {
+    "name": "Golden Fish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.golden_fish"
+  },
+  {
+    "name": "Mana Ray Caught",
+    "counter": "fish",
+    "path": "trophy_fish.mana_ray"
+  },
+  {
+    "name": "Vanille Caught",
+    "counter": "fish",
+    "path": "trophy_fish.vanille"
+  },
+  {
+    "name": "Obfuscated 1 Caught",
+    "counter": "fish",
+    "path": "trophy_fish.obfuscated_fish_1"
+  },
+  {
+    "name": "Obfuscated 2 Caught",
+    "counter": "fish",
+    "path": "trophy_fish.obfuscated_fish_2"
+  },
+  {
+    "name": "Obfuscated 3 Caught",
+    "counter": "fish",
+    "path": "trophy_fish.obfuscated_fish_3"
+  },
+  {
+    "name": "Gusher Caught",
+    "counter": "fish",
+    "path": "trophy_fish.gusher"
+  },
+  {
+    "name": "Flyfish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.flyfish"
+  },
+  {
+    "name": "Skeleton Fish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.skeleton_fish"
+  },
+  {
+    "name": "Karate Fish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.karate_fish"
+  },
+  {
+    "name": "Soul Fish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.soul_fish"
+  },
+  {
+    "name": "Sulphur Skitter Caught",
+    "counter": "fish",
+    "path": "trophy_fish.sulphur_skitter"
+  },
+  {
+    "name": "Steaming-Hot Flounder Caught",
+    "counter": "fish",
+    "path": "trophy_fish.steaming_hot_flounder"
+  },
+  {
+    "name": "Slugfish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.slugfish"
   }
 ]

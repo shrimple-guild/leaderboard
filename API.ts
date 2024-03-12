@@ -249,7 +249,7 @@ const trophyFishBase: Record<string, number> = {
   mana_ray: 40,
   lava_horse: 32,
   flyfish: 12,
-  slugfish: 370,
+  slugfish: 145,
   obfuscated_fish_3: 40,
   blobfish: 8,
   obfuscated_fish_2: 22,
