@@ -166,7 +166,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return trophyFishWeight(member.trophy_fish)
   } else if (metric.name == "Marina Fishing Weight") {
     if (member.experience_skill_fishing == null) return undefined
-    return sumKills(member, creatures.shark) * 9_000 + member.experience_skill_fishing
+    return sumKills(member, creatures.shark) * 7_000 + member.experience_skill_fishing
   } else if (metric.name == "Bestiary Tiers") {
     return getBestiaryTiers(member)?.total
   } else if (metric.name == "Inquisitor Bestiary") {
