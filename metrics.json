@@ -102,5 +102,10 @@
   {
     "name": "Shark Kills",
     "counter": "kills"
+  },
+  {
+    "name": "Rift Balloons Popped",
+    "counter": "balloons",
+    "path": "stats.rift_popped_balloons"
   }
 ]
