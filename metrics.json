@@ -104,8 +104,8 @@
     "counter": "kills"
   },
   {
-    "name": "Rift Balloons Popped",
-    "counter": "balloons",
-    "path": "stats.rift_popped_balloons"
+    "name": "Mushroom Cow Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.mushroom_cow_1"
   }
 ]
