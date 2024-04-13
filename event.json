@@ -4,12 +4,13 @@
   "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
-  "intro": "The second {metric} joint guild event has begun. All guild members can participate!",
-  "description": "Shrimple and Prawn Academy is hosting a joint {metric} event for the fabled dye! If you drop the dye, you must sell to Toebar. Enjoy!",
+  "intro": "The {metric} joint guild event has begun. All guild members can participate!",
+  "description": "Shrimple and Prawn Academy are hosting a joint {metric} event for the duration of Marina!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Toebar",
-  "icon": "pleadingburger.png",
-  "start": 1712462400000,
-  "duration": 86400000,
-  "metric": "Mushroom Cow Bestiary"
+  "author": "Marina",
+  "icon": "marina.png",
+  "start": 1713050100000,
+  "duration": 446400000,
+  "metric": "Fishing XP",
+  "related": ["Shark Kills"]
 }
