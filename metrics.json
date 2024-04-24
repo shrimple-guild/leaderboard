@@ -1,5 +1,9 @@
 [
   {
+    "name": "Skill Weight",
+    "counter": "weight"
+  },
+  {
     "name": "Fishing XP",
     "counter": "xp",
     "path": "experience_skill_fishing"
