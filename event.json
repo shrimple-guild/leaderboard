@@ -5,12 +5,21 @@
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
   "intro": "The {metric} joint guild event has begun. All guild members can participate!",
-  "description": "Shrimple and Prawn Academy are hosting a joint {metric} event for the duration of Marina!",
+  "description": "Shrimple and Prawn Academy are hosting the first joint {metric} event for the duration of Derpy!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Marina",
-  "icon": "marina.png",
-  "start": 1713050100000,
+  "author": "Derpy",
+  "icon": "derpy.png",
+  "start": 1713942900000,
   "duration": 446400000,
-  "metric": "Fishing XP",
-  "related": ["Shark Kills"]
+  "metric": "Skill Weight",
+  "related": [
+    "Fishing XP",
+    "Foraging XP",
+    "Farming XP",
+    "Combat XP",
+    "Mining XP",
+    "Alchemy XP",
+    "Enchanting XP",
+    "Social XP"
+  ]
 }
