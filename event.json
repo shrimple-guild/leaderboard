@@ -1,25 +1,16 @@
 {
   "discordGuildId": "797687061033123850",
-  "discordChannelId": "797986145002323968",
-  "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
-  "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
+  "discordChannelId": "1067295306762428516",
+  "pingRoleIds": ["1067299969926709278"],
+  "guildIds": ["63d0278d8ea8c999a1004ef9"],
   "name": "{metric} Event",
-  "intro": "The {metric} joint guild event has begun. All guild members can participate!",
-  "description": "Shrimple and Prawn Academy are hosting the first joint {metric} event for the duration of Derpy!",
+  "intro": "The {metric} guild event has begun. All Shrimple members can participate!",
+  "description": "Shrimple is hosting a weekly {metric} event for 24 hours.",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Derpy",
-  "icon": "derpy.png",
-  "start": 1713942900000,
-  "duration": 446400000,
-  "metric": "Skill Weight",
-  "related": [
-    "Fishing XP",
-    "Foraging XP",
-    "Farming XP",
-    "Combat XP",
-    "Mining XP",
-    "Alchemy XP",
-    "Enchanting XP",
-    "Social XP"
-  ]
+  "author": "Cole",
+  "icon": "cole.png",
+  "start": 1714881600000,
+  "duration": 86400000,
+  "metric": "Scatha Bestiary",
+  "related": ["Mining XP"]
 }
