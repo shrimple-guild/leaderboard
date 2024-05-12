@@ -79,6 +79,10 @@
     "counter": "completions"
   },
   {
+    "name": "Weighted Dungeon Completions",
+    "counter": "score"
+  },
+  {
     "name": "Total Powder",
     "counter": "powder"
   },

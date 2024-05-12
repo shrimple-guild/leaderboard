@@ -1,16 +1,15 @@
 {
   "discordGuildId": "797687061033123850",
-  "discordChannelId": "797986145002323968",
-  "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
-  "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
+  "discordChannelId": "1067295306762428516",
+  "pingRoleIds": ["1067299969926709278"],
+  "guildIds": ["63d0278d8ea8c999a1004ef9"],
   "name": "{metric} Event",
-  "intro": "The {metric} guild event has begun. All Shrimple and Prawn members can participate!",
-  "description": "DuelingCharges is sponsoring a **1b prize pool** {metric} event for the next 5 days. All guild members are welcome to join!",
+  "intro": "The {metric} guild event has begun. All Shrimple members can participate!",
+  "description": "Shrimple is hosting the weekly guild event, **{metric}**, for the next 24 hours. All members are welcome to join!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Marina",
-  "icon": "marina.png",
-  "start": 1714969200000,
-  "duration": 432000000,
-  "metric": "Ink Collection",
-  "related": ["Fishing XP"]
+  "author": "Paul",
+  "icon": "paul.png",
+  "start": 1715486400000,
+  "duration": 86400000,
+  "metric": "Weighted Dungeon Completions"
 }
