@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios"
 import axiosRetry, { isNetworkOrIdempotentRequestError as isNetworkError } from "axios-retry"
 import rateLimit from "axios-rate-limit"
-import creatures from "./creatures.json" assert { type: "json" }
+import creatures from "./creatures.json" with { type: "json" }
 import { Metric, Profile } from "types"
 import { getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
 import { LRUCache } from "lru-cache"

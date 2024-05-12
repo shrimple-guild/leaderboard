@@ -3,7 +3,7 @@ const bestiaryRepo = "https://raw.githubusercontent.com/jani270/NotEnoughUpdates
 const bestiaryConstants = await fetch(bestiaryRepo).then(resp => resp.json())
 */
 
-import bestiaryConstants from "./bestiary.json" assert { type: "json" }
+import bestiaryConstants from "./bestiary.json" with { type: "json" }
 
 type Brackets = {
   [key: number]: number[]
