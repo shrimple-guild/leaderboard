@@ -22,7 +22,7 @@ console.log("Event ready.")
 
 const runUpdateOnInit = false
 
-const updateEventJob = new CronJob("0 */20 * * * *", doEventUpdate)
+const updateEventJob = new CronJob("0 */15 * * * *", doEventUpdate)
 
 async function doEventUpdate() {
   try {

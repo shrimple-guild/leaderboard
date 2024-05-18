@@ -4,12 +4,23 @@
   "pingRoleIds": ["1067299969926709278"],
   "guildIds": ["63d0278d8ea8c999a1004ef9"],
   "name": "{metric} Event",
-  "intro": "The {metric} guild event has begun. All Shrimple members can participate!",
+  "intro": "The random crop, {metric}, has been selected! All Shrimple members can participate!",
   "description": "Shrimple is hosting the weekly guild event, **{metric}**, for the next 24 hours. All members are welcome to join!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Paul",
-  "icon": "paul.png",
-  "start": 1715486400000,
+  "author": "Diana",
+  "icon": "diana.png",
+  "start": 1716088500000,
   "duration": 86400000,
-  "metric": "Weighted Dungeon Completions"
+  "metrics": [
+    "Wheat Collection",
+    "Carrot Collection",
+    "Potato Collection",
+    "Pumpkin Collection",
+    "Sugar Cane Collection",
+    "Melon Collection",
+    "Cactus Collection",
+    "Cocoa Bean Collection",
+    "Mushroom Collection",
+    "Nether Wart Collection"
+  ]
 }
