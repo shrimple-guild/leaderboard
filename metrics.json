@@ -190,5 +190,10 @@
     "name": "Nether Wart Collection",
     "counter": "crops",
     "path": "collection.NETHER_STALK"
+  },
+  {
+    "name": "Agarimoo Bestiary",
+    "counter": "tongues",
+    "path": "bestiary.kills.agarimoo_35"
   }
 ]
