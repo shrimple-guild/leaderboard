@@ -1,15 +1,15 @@
 {
   "discordGuildId": "797687061033123850",
-  "discordChannelId": "797986145002323968",
-  "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
-  "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
+  "discordChannelId": "1067295306762428516",
+  "pingRoleIds": ["1067299969926709278"],
+  "guildIds": ["63d0278d8ea8c999a1004ef9"],
   "name": "{metric} Event",
-  "intro": "The random fishing bestiary, {metric}, has been selected. All members of either guild can participate! This event is definitely fairly randomly selected and I didn't just roll a die because I remembered this event existed at the last minute. Make sure to yell at appable, and have fun!",
-  "description": "Shrimple and Prawn Academy are hosting the weekly guild event, **{metric}**, for the next 24 hours. All members are welcome to join!",
+  "intro": "The {metric} event is starting. All Shrimple members can participate!",
+  "description": "Shrimple is hosting the weekly guild event, **{metric}**, for the next 24 hours. If you get first place, you'll win a prize of about 40% of a book!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Marina",
-  "icon": "marina.png",
-  "start": 1716696000000,
+  "author": "Diana",
+  "icon": "inquis.png",
+  "start": 1717300800000,
   "duration": 86400000,
-  "metric": "Agarimoo Bestiary"
+  "metric": "Mythos Kills"
 }
