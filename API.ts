@@ -143,9 +143,9 @@ function getMetric(member: any, metric: Metric): number | undefined {
     )
   } else if (metric.name == "Jerry Event Score") {
     return (
-      (member.experience_skill_fishing ?? 0) * 0.5 +
-      (member.experience_skill_mining ?? 0) * 0.2 +
-      (member.experience_skill_foraging ?? 0) * 1.6 +
+      (member.experience_skill_fishing ?? 0) * 0.6 +
+      (member.experience_skill_mining ?? 0) * 0.22 +
+      (member.experience_skill_foraging ?? 0) * 1.4 +
       (member.experience_skill_farming ?? 0) +
       (member.experience_skill_enchanting ?? 0) * 0.01 +
       (member.slayer_bosses?.zombie?.xp ?? 0) * 4.68 +
@@ -165,7 +165,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 48000 +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 56000 +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 69000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 43500 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 56000 +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 69000 +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 154000 +
       (member.nether_island_player_data?.kuudra_completed_tiers?.fiery ?? 0) * 41500 +
