@@ -4,13 +4,12 @@
   "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
-  "intro": "AAA ITS JERRY RN JOINT GUILD EVENT STARTING",
-  "description": "Shrimple and Prawn Academy are hosting a Jerry guild event weighted on **{metric}**, our fancy balanced weight system! Read the announcement for details on scoring, and good luck!",
+  "intro": "The first rare sea creature event is happening! Thanks to Milo and Poker for this event :D",
+  "description": "Shrimple and Prawn Academy are hosting the first **{metric}** event, balanced so that everyone can work on their fishing bestiaries. Make sure to thank PokerEndBoss for sponsoring this event, and Milo for balancing!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Jerry",
-  "icon": "jerry.png",
-  "start": 1717516500000,
-  "duration": 446400000,
-  "metric": "Jerry Event Score",
-  "related": ["Fishing XP", "Skyblock Experience", "Dungeon Completions", "Kuudra Completions (T4/5)"]
+  "author": "Marina",
+  "icon": "marina.png",
+  "start": 1717992000000,
+  "duration": 432000000,
+  "metric": "Rare Sea Creature Score"
 }

@@ -195,5 +195,9 @@
     "name": "Agarimoo Bestiary",
     "counter": "tongues",
     "path": "bestiary.kills.agarimoo_35"
+  },
+  {
+    "name": "Rare Sea Creature Score",
+    "counter": "score"
   }
 ]
