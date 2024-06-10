@@ -120,7 +120,7 @@ export function getRareSeaCreatureScore(member: any) {
     thunder: bestiary.fishing_lava.thunder.kills,
     lordJawbus: bestiary.fishing_lava.lord_jawbus.kills,
     zombieMiner: bestiary.fishing_fishing.zombie_miner.kills,
-    nightSquid: bestiary.fishing_fishing.the_sea_emperor.kills,
+    nightSquid: bestiary.fishing_fishing.night_squid.kills,
     flamingWorm: bestiary.fishing_lava.flaming_worm.kills,
     seaEmperor: bestiary.fishing_fishing.the_sea_emperor.kills,
     waterHydra: bestiary.fishing_fishing.water_hydra.kills,
