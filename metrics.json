@@ -199,5 +199,10 @@
   {
     "name": "Rare Sea Creature Score",
     "counter": "score"
+  },
+  {
+    "name": "Treasure Caught",
+    "counter": "treasures",
+    "path": "stats.items_fished_treasure"
   }
 ]

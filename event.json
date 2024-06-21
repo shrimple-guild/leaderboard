@@ -4,12 +4,13 @@
   "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
-  "intro": "The first rare sea creature event is happening! Thanks to Milo and Poker for this event :D",
-  "description": "Shrimple and Prawn Academy are hosting the first **{metric}** event, balanced so that everyone can work on their fishing bestiaries. Make sure to thank PokerEndBoss for sponsoring this event, and Milo for balancing!",
+  "intro": "Aquamarine time!",
+  "description": "Shrimple and Prawn Academy are hosting a **{metric}** event this week. Make sure to thank prxstine for sponsoring this event!",
   "outro": "The event has finished. Thanks for participating!",
   "author": "Marina",
   "icon": "marina.png",
-  "start": 1717992000000,
+  "start": 1719201600000,
   "duration": 432000000,
-  "metric": "Rare Sea Creature Score"
+  "metric": "Treasure Caught",
+  "related": ["Fishing XP"]
 }

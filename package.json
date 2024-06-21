@@ -10,7 +10,8 @@
     "node": "^22.0.0"
   },
   "scripts": {
-    "start": "node --no-warnings --loader ts-node/esm.mjs ./main.ts"
+    "start": "node --no-warnings --loader ts-node/esm.mjs ./main.ts",
+    "test": "node --loader ts-node/esm.mjs ./test.ts"
   },
   "dependencies": {
     "async-lock": "^1.4.1",
