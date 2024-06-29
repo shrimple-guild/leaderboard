@@ -3,7 +3,7 @@ import axiosRetry, { isNetworkOrIdempotentRequestError as isNetworkError } from 
 import rateLimit from "axios-rate-limit"
 import creatures from "./creatures.json" with { type: "json" }
 import { Metric, Profile } from "types"
-import { getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
+import { getBestiaryTiers, getEmperorKills, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
 import { LRUCache } from "lru-cache"
 
 export class API {
@@ -247,6 +247,8 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0)
     )
+  } else if (metric.name == "Sea Emperor Bestiary") {
+    return getEmperorKills(member)
   }
 }
 

@@ -9,7 +9,7 @@ import eventConfig from "./event.json" assert { type: "json" }
 import { getBestiary, getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
 
 const api = new API(config.apiKey, metrics)
-const database = new Database("./test.db", metrics)
+const database = new Database(":memory:", metrics)
 const lb = new Leaderboard(api, database)
 //const event = GuildEvent.from(eventConfig, lb)
 

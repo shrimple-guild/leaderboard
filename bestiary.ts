@@ -108,9 +108,16 @@ export function getMythologicalKills(member: any) {
   }
 }
 
-export function getRareSeaCreatureScore(member: any) {
+export function getEmperorKills(member: any) {
   const bestiary = getBestiary(member)
   if (!bestiary) return
+  return bestiary.fishing_fishing.the_sea_emperor.kills
+}
+
+export function getRareSeaCreatureScore(member: any) {
+  const bestiary = getBestiary(member)
+  const specialNightSquidKills = member.stats?.kills_night_squid
+  if (!bestiary || specialNightSquidKills == null) return
   const kills = {
     phantomFisher: bestiary.fishing_spooky_festival.phantom_fisher.kills,
     grimReaper: bestiary.fishing_spooky_festival.grim_reaper.kills,
@@ -127,7 +134,10 @@ export function getRareSeaCreatureScore(member: any) {
     lavaBlaze: bestiary.fishing_lava.lava_blaze.kills,
     lavaPigman: bestiary.fishing_lava.lava_pigman.kills,
   }
-  return Object.entries(kills).reduce((score, [mob, kills]) => score + kills * rareSeaCreatureScore[mob], 0)
+  const bestiaryScore = Object.entries(kills).reduce((score, [mob, kills]) => {
+    return score + kills * rareSeaCreatureScore[mob]
+  }, 0)
+  return bestiaryScore + specialNightSquidKills * rareSeaCreatureScore["nightSquid"]
 }
 
 const rareSeaCreatureScore: Record<string, number> = {
