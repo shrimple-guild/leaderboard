@@ -12,5 +12,15 @@
   "start": 1719746100000,
   "duration": 446400000,
   "metric": "Rare Sea Creature Score",
-  "related": ["Fishing XP"]
+  "related": [
+    "Fishing XP",
+    "Night Squid Kills",
+    "Plhlegblast Bestiary",
+    "Carrot King Bestiary",
+    "Sea Emperor Bestiary",
+    "Flaming Worm Bestiary",
+    "Abyssal Miner Bestiary",
+    "Lord Jawbus Bestiary",
+    "Yeti Bestiary"
+  ]
 }

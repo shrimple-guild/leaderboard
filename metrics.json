@@ -71,5 +71,15 @@
     "name": "Lava Pigman Bestiary",
     "counter": "kills",
     "path": "bestiary.kills.lava_pigman_100"
+  },
+  {
+    "name": "Carrot King Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.carrot_king_25"
+  },
+  {
+    "name": "Plhlegblast Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.pond_squid_300"
   }
 ]
