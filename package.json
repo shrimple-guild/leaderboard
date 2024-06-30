@@ -7,11 +7,12 @@
   "type": "module",
   "license": "ISC",
   "engines": {
-    "node": "^22.0.0"
+    "node": "^21.0.0"
   },
   "scripts": {
     "start": "node --no-warnings --loader ts-node/esm.mjs ./main.ts",
-    "test": "node --loader ts-node/esm.mjs ./test.ts"
+    "test": "node --loader ts-node/esm.mjs ./test.ts",
+    "update-metric": "node --loader ts-node/esm.mjs ./update_derived_metric.ts"
   },
   "dependencies": {
     "async-lock": "^1.4.1",

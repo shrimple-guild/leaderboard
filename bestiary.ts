@@ -119,7 +119,6 @@ export function getRareSeaCreatureScore(member: any) {
   const specialNightSquidKills = member.stats?.kills_night_squid
   if (!bestiary || specialNightSquidKills == null) return
   const kills = {
-    phantomFisher: bestiary.fishing_spooky_festival.phantom_fisher.kills,
     grimReaper: bestiary.fishing_spooky_festival.grim_reaper.kills,
     yeti: bestiary.fishing_winter.yeti.kills,
     reindrake: bestiary.fishing_winter.reindrake.kills,
@@ -127,7 +126,6 @@ export function getRareSeaCreatureScore(member: any) {
     thunder: bestiary.fishing_lava.thunder.kills,
     lordJawbus: bestiary.fishing_lava.lord_jawbus.kills,
     zombieMiner: bestiary.fishing_fishing.zombie_miner.kills,
-    nightSquid: bestiary.fishing_fishing.night_squid.kills,
     flamingWorm: bestiary.fishing_lava.flaming_worm.kills,
     seaEmperor: bestiary.fishing_fishing.the_sea_emperor.kills,
     waterHydra: bestiary.fishing_fishing.water_hydra.kills,
@@ -141,8 +139,7 @@ export function getRareSeaCreatureScore(member: any) {
 }
 
 const rareSeaCreatureScore: Record<string, number> = {
-  phantomFisher: 39000,
-  grimReaper: 126000,
+  grimReaper: 252000,
   yeti: 74000,
   reindrake: 191000,
   greatWhiteShark: 38000,
