@@ -4,9 +4,9 @@ import { Leaderboard } from "./Leaderboard.js"
 import { CronJob } from "cron"
 import { GuildEvent } from "./GuildEvent.js"
 import { DiscordBot } from "./DiscordBot.js"
-import metrics from "./metrics.json" assert { type: "json" }
-import config from "./config.json" assert { type: "json" }
-import eventConfig from "./event.json" assert { type: "json" }
+import metrics from "./metrics.json" with { type: "json" }
+import config from "./config.json" with { type: "json" }
+import eventConfig from "./event.json" with { type: "json" }
 
 const api = new API(config.apiKey, metrics)
 

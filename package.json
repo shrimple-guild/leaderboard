@@ -6,29 +6,37 @@
   "author": "",
   "type": "module",
   "license": "ISC",
+  "engines": {
+    "node": "^21.0.0"
+  },
+  "scripts": {
+    "start": "node --no-warnings --loader ts-node/esm.mjs ./main.ts",
+    "test": "node --loader ts-node/esm.mjs ./test.ts",
+    "update-metric": "node --loader ts-node/esm.mjs ./update_derived_metric.ts"
+  },
   "dependencies": {
-    "async-lock": "^1.4.0",
-    "axios": "^1.3.5",
+    "async-lock": "^1.4.1",
+    "axios": "^1.6.8",
     "axios-rate-limit": "^1.3.0",
-    "axios-retry": "^3.4.0",
-    "better-sqlite3": "^8.0.1",
-    "canvas": "^2.10.2",
-    "chart.js": "^4.0.1",
-    "cron": "^2.1.0",
-    "discord.js": "^14.7.1",
-    "dotenv": "^16.0.3",
-    "drand-client": "^1.1.0",
-    "lru-cache": "^10.1.0",
-    "node-fetch": "^3.3.0",
+    "axios-retry": "^4.1.0",
+    "better-sqlite3": "^9.6.0",
+    "canvas": "^2.11.2",
+    "chart.js": "^4.4.2",
+    "cron": "^3.1.7",
+    "discord.js": "^14.15.2",
+    "dotenv": "^16.4.5",
+    "drand-client": "^1.2.6",
+    "lru-cache": "^10.2.2",
+    "node-fetch": "^3.3.2",
     "senitherweight": "^1.0.8",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "@types/async-lock": "^1.3.0",
-    "@types/better-sqlite3": "^7.6.2",
-    "@types/cron": "^2.0.0",
-    "@types/node": "^18.11.9",
-    "@types/sharp": "^0.31.0",
+    "@types/async-lock": "^1.4.2",
+    "@types/better-sqlite3": "^7.6.10",
+    "@types/cron": "^2.0.1",
+    "@types/node": "^20.12.11",
+    "@types/sharp": "^0.31.1",
     "ts-node": "^10.9.2"
   }
 }

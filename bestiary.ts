@@ -3,7 +3,7 @@ const bestiaryRepo = "https://raw.githubusercontent.com/jani270/NotEnoughUpdates
 const bestiaryConstants = await fetch(bestiaryRepo).then(resp => resp.json())
 */
 
-import bestiaryConstants from "./bestiary.json" assert { type: "json" }
+import bestiaryConstants from "./bestiary.json" with { type: "json" }
 
 type Brackets = {
   [key: number]: number[]
@@ -108,39 +108,48 @@ export function getMythologicalKills(member: any) {
   }
 }
 
-export function getRareSeaCreatureScore(member: any) {
+export function getEmperorKills(member: any) {
   const bestiary = getBestiary(member)
   if (!bestiary) return
+  return bestiary.fishing_fishing.the_sea_emperor.kills
+}
+
+export function getRareSeaCreatureScore(member: any) {
+  const bestiary = getBestiary(member)
+  const specialNightSquidKills = member.stats?.kills_night_squid
+  if (!bestiary || specialNightSquidKills == null) return
   const kills = {
-    greatWhiteShark: bestiary.fishing_fishing_festival.great_white_shark.kills,
     grimReaper: bestiary.fishing_spooky_festival.grim_reaper.kills,
-    phantomFisher: bestiary.fishing_spooky_festival.phantom_fisher.kills,
-    seaEmperor: bestiary.fishing_fishing.the_sea_emperor.kills,
-    waterHydra: bestiary.fishing_fishing.water_hydra.kills,
     yeti: bestiary.fishing_winter.yeti.kills,
     reindrake: bestiary.fishing_winter.reindrake.kills,
-    lordJawbus: bestiary.fishing_lava.lord_jawbus.kills,
+    greatWhiteShark: bestiary.fishing_fishing_festival.great_white_shark.kills,
     thunder: bestiary.fishing_lava.thunder.kills,
-    flamingWorm: bestiary.fishing_lava.flaming_worm.kills,
-    waterWorm: bestiary.fishing_fishing.water_worm.kills,
-    poisonedWaterWorm: bestiary.fishing_fishing.poisoned_water_worm.kills,
+    lordJawbus: bestiary.fishing_lava.lord_jawbus.kills,
     zombieMiner: bestiary.fishing_fishing.zombie_miner.kills,
+    flamingWorm: bestiary.fishing_lava.flaming_worm.kills,
+    seaEmperor: bestiary.fishing_fishing.the_sea_emperor.kills,
+    waterHydra: bestiary.fishing_fishing.water_hydra.kills,
+    lavaBlaze: bestiary.fishing_lava.lava_blaze.kills,
+    lavaPigman: bestiary.fishing_lava.lava_pigman.kills,
   }
-  return Object.entries(kills).reduce((score, [mob, kills]) => score + kills * rareSeaCreatureScore[mob], 0)
+  const bestiaryScore = Object.entries(kills).reduce((score, [mob, kills]) => {
+    return score + kills * rareSeaCreatureScore[mob]
+  }, 0)
+  return bestiaryScore + specialNightSquidKills * rareSeaCreatureScore["nightSquid"]
 }
 
 const rareSeaCreatureScore: Record<string, number> = {
-  greatWhiteShark: 60000,
-  grimReaper: 185000,
-  phantomFisher: 45000,
-  seaEmperor: 120000,
-  waterHydra: 65000,
-  yeti: 150000,
-  reindrake: 0,
-  lordJawbus: 750000,
-  thunder: 100000,
-  flamingWorm: 2000,
-  waterWorm: 0,
-  poisonedWaterWorm: 0,
-  zombieMiner: 0,
+  grimReaper: 252000,
+  yeti: 74000,
+  reindrake: 191000,
+  greatWhiteShark: 38000,
+  thunder: 77000,
+  lordJawbus: 306000,
+  zombieMiner: 22000,
+  nightSquid: 18000,
+  flamingWorm: 800,
+  seaEmperor: 60000,
+  waterHydra: 15000,
+  lavaBlaze: 1300,
+  lavaPigman: 1300,
 }

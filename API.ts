@@ -1,10 +1,10 @@
 import axios, { AxiosInstance } from "axios"
 import axiosRetry, { isNetworkOrIdempotentRequestError as isNetworkError } from "axios-retry"
 import rateLimit from "axios-rate-limit"
-import creatures from "./creatures.json" assert { type: "json" }
+import creatures from "./creatures.json" with { type: "json" }
 import { Metric, Profile } from "types"
-import { getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
-import LRUCache from "lru-cache"
+import { getBestiaryTiers, getEmperorKills, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
+import { LRUCache } from "lru-cache"
 
 export class API {
   client: AxiosInstance
@@ -124,11 +124,28 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return totalMithril
   } else if (metric.name == "Gemstone Powder") {
     return totalGemstone
+  } else if (metric.name == "Weighted Dungeon Completions") {
+    return (
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 37500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 37500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) * 37500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 56000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) * 33000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 62000 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 143000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 43500 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 48000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 56000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 69000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 43500 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 69000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 154000
+    )
   } else if (metric.name == "Jerry Event Score") {
     return (
-      (member.experience_skill_fishing ?? 0) * 0.5 +
-      (member.experience_skill_mining ?? 0) * 0.2 +
-      (member.experience_skill_foraging ?? 0) * 1.6 +
+      (member.experience_skill_fishing ?? 0) * 0.6 +
+      (member.experience_skill_mining ?? 0) * 0.22 +
+      (member.experience_skill_foraging ?? 0) * 1.4 +
       (member.experience_skill_farming ?? 0) +
       (member.experience_skill_enchanting ?? 0) * 0.01 +
       (member.slayer_bosses?.zombie?.xp ?? 0) * 4.68 +
@@ -148,7 +165,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 48000 +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 56000 +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 69000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 43500 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 56000 +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 69000 +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 154000 +
       (member.nether_island_player_data?.kuudra_completed_tiers?.fiery ?? 0) * 41500 +
@@ -166,7 +183,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return trophyFishWeight(member.trophy_fish)
   } else if (metric.name == "Marina Fishing Weight") {
     if (member.experience_skill_fishing == null) return undefined
-    return sumKills(member, creatures.shark) * 9_000 + member.experience_skill_fishing
+    return sumKills(member, creatures.shark) * 7_000 + member.experience_skill_fishing
   } else if (metric.name == "Bestiary Tiers") {
     return getBestiaryTiers(member)?.total
   } else if (metric.name == "Inquisitor Bestiary") {
@@ -175,14 +192,13 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return getMythologicalKills(member)?.mythologicalKills
   } else if (metric.name == "Skill Weight") {
     return (
-      (member.experience_skill_fishing ?? 0) * 0.4 +
-      (member.experience_skill_mining ?? 0) * 0.2 +
-      (member.experience_skill_combat ?? 0) * 1.2 +
-      (member.experience_skill_foraging ?? 0) * 1.33 +
-      (member.experience_skill_farming ?? 0) +
-      (member.experience_skill_enchanting ?? 0) * 0.01 +
+      (member.experience_skill_fishing ?? 0) * 0.67 +
+      (member.experience_skill_mining ?? 0) * 0.25 +
+      (member.experience_skill_combat ?? 0) * 0.375 +
+      (member.experience_skill_foraging ?? 0) * 1.8 +
+      (member.experience_skill_farming ?? 0) * 0.9 +
+      (member.experience_skill_enchanting ?? 0) * 0.04 +
       (member.experience_skill_alchemy ?? 0) * 0.002 +
-      (member.experience_skill_carpentry ?? 0) * 0.002 +
       (member.experience_skill_social2 ?? 0) * 7.77
     )
   } else if (metric.name == "Dungeon Boss Collections") {
@@ -231,6 +247,8 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0)
     )
+  } else if (metric.name == "Sea Emperor Bestiary") {
+    return getEmperorKills(member)
   }
 }
 
@@ -249,7 +267,7 @@ const trophyFishBase: Record<string, number> = {
   mana_ray: 40,
   lava_horse: 32,
   flyfish: 12,
-  slugfish: 370,
+  slugfish: 145,
   obfuscated_fish_3: 40,
   blobfish: 8,
   obfuscated_fish_2: 22,

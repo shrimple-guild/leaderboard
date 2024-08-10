@@ -1,0 +1,291 @@
+[
+  {
+    "name": "Skill Weight",
+    "counter": "weight"
+  },
+  {
+    "name": "Fishing XP",
+    "counter": "xp",
+    "path": "experience_skill_fishing"
+  },
+  {
+    "name": "Mining XP",
+    "counter": "xp",
+    "path": "experience_skill_mining"
+  },
+  {
+    "name": "Foraging XP",
+    "counter": "xp",
+    "path": "experience_skill_foraging"
+  },
+  {
+    "name": "Farming XP",
+    "counter": "xp",
+    "path": "experience_skill_farming"
+  },
+  {
+    "name": "Combat XP",
+    "counter": "xp",
+    "path": "experience_skill_combat"
+  },
+  {
+    "name": "Enchanting XP",
+    "counter": "xp",
+    "path": "experience_skill_enchanting"
+  },
+  {
+    "name": "Alchemy XP",
+    "counter": "xp",
+    "path": "experience_skill_alchemy"
+  },
+  {
+    "name": "Social XP",
+    "counter": "xp",
+    "path": "experience_skill_social2"
+  },
+  {
+    "name": "Zombie XP",
+    "counter": "xp",
+    "path": "slayer_bosses.zombie.xp"
+  },
+  {
+    "name": "Spider XP",
+    "counter": "xp",
+    "path": "slayer_bosses.spider.xp"
+  },
+  {
+    "name": "Wolf XP",
+    "counter": "xp",
+    "path": "slayer_bosses.wolf.xp"
+  },
+  {
+    "name": "Enderman XP",
+    "counter": "xp",
+    "path": "slayer_bosses.enderman.xp"
+  },
+  {
+    "name": "Blaze XP",
+    "counter": "xp",
+    "path": "slayer_bosses.blaze.xp"
+  },
+  {
+    "name": "Vampire XP",
+    "counter": "xp",
+    "path": "slayer_bosses.vampire.xp"
+  },
+
+  {
+    "name": "Dungeon Completions",
+    "counter": "completions"
+  },
+  {
+    "name": "Weighted Dungeon Completions",
+    "counter": "score"
+  },
+  {
+    "name": "Total Powder",
+    "counter": "powder"
+  },
+  {
+    "name": "Mythos Kills",
+    "counter": "kills",
+    "path": "stats.mythos_kills"
+  },
+  {
+    "name": "Skyblock Experience",
+    "counter": "xp",
+    "path": "leveling.experience"
+  },
+  {
+    "name": "Kuudra Completions (T4/5)",
+    "counter": "completions"
+  },
+  {
+    "name": "Jerry Event Score",
+    "counter": "score"
+  },
+  {
+    "name": "Flaming Worm Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.flaming_worm_50"
+  },
+  {
+    "name": "Sea Walker Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.sea_walker_4"
+  },
+  {
+    "name": "Trophy Fish Weight",
+    "counter": "weight"
+  },
+  {
+    "name": "Marina Fishing Weight",
+    "counter": "weight"
+  },
+  {
+    "name": "Shark Kills",
+    "counter": "kills"
+  },
+  {
+    "name": "Mushroom Cow Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.mushroom_cow_1"
+  },
+  {
+    "name": "Scatha Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.scatha_10"
+  },
+  {
+    "name": "Ink Collection",
+    "counter": "sacs",
+    "path": "collection.INK_SACK"
+  },
+  {
+    "name": "Wheat Collection",
+    "counter": "crops",
+    "path": "collection.WHEAT"
+  },
+  {
+    "name": "Carrot Collection",
+    "counter": "crops",
+    "path": "collection.CARROT_ITEM"
+  },
+  {
+    "name": "Potato Collection",
+    "counter": "crops",
+    "path": "collection.POTATO_ITEM"
+  },
+  {
+    "name": "Pumpkin Collection",
+    "counter": "crops",
+    "path": "collection.PUMPKIN"
+  },
+  {
+    "name": "Sugar Cane Collection",
+    "counter": "crops",
+    "path": "collection.SUGAR_CANE"
+  },
+  {
+    "name": "Melon Collection",
+    "counter": "crops",
+    "path": "collection.MELON"
+  },
+  {
+    "name": "Cactus Collection",
+    "counter": "crops",
+    "path": "collection.CACTUS"
+  },
+  {
+    "name": "Cocoa Bean Collection",
+    "counter": "crops",
+    "path": "collection.INK_SACK:3"
+  },
+  {
+    "name": "Mushroom Collection",
+    "counter": "crops",
+    "path": "collection.MUSHROOM_COLLECTION"
+  },
+  {
+    "name": "Nether Wart Collection",
+    "counter": "crops",
+    "path": "collection.NETHER_STALK"
+  },
+  {
+    "name": "Agarimoo Bestiary",
+    "counter": "tongues",
+    "path": "bestiary.kills.agarimoo_35"
+  },
+  {
+    "name": "Rare Sea Creature Score",
+    "counter": "score"
+  },
+  {
+    "name": "Treasure Caught",
+    "counter": "treasures",
+    "path": "stats.items_fished_treasure"
+  },
+  {
+    "name": "Fishing XP",
+    "counter": "xp",
+    "path": "experience_skill_fishing"
+  },
+  {
+    "name": "Rare Sea Creature Score",
+    "counter": "score"
+  },
+  {
+    "name": "Night Squid Kills",
+    "counter": "kills",
+    "path": "stats.kills_night_squid"
+  },
+  {
+    "name": "Grim Reaper Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.grim_reaper_190"
+  },
+  {
+    "name": "Yeti Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.yeti_175"
+  },
+  {
+    "name": "Reindrake Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.reindrake_100"
+  },
+  {
+    "name": "Great White Shark Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.great_white_shark_180"
+  },
+  {
+    "name": "Thunder Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.thunder_400"
+  },
+  {
+    "name": "Lord Jawbus Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.lord_jawbus_600"
+  },
+  {
+    "name": "Abyssal Miner Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.zombie_miner_150"
+  },
+  {
+    "name": "Flaming Worm Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.flaming_worm_50"
+  },
+  {
+    "name": "Sea Emperor Bestiary",
+    "counter": "kills"
+  },
+  {
+    "name": "Water Hydra Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.water_hydra_100"
+  },
+  {
+    "name": "Lava Blaze Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.lava_blaze_100"
+  },
+  {
+    "name": "Lava Pigman Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.lava_pigman_100"
+  },
+  {
+    "name": "Carrot King Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.carrot_king_25"
+  },
+  {
+    "name": "Plhlegblast Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.pond_squid_300"
+  }
+]
