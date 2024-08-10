@@ -44,6 +44,10 @@
     "path": "experience_skill_social2"
   },
   {
+    "name": "Slayer Weight",
+    "counter": "weight"
+  },
+  {
     "name": "Zombie XP",
     "counter": "xp",
     "path": "slayer_bosses.zombie.xp"
