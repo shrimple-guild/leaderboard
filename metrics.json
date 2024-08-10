@@ -1,162 +1,92 @@
 [
   {
-    "name": "Fishing XP",
-    "counter": "xp",
-    "path": "experience_skill_fishing"
+    "name": "Blobfish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.blobfish"
   },
   {
-    "name": "Abyssal Miner Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.zombie_miner_150"
+    "name": "Volcanic Stonefish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.volcanic_stonefish"
   },
   {
-    "name": "Agarimoo Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.agarimoo_35"
+    "name": "Lavahorse Caught",
+    "counter": "fish",
+    "path": "trophy_fish.lava_horse"
   },
   {
-    "name": "Carrot King Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.carrot_king_25"
+    "name": "Moldfin Caught",
+    "counter": "fish",
+    "path": "trophy_fish.moldfin"
   },
   {
-    "name": "Catfish Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.catfish_23"
+    "name": "Golden Fish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.golden_fish"
   },
   {
-    "name": "Deep Sea Protector Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.deep_sea_protector_60"
+    "name": "Mana Ray Caught",
+    "counter": "fish",
+    "path": "trophy_fish.mana_ray"
   },
   {
-    "name": "Guardian Defender Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.guardian_defender_45"
+    "name": "Vanille Caught",
+    "counter": "fish",
+    "path": "trophy_fish.vanille"
   },
   {
-    "name": "Night Squid Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.night_squid_6"
+    "name": "Obfuscated 1 Caught",
+    "counter": "fish",
+    "path": "trophy_fish.obfuscated_fish_1"
   },
   {
-    "name": "Oasis Rabbit Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.oasis_rabbit_10"
+    "name": "Obfuscated 2 Caught",
+    "counter": "fish",
+    "path": "trophy_fish.obfuscated_fish_2"
   },
   {
-    "name": "Oasis Sheep Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.oasis_sheep_10"
+    "name": "Obfuscated 3 Caught",
+    "counter": "fish",
+    "path": "trophy_fish.obfuscated_fish_3"
   },
   {
-    "name": "Poisoned Water Worm Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.poisoned_water_worm_25"
+    "name": "Gusher Caught",
+    "counter": "fish",
+    "path": "trophy_fish.gusher"
   },
   {
-    "name": "Water Worm Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.water_worm_20"
+    "name": "Flyfish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.flyfish"
   },
   {
-    "name": "Monster of the Deep Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.zombie_deep_20"
+    "name": "Skeleton Fish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.skeleton_fish"
   },
   {
-    "name": "Sea Archer Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.sea_archer_15"
+    "name": "Karate Fish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.karate_fish"
   },
   {
-    "name": "Sea Guardian Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.sea_guardian_10"
+    "name": "Soul Fish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.soul_fish"
   },
   {
-    "name": "Sea Leech Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.sea_leech_30"
+    "name": "Sulphur Skitter Caught",
+    "counter": "fish",
+    "path": "trophy_fish.sulphur_skitter"
   },
   {
-    "name": "Sea Witch Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.sea_witch_15"
+    "name": "Steaming-Hot Flounder Caught",
+    "counter": "fish",
+    "path": "trophy_fish.steaming_hot_flounder"
   },
   {
-    "name": "Squid Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.pond_squid_1"
-  },
-  {
-    "name": "Sea Emperor Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.skeleton_emperor_150"
-  },
-  {
-    "name": "Water Hydra Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.water_hydra_100"
-  },
-  {
-    "name": "Fire Eel Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.fire_eel_240"
-  },
-  {
-    "name": "Lava Blaze Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lava_blaze_100"
-  },
-  {
-    "name": "Lava Pigman Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lava_pigman_100"
-  },
-  {
-    "name": "Lava Flame Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lava_flame_230"
-  },
-  {
-    "name": "Lava Leech Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lava_leech_220"
-  },
-  {
-    "name": "Lord Jawbus Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lord_jawbus_600"
-  },
-  {
-    "name": "Magma Slug Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.magma_slug_200"
-  },
-  {
-    "name": "Moogma Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.moogma_210"
-  },
-  {
-    "name": "Plhlegblast Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.pond_squid_300"
-  },
-  {
-    "name": "Pyroclastic Worm Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.pyroclastic_worm_240"
-  },
-  {
-    "name": "Taurus Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.pig_rider_250"
-  },
-  {
-    "name": "Thunder Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.thunder_400"
+    "name": "Slugfish Caught",
+    "counter": "fish",
+    "path": "trophy_fish.slugfish"
   }
 ]
