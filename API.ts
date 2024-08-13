@@ -118,7 +118,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (member.slayer_bosses?.wolf?.xp ?? 0) * 0.55 +
       (member.slayer_bosses?.enderman?.xp ?? 0) * 0.75 +
       (member.slayer_bosses?.blaze?.xp ?? 0) * 0.64 +
-      (member.slayer_bosses?.vampire?.xp ?? 0) * 85
+      (member.slayer_bosses?.vampire?.xp ?? 0) * 31
     )
   } else if (metric.name == "Mithril Powder") {
     return totalMithril
