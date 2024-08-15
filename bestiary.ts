@@ -146,7 +146,6 @@ const rareSeaCreatureScore: Record<string, number> = {
   thunder: 77000,
   lordJawbus: 306000,
   zombieMiner: 22000,
-  nightSquid: 18000,
   flamingWorm: 800,
   seaEmperor: 60000,
   waterHydra: 15000,

@@ -1,36 +1,11 @@
 [
   {
-    "name": "Slayer Weight",
-    "counter": "weight"
+    "name": "Rare Sea Creature Score",
+    "counter": "score"
   },
   {
-    "name": "Zombie XP",
+    "name": "Fishing XP",
     "counter": "xp",
-    "path": "slayer_bosses.zombie.xp"
-  },
-  {
-    "name": "Spider XP",
-    "counter": "xp",
-    "path": "slayer_bosses.spider.xp"
-  },
-  {
-    "name": "Wolf XP",
-    "counter": "xp",
-    "path": "slayer_bosses.wolf.xp"
-  },
-  {
-    "name": "Enderman XP",
-    "counter": "xp",
-    "path": "slayer_bosses.enderman.xp"
-  },
-  {
-    "name": "Blaze XP",
-    "counter": "xp",
-    "path": "slayer_bosses.blaze.xp"
-  },
-  {
-    "name": "Vampire XP",
-    "counter": "xp",
-    "path": "slayer_bosses.vampire.xp"
+    "path": "experience_skill_fishing"
   }
 ]
