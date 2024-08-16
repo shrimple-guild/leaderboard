@@ -135,7 +135,7 @@ export function getRareSeaCreatureScore(member: any) {
   const bestiaryScore = Object.entries(kills).reduce((score, [mob, kills]) => {
     return score + kills * rareSeaCreatureScore[mob]
   }, 0)
-  return bestiaryScore + specialNightSquidKills * rareSeaCreatureScore["nightSquid"]
+  return bestiaryScore
 }
 
 const rareSeaCreatureScore: Record<string, number> = {
