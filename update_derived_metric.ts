@@ -18,39 +18,50 @@ SELECT
 Profiles.id AS profileId,
 Profiles.cuteName,
 timestamp,
-IFNULL(MAX(CASE WHEN Metrics.name = 'Zombie XP' THEN ProfileData.value END), 0) AS zombie,
-IFNULL(MAX(CASE WHEN Metrics.name = 'Spider XP' THEN ProfileData.value END), 0) AS spider,
-IFNULL(MAX(CASE WHEN Metrics.name = 'Wolf XP' THEN ProfileData.value END), 0) AS wolf,
-IFNULL(MAX(CASE WHEN Metrics.name = 'Enderman XP' THEN ProfileData.value END), 0) AS enderman,
-IFNULL(MAX(CASE WHEN Metrics.name = 'Blaze XP' THEN ProfileData.value END), 0) AS blaze,
-IFNULL(MAX(CASE WHEN Metrics.name = 'Vampire XP' THEN ProfileData.value END), 0) AS vampire
+IFNULL(MAX(CASE WHEN Metrics.name = 'Grim Reaper Bestiary' THEN ProfileData.value END), 0) AS grimReaper,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Yeti Bestiary' THEN ProfileData.value END), 0) AS yeti,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Reindrake Bestiary' THEN ProfileData.value END), 0) AS reindrake,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Great White Shark Bestiary' THEN ProfileData.value END), 0) AS greatWhiteShark,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Thunder Bestiary' THEN ProfileData.value END), 0) AS thunder,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Lord Jawbus Bestiary' THEN ProfileData.value END), 0) AS lordJawbus,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Abyssal Miner Bestiary' THEN ProfileData.value END), 0) AS abyssalMiner,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Flaming Worm Bestiary' THEN ProfileData.value END), 0) AS flamingWorm,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Sea Emperor Bestiary' THEN ProfileData.value END), 0) AS seaEmperor,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Water Hydra Bestiary' THEN ProfileData.value END), 0) AS waterHydra,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Lava Blaze Bestiary' THEN ProfileData.value END), 0) AS lavaBlaze,
+IFNULL(MAX(CASE WHEN Metrics.name = 'Lava Pigman Bestiary' THEN ProfileData.value END), 0) AS lavaPigman
 FROM ProfileData
 JOIN Profiles ON Profiles.id = ProfileData.profileId
 JOIN Metrics ON Metrics.id = ProfileData.metricId
-GROUP BY Profiles.id, timestamp
-HAVING COUNT(CASE WHEN Metrics.name = 'Slayer Weight' THEN 1 END) > 0;
+GROUP BY Profiles.id, timestamp;
 
 CREATE TEMPORARY TABLE UpdatedMetrics AS 
 SELECT
   profileId,
   timestamp,
-  (SELECT id FROM Metrics WHERE name = 'Slayer Weight') AS metricId,
+  (SELECT id FROM Metrics WHERE name = 'Rare Sea Creature Score') AS metricId,
   (
-    (zombie * 0.15) +
-    (spider * 0.16) +
-    (wolf * 0.55) +
-    (enderman * 0.75) +
-    (blaze * 0.64) +
-    (vampire * 31)
+    (nightSquid * 18000) +
+    (grimReaper * 252000) +
+    (yeti * 74000) +
+    (reindrake * 191000) +
+    (greatWhiteShark * 38000) +
+    (thunder * 77000) +
+    (lordJawbus * 306000) +
+    (abyssalMiner * 22000) +
+    (flamingWorm * 800) +
+    (seaEmperor * 60000) +
+    (waterHydra * 15000) +
+    (lavaBlaze * 1300) +
+    (lavaPigman * 1300)
   ) AS value
 FROM ProfileDataPivot;
 
-UPDATE ProfileData
-SET value = updated.value
-FROM UpdatedMetrics updated
-WHERE ProfileData.profileId = updated.profileId
-  AND ProfileData.timestamp = updated.timestamp
-  AND ProfileData.metricId = updated.metricId;
+INSERT INTO ProfileData (profileId, timestamp, metricId, value)
+SELECT profileId, timestamp, metricId, value
+FROM UpdatedMetrics
+ON CONFLICT(profileId, timestamp, metricId)
+DO UPDATE SET value = excluded.value;
 `)
 
 const res = db.prepare(`
@@ -74,6 +85,6 @@ GROUP BY playerId
 ORDER BY value DESC
 `)
 
-const rows = res.all({ metric: "Slayer Weight" })
+const rows = res.all({ metric: "Rare Sea Creature Score" })
 
 console.log(rows)
