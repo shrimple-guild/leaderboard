@@ -63,7 +63,6 @@ const bestiaryCategories = flattenCategories(categories)
 
 export function getBestiary(member: any) {
   if (!member.bestiary) return
-  if (!member.bestiary.migration) return
   const bestiary: { [key: string]: number } = member.bestiary.kills ?? {}
   const bestiaryTiers: BestiaryTiers = {}
   Object.entries(bestiaryCategories).forEach(([category, families]) => {
@@ -116,8 +115,7 @@ export function getEmperorKills(member: any) {
 
 export function getRareSeaCreatureScore(member: any) {
   const bestiary = getBestiary(member)
-  const specialNightSquidKills = member.stats?.kills_night_squid
-  if (!bestiary || specialNightSquidKills == null) return
+  if (!bestiary) return
   const kills = {
     grimReaper: bestiary.fishing_spooky_festival.grim_reaper.kills,
     yeti: bestiary.fishing_winter.yeti.kills,
