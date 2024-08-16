@@ -11,5 +11,6 @@
   "icon": "marina.png",
   "start": 1723763700000,
   "duration": 446400000,
-  "metric": "Rare Sea Creature Score"
+  "metric": "Rare Sea Creature Score",
+  "related": [ "Fishing XP" ]
 }
