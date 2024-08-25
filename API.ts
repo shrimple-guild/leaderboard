@@ -192,11 +192,11 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return getMythologicalKills(member)?.mythologicalKills
   } else if (metric.name == "Skill Weight") {
     return (
-      (member.experience_skill_fishing ?? 0) * 0.67 +
-      (member.experience_skill_mining ?? 0) * 0.25 +
+      (member.experience_skill_fishing ?? 0) * 0.6 +
+      (member.experience_skill_mining ?? 0) * 0.2 +
       (member.experience_skill_combat ?? 0) * 0.375 +
-      (member.experience_skill_foraging ?? 0) * 1.8 +
-      (member.experience_skill_farming ?? 0) * 0.9 +
+      (member.experience_skill_foraging ?? 0) * 1.6 +
+      (member.experience_skill_farming ?? 0) * 1.5 +
       (member.experience_skill_enchanting ?? 0) * 0.04 +
       (member.experience_skill_alchemy ?? 0) * 0.002 +
       (member.experience_skill_social2 ?? 0) * 7.77
