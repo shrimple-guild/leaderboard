@@ -1,7 +1,7 @@
 import Database from "better-sqlite3"
 import { existsSync } from "fs"
 
-const dbName = "lb_63d0278d8ea8c999a1004ef9_651316cd8ea8c9e6a31fbccb-1719746100000_1720192500000.db"
+const dbName = "lb_63d0278d8ea8c999a1004ef9-1723435200000_1723694400000.db"
 const backupName = `backup:${dbName}`
 
 if (existsSync(backupName)) {
@@ -18,7 +18,6 @@ SELECT
 Profiles.id AS profileId,
 Profiles.cuteName,
 timestamp,
-IFNULL(MAX(CASE WHEN Metrics.name = 'Night Squid Kills' THEN ProfileData.value END), 0) AS nightSquid,
 IFNULL(MAX(CASE WHEN Metrics.name = 'Grim Reaper Bestiary' THEN ProfileData.value END), 0) AS grimReaper,
 IFNULL(MAX(CASE WHEN Metrics.name = 'Yeti Bestiary' THEN ProfileData.value END), 0) AS yeti,
 IFNULL(MAX(CASE WHEN Metrics.name = 'Reindrake Bestiary' THEN ProfileData.value END), 0) AS reindrake,
@@ -34,8 +33,7 @@ IFNULL(MAX(CASE WHEN Metrics.name = 'Lava Pigman Bestiary' THEN ProfileData.valu
 FROM ProfileData
 JOIN Profiles ON Profiles.id = ProfileData.profileId
 JOIN Metrics ON Metrics.id = ProfileData.metricId
-GROUP BY Profiles.id, timestamp
-HAVING COUNT(CASE WHEN Metrics.name = 'Rare Sea Creature Score' THEN 1 END) > 0;
+GROUP BY Profiles.id, timestamp;
 
 CREATE TEMPORARY TABLE UpdatedMetrics AS 
 SELECT
@@ -59,12 +57,11 @@ SELECT
   ) AS value
 FROM ProfileDataPivot;
 
-UPDATE ProfileData
-SET value = updated.value
-FROM UpdatedMetrics updated
-WHERE ProfileData.profileId = updated.profileId
-  AND ProfileData.timestamp = updated.timestamp
-  AND ProfileData.metricId = updated.metricId;
+INSERT INTO ProfileData (profileId, timestamp, metricId, value)
+SELECT profileId, timestamp, metricId, value
+FROM UpdatedMetrics
+ON CONFLICT(profileId, timestamp, metricId)
+DO UPDATE SET value = excluded.value;
 `)
 
 const res = db.prepare(`

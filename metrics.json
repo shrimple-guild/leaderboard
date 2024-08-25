@@ -1,92 +1,46 @@
 [
   {
-    "name": "Blobfish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.blobfish"
+    "name": "Skill Weight",
+    "counter": "weight"
   },
   {
-    "name": "Volcanic Stonefish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.volcanic_stonefish"
+    "name": "Fishing XP",
+    "counter": "xp",
+    "path": "experience_skill_fishing"
   },
   {
-    "name": "Lavahorse Caught",
-    "counter": "fish",
-    "path": "trophy_fish.lava_horse"
+    "name": "Mining XP",
+    "counter": "xp",
+    "path": "experience_skill_mining"
   },
   {
-    "name": "Moldfin Caught",
-    "counter": "fish",
-    "path": "trophy_fish.moldfin"
+    "name": "Foraging XP",
+    "counter": "xp",
+    "path": "experience_skill_foraging"
   },
   {
-    "name": "Golden Fish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.golden_fish"
+    "name": "Farming XP",
+    "counter": "xp",
+    "path": "experience_skill_farming"
   },
   {
-    "name": "Mana Ray Caught",
-    "counter": "fish",
-    "path": "trophy_fish.mana_ray"
+    "name": "Combat XP",
+    "counter": "xp",
+    "path": "experience_skill_combat"
   },
   {
-    "name": "Vanille Caught",
-    "counter": "fish",
-    "path": "trophy_fish.vanille"
+    "name": "Enchanting XP",
+    "counter": "xp",
+    "path": "experience_skill_enchanting"
   },
   {
-    "name": "Obfuscated 1 Caught",
-    "counter": "fish",
-    "path": "trophy_fish.obfuscated_fish_1"
+    "name": "Alchemy XP",
+    "counter": "xp",
+    "path": "experience_skill_alchemy"
   },
   {
-    "name": "Obfuscated 2 Caught",
-    "counter": "fish",
-    "path": "trophy_fish.obfuscated_fish_2"
-  },
-  {
-    "name": "Obfuscated 3 Caught",
-    "counter": "fish",
-    "path": "trophy_fish.obfuscated_fish_3"
-  },
-  {
-    "name": "Gusher Caught",
-    "counter": "fish",
-    "path": "trophy_fish.gusher"
-  },
-  {
-    "name": "Flyfish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.flyfish"
-  },
-  {
-    "name": "Skeleton Fish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.skeleton_fish"
-  },
-  {
-    "name": "Karate Fish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.karate_fish"
-  },
-  {
-    "name": "Soul Fish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.soul_fish"
-  },
-  {
-    "name": "Sulphur Skitter Caught",
-    "counter": "fish",
-    "path": "trophy_fish.sulphur_skitter"
-  },
-  {
-    "name": "Steaming-Hot Flounder Caught",
-    "counter": "fish",
-    "path": "trophy_fish.steaming_hot_flounder"
-  },
-  {
-    "name": "Slugfish Caught",
-    "counter": "fish",
-    "path": "trophy_fish.slugfish"
+    "name": "Social XP",
+    "counter": "xp",
+    "path": "experience_skill_social2"
   }
 ]

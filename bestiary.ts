@@ -63,7 +63,7 @@ const bestiaryCategories = flattenCategories(categories)
 
 export function getBestiary(member: any) {
   if (!member.bestiary) return
-  if (!member.bestiary.migration) return
+  if (!member.bestiary.migration && !member.bestiary.milestone &&!member.bestiary.migrated_stats) return
   const bestiary: { [key: string]: number } = member.bestiary.kills ?? {}
   const bestiaryTiers: BestiaryTiers = {}
   Object.entries(bestiaryCategories).forEach(([category, families]) => {
@@ -116,8 +116,7 @@ export function getEmperorKills(member: any) {
 
 export function getRareSeaCreatureScore(member: any) {
   const bestiary = getBestiary(member)
-  const specialNightSquidKills = member.stats?.kills_night_squid
-  if (!bestiary || specialNightSquidKills == null) return
+  if (!bestiary) return
   const kills = {
     grimReaper: bestiary.fishing_spooky_festival.grim_reaper.kills,
     yeti: bestiary.fishing_winter.yeti.kills,
@@ -135,7 +134,7 @@ export function getRareSeaCreatureScore(member: any) {
   const bestiaryScore = Object.entries(kills).reduce((score, [mob, kills]) => {
     return score + kills * rareSeaCreatureScore[mob]
   }, 0)
-  return bestiaryScore + specialNightSquidKills * rareSeaCreatureScore["nightSquid"]
+  return bestiaryScore
 }
 
 const rareSeaCreatureScore: Record<string, number> = {
@@ -146,7 +145,6 @@ const rareSeaCreatureScore: Record<string, number> = {
   thunder: 77000,
   lordJawbus: 306000,
   zombieMiner: 22000,
-  nightSquid: 18000,
   flamingWorm: 800,
   seaEmperor: 60000,
   waterHydra: 15000,

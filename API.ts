@@ -113,12 +113,12 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return [...normalCompletions, ...masterCompletions].reduce((cum, cur) => cum + cur, 0)
   } else if (metric.name == "Slayer Weight") {
     return (
-      (member.slayer_bosses?.zombie?.xp ?? 0) * 0.06 +
-      (member.slayer_bosses?.spider?.xp ?? 0) * 0.09 +
-      (member.slayer_bosses?.wolf?.xp ?? 0) * 0.3 +
-      (member.slayer_bosses?.enderman?.xp ?? 0) * 0.4 +
-      (member.slayer_bosses?.blaze?.xp ?? 0) +
-      (member.slayer_bosses?.vampire?.xp ?? 0) * 12.5
+      (member.slayer_bosses?.zombie?.xp ?? 0) * 0.15 +
+      (member.slayer_bosses?.spider?.xp ?? 0) * 0.16 +
+      (member.slayer_bosses?.wolf?.xp ?? 0) * 0.55 +
+      (member.slayer_bosses?.enderman?.xp ?? 0) * 0.75 +
+      (member.slayer_bosses?.blaze?.xp ?? 0) * 0.64 +
+      (member.slayer_bosses?.vampire?.xp ?? 0) * 31
     )
   } else if (metric.name == "Mithril Powder") {
     return totalMithril
@@ -192,11 +192,11 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return getMythologicalKills(member)?.mythologicalKills
   } else if (metric.name == "Skill Weight") {
     return (
-      (member.experience_skill_fishing ?? 0) * 0.67 +
-      (member.experience_skill_mining ?? 0) * 0.25 +
+      (member.experience_skill_fishing ?? 0) * 0.6 +
+      (member.experience_skill_mining ?? 0) * 0.2 +
       (member.experience_skill_combat ?? 0) * 0.375 +
-      (member.experience_skill_foraging ?? 0) * 1.8 +
-      (member.experience_skill_farming ?? 0) * 0.9 +
+      (member.experience_skill_foraging ?? 0) * 1.6 +
+      (member.experience_skill_farming ?? 0) * 1.5 +
       (member.experience_skill_enchanting ?? 0) * 0.04 +
       (member.experience_skill_alchemy ?? 0) * 0.002 +
       (member.experience_skill_social2 ?? 0) * 7.77
