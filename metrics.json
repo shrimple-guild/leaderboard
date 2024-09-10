@@ -1,46 +1,7 @@
 [
   {
-    "name": "Skill Weight",
-    "counter": "weight"
-  },
-  {
     "name": "Fishing XP",
     "counter": "xp",
     "path": "experience_skill_fishing"
-  },
-  {
-    "name": "Mining XP",
-    "counter": "xp",
-    "path": "experience_skill_mining"
-  },
-  {
-    "name": "Foraging XP",
-    "counter": "xp",
-    "path": "experience_skill_foraging"
-  },
-  {
-    "name": "Farming XP",
-    "counter": "xp",
-    "path": "experience_skill_farming"
-  },
-  {
-    "name": "Combat XP",
-    "counter": "xp",
-    "path": "experience_skill_combat"
-  },
-  {
-    "name": "Enchanting XP",
-    "counter": "xp",
-    "path": "experience_skill_enchanting"
-  },
-  {
-    "name": "Alchemy XP",
-    "counter": "xp",
-    "path": "experience_skill_alchemy"
-  },
-  {
-    "name": "Social XP",
-    "counter": "xp",
-    "path": "experience_skill_social2"
   }
 ]

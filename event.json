@@ -4,22 +4,12 @@
   "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
-  "intro": "The Derpy skill event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting a **{metric}** event for the duration of Derpy. Good luck!",
+  "intro": "A {metric} event is starting because why not! (thanks milo for keeping events alive)",
+  "description": "Shrimple and Prawn Academy are hosting a joint **{metric}** event. Good luck!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Derpy",
-  "icon": "derpy.png",
-  "start": 1724656500000,
-  "duration": 446400000,
-  "metric": "Skill Weight",
-  "related": [
-    "Fishing XP",
-    "Mining XP",
-    "Foraging XP",
-    "Farming XP",
-    "Combat XP",
-    "Enchanting XP",
-    "Alchemy XP",
-    "Social XP"
-  ]
+  "author": "Marina",
+  "icon": "marina.png",
+  "start": 1726027200000,
+  "duration": 172800000,
+  "metric": "Fishing XP"
 }
