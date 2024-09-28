@@ -4,12 +4,22 @@
   "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
-  "intro": "A {metric} event is starting because why not! (thanks milo for keeping events alive)",
-  "description": "Shrimple and Prawn Academy are hosting a joint **{metric}** event. Good luck!",
+  "intro": "A {metric} event is starting for Marina!",
+  "description": "Shrimple and Prawn Academy are hosting a joint **{metric}** event for the duration of Marina! Good luck and have fish!",
   "outro": "The event has finished. Thanks for participating!",
   "author": "Marina",
   "icon": "marina.png",
-  "start": 1726113600000,
-  "duration": 172800000,
-  "metric": "Fishing XP"
+  "start": 1727781300000,
+  "duration": 446400000,
+  "metric": "Rare Sea Creature Score",
+  "related": [
+    "Fishing XP",
+    "Shark Kills",
+    "Plhlegblast Bestiary",
+    "Yeti Bestiary",
+    "Grim Reaper Bestiary",
+    "Lava Blaze Bestiary",
+    "Lord Jawbus Bestiary",
+    "Carrot King Bestiary"
+  ]
 }
