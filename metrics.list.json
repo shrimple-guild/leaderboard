@@ -4,46 +4,6 @@
     "counter": "weight"
   },
   {
-    "name": "Fishing XP",
-    "counter": "xp",
-    "path": "experience_skill_fishing"
-  },
-  {
-    "name": "Mining XP",
-    "counter": "xp",
-    "path": "experience_skill_mining"
-  },
-  {
-    "name": "Foraging XP",
-    "counter": "xp",
-    "path": "experience_skill_foraging"
-  },
-  {
-    "name": "Farming XP",
-    "counter": "xp",
-    "path": "experience_skill_farming"
-  },
-  {
-    "name": "Combat XP",
-    "counter": "xp",
-    "path": "experience_skill_combat"
-  },
-  {
-    "name": "Enchanting XP",
-    "counter": "xp",
-    "path": "experience_skill_enchanting"
-  },
-  {
-    "name": "Alchemy XP",
-    "counter": "xp",
-    "path": "experience_skill_alchemy"
-  },
-  {
-    "name": "Social XP",
-    "counter": "xp",
-    "path": "experience_skill_social2"
-  },
-  {
     "name": "Slayer Weight",
     "counter": "weight"
   },
@@ -77,7 +37,6 @@
     "counter": "xp",
     "path": "slayer_bosses.vampire.xp"
   },
-
   {
     "name": "Dungeon Completions",
     "counter": "completions"
@@ -89,11 +48,6 @@
   {
     "name": "Total Powder",
     "counter": "powder"
-  },
-  {
-    "name": "Mythos Kills",
-    "counter": "kills",
-    "path": "stats.mythos_kills"
   },
   {
     "name": "Skyblock Experience",
@@ -199,20 +153,6 @@
     "name": "Agarimoo Bestiary",
     "counter": "tongues",
     "path": "bestiary.kills.agarimoo_35"
-  },
-  {
-    "name": "Rare Sea Creature Score",
-    "counter": "score"
-  },
-  {
-    "name": "Treasure Caught",
-    "counter": "treasures",
-    "path": "stats.items_fished_treasure"
-  },
-  {
-    "name": "Fishing XP",
-    "counter": "xp",
-    "path": "experience_skill_fishing"
   },
   {
     "name": "Rare Sea Creature Score",

@@ -33,7 +33,7 @@ export class API {
   }
 
   async fetchProfiles(uuid: string): Promise<Profile[]> {
-    const profile = await this.client.get(`/skyblock/profiles`, {
+    const profile = await this.client.get(`/v2/skyblock/profiles`, {
       params: { uuid: uuid, key: this.apiKey },
     })
     return (profile.data.profiles as any[])?.map((profile: any) => {
@@ -62,16 +62,7 @@ export class API {
 
   private fetchMetrics(member: any): { metric: string; value: number }[] {
     // guard against skill api disablers destroying events
-    if (
-      member.experience_skill_fishing == null &&
-      member.experience_skill_mining == null &&
-      member.experience_skill_combat == null &&
-      member.experience_skill_foraging == null &&
-      member.experience_skill_farming == null &&
-      member.experience_skill_enchanting == null &&
-      member.experience_skill_alchemy == null &&
-      member.experience_skill_carpentry == null
-    ) {
+    if (member.player_data?.experience == null) {
       return []
     }
     return this.metrics
@@ -253,7 +244,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
 }
 
 function sumKills(member: any, mobs: string[]) {
-  return mobs.reduce((cum, cur) => cum + (member?.stats?.[`kills_${cur}`] ?? 0), 0)
+  return mobs.reduce((cum, cur) => cum + (member?.player_stats?.kills?.[cur] ?? 0), 0)
 }
 
 const trophyFishBase: Record<string, number> = {
