@@ -19,6 +19,11 @@
     "path": "bestiary.kills.grim_reaper_190"
   },
   {
+    "name": "Phantom Fisher Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.phantom_fisherman_160"
+  },
+  {
     "name": "Yeti Bestiary",
     "counter": "kills",
     "path": "bestiary.kills.yeti_175"

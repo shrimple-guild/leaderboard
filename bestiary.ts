@@ -119,6 +119,7 @@ export function getRareSeaCreatureScore(member: any) {
   if (!bestiary) return
   const kills = {
     grimReaper: bestiary.fishing_spooky_festival.grim_reaper.kills,
+    phantomFisher: bestiary.fishing_spooky_festival.phantom_fisher.kills,
     yeti: bestiary.fishing_winter.yeti.kills,
     reindrake: bestiary.fishing_winter.reindrake.kills,
     greatWhiteShark: bestiary.fishing_fishing_festival.great_white_shark.kills,
@@ -140,7 +141,8 @@ export function getRareSeaCreatureScore(member: any) {
 }
 
 const rareSeaCreatureScore: Record<string, number> = {
-  grimReaper: 252000,
+  phantomFisher: 39000,
+  grimReaper: 126000,
   yeti: 74000,
   reindrake: 191000,
   greatWhiteShark: 38000,
