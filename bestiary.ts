@@ -130,6 +130,8 @@ export function getRareSeaCreatureScore(member: any) {
     waterHydra: bestiary.fishing_fishing.water_hydra.kills,
     lavaBlaze: bestiary.fishing_lava.lava_blaze.kills,
     lavaPigman: bestiary.fishing_lava.lava_pigman.kills,
+    plhlegblast: bestiary.fishing_lava.plhlegblast.kills,
+
   }
   const bestiaryScore = Object.entries(kills).reduce((score, [mob, kills]) => {
     return score + kills * rareSeaCreatureScore[mob]
@@ -150,4 +152,5 @@ const rareSeaCreatureScore: Record<string, number> = {
   waterHydra: 15000,
   lavaBlaze: 1300,
   lavaPigman: 1300,
+  plhlegblast: 77,
 }
