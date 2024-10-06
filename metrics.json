@@ -162,5 +162,55 @@
   {
     "name": "Jerry Event Score",
     "counter": "score"
+  },
+  {
+    "name": "Mithril Powder Spent",
+    "counter": "powder",
+    "path": "mining_core.powder_spent_mithril"
+  },
+  {
+    "name": "Total Mithril Powder",
+    "counter": "powder",
+    "path": "mining_core.powder_mithril_total"
+  },
+  {
+    "name": "Mithril Powder",
+    "counter": "powder",
+    "path": "mining_core.powder_mithril"
+  },
+  {
+    "name": "Gemstone Powder Spent",
+    "counter": "powder",
+    "path": "mining_core.powder_spent_gemstone"
+  },
+  {
+    "name": "Total Gemstone Powder",
+    "counter": "powder",
+    "path": "mining_core.powder_gemstone_total"
+  },
+  {
+    "name": "Gemstone Powder",
+    "counter": "powder",
+    "path": "mining_core.powder_gemstone"
+  },
+  {
+    "name": "Glacite Powder Spent",
+    "counter": "powder",
+    "path": "mining_core.powder_spent_glacite"
+  },
+  {
+    "name": "Total Glacite Powder",
+    "counter": "powder",
+    "path": "mining_core.powder_glacite_total"
+  },
+  {
+    "name": "Glacite Powder",
+    "counter": "powder",
+    "path": "mining_core.powder_glacite"
+  },
+  {
+    "name": "Core of the Mountain",
+    "counter": "level",
+    "path": "mining_core.nodes.special_0"
   }
 ]
