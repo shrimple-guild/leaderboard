@@ -5,86 +5,162 @@
     "path": "player_data.experience.SKILL_FISHING"
   },
   {
-    "name": "Shark Kills",
-    "counter": "kills",
-    "path": "leveling.fishing_festival_sharks_killed"
+    "name": "Mining XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_MINING"
   },
   {
-    "name": "Rare Sea Creature Score",
+    "name": "Foraging XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_FORAGING"
+  },
+  {
+    "name": "Farming XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_FARMING"
+  },
+  {
+    "name": "Enchanting XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_ENCHANTING"
+  },
+  {
+    "name": "Zombie XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.zombie.xp"
+  },
+  {
+    "name": "Spider XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.spider.xp"
+  },
+  {
+    "name": "Wolf XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.wolf.xp"
+  },
+  {
+    "name": "Enderman XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.enderman.xp"
+  },
+  {
+    "name": "Blaze XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.blaze.xp"
+  },
+  {
+    "name": "Vampire XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.vampire.xp"
+  },
+  {
+    "name": "F1 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.1"
+  },
+  {
+    "name": "F2 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.2"
+  },
+  {
+    "name": "F3 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.3"
+  },
+  {
+    "name": "F4 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.4"
+  },
+  {
+    "name": "F5 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.5"
+  },
+  {
+    "name": "F6 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.6"
+  },
+  {
+    "name": "F7 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.7"
+  },
+  {
+    "name": "M1 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.1"
+  },
+  {
+    "name": "M2 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.2"
+  },
+  {
+    "name": "M3 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.3"
+  },
+  {
+    "name": "M4 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.4"
+  },
+  {
+    "name": "M5 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.5"
+  },
+  {
+    "name": "M6 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.6"
+  },
+  {
+    "name": "M7 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.7"
+  },
+  {
+    "name": "T1 Kuudra Runs",
+    "counter": "runs",
+    "path": "nether_island_player_data.kuudra_completed_tiers.none"
+  },
+  {
+    "name": "T2 Kuudra Runs",
+    "counter": "runs",
+    "path": "nether_island_player_data.kuudra_completed_tiers.hot"
+  },
+  {
+    "name": "T3 Kuudra Runs",
+    "counter": "runs",
+    "path": "nether_island_player_data.kuudra_completed_tiers.burning"
+  },
+  {
+    "name": "T4 Kuudra Runs",
+    "counter": "runs",
+    "path": "nether_island_player_data.kuudra_completed_tiers.fiery"
+  },
+  {
+    "name": "T5 Kuudra Runs",
+    "counter": "runs",
+    "path": "nether_island_player_data.kuudra_completed_tiers.infernal"
+  },
+  {
+    "name": "Mythos Kills",
+    "counter": "kills",
+    "path": "player_stats.mythos.kills"
+  },
+  {
+    "name": "Skyblock XP",
+    "counter": "xp",
+    "path": "leveling.experience"
+  },
+  {
+    "name": "Jerry Event Score",
     "counter": "score"
-  },
-  {
-    "name": "Grim Reaper Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.grim_reaper_190"
-  },
-  {
-    "name": "Phantom Fisher Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.phantom_fisherman_160"
-  },
-  {
-    "name": "Yeti Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.yeti_175"
-  },
-  {
-    "name": "Reindrake Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.reindrake_100"
-  },
-  {
-    "name": "Great White Shark Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.great_white_shark_180"
-  },
-  {
-    "name": "Thunder Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.thunder_400"
-  },
-  {
-    "name": "Lord Jawbus Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lord_jawbus_600"
-  },
-  {
-    "name": "Abyssal Miner Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.zombie_miner_150"
-  },
-  {
-    "name": "Flaming Worm Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.flaming_worm_50"
-  },
-  {
-    "name": "Sea Emperor Bestiary",
-    "counter": "kills"
-  },
-  {
-    "name": "Water Hydra Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.water_hydra_100"
-  },
-  {
-    "name": "Lava Blaze Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lava_blaze_100"
-  },
-  {
-    "name": "Lava Pigman Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lava_pigman_100"
-  },
-  {
-    "name": "Carrot King Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.carrot_king_25"
-  },
-  {
-    "name": "Plhlegblast Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.pond_squid_300"
   }
 ]
