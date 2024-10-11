@@ -93,11 +93,12 @@ SELECT
     ) AS value
 FROM ProfileDataPivot;
 
-INSERT INTO ProfileData (profileId, timestamp, metricId, value)
-SELECT profileId, timestamp, metricId, value
-FROM UpdatedMetrics
-ON CONFLICT(profileId, timestamp, metricId)
-DO UPDATE SET value = excluded.value;
+UPDATE ProfileData
+SET value = updated.value
+FROM UpdatedMetrics updated
+WHERE ProfileData.profileId = updated.profileId
+  AND ProfileData.timestamp = updated.timestamp
+  AND ProfileData.metricId = updated.metricId;
 `)
 
 const res = db.prepare(`
