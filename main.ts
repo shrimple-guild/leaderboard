@@ -26,6 +26,11 @@ const updateEventJob = new CronJob("0 */20 * * * *", doEventUpdate)
 
 async function doEventUpdate() {
   try {
+    if (updateTime > event.end) {
+        updateEventJob.stop();
+        console.log(`Job started after expected end time, aborting.`)
+      }
+
     console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
 
     if (updateTime >= event.start) {
