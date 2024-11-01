@@ -1,7 +1,7 @@
 [
   {
-    "name": "Fishing XP",
+    "name": "Taming XP",
     "counter": "xp",
-    "path": "player_data.experience.SKILL_FISHING"
+    "path": "player_data.experience.SKILL_TAMING"
   }
 ]
