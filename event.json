@@ -5,11 +5,14 @@
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
   "intro": "A {metric} event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting the first  **{metric}** event for the duration of Diana (the mayor, not the Shrimple member)! Good luck!",
+  "description": "Shrimple and Prawn Academy are hosting a short  **{metric}** event! Good luck!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Diana",
-  "icon": "diana.png",
-  "start": 1730459700000,
-  "duration": 450000000,
-  "metric": "Taming XP"
+  "author": "Marina",
+  "icon": "marina.png",
+  "start": 1731387600000,
+  "duration": 86400000,
+  "metric": "Magma Slug Bestiary",
+  "related": [
+    "Fishing XP"
+  ]
 }

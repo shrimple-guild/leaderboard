@@ -1,7 +1,12 @@
 [
   {
-    "name": "Taming XP",
+    "name": "Magma Slug Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.magma_slug_200"
+  },
+  {
+    "name": "Fishing XP",
     "counter": "xp",
-    "path": "player_data.experience.SKILL_TAMING"
+    "path": "player_data.experience.SKILL_FISHING"
   }
 ]
