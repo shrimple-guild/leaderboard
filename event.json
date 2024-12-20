@@ -14,10 +14,13 @@
   "metrics": [
     "Frozen Steve Bestiary",
     "Frosty Bestiary",
-    "Yeti Bestiary",
-    "Nutcracker Bestiary"
+    "Grinch Bestiary",
+    "Yeti Bestiary"
   ],
   "related": [
-    "Fishing XP"
+    "Fishing XP",
+    "Reindrake Bestiary",
+    "Yeti Bestiary",
+    "Nutcracker Bestiary"
   ]
 }

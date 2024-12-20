@@ -10,6 +10,11 @@
     "path": "bestiary.kills.frosty_the_snowman_13"
   },
   {
+    "name": "Grinch Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.grinch_21"
+  },
+  {
     "name": "Yeti Bestiary",
     "counter": "kills",
     "path": "bestiary.kills.yeti_175"
@@ -18,6 +23,11 @@
     "name": "Nutcracker Bestiary",
     "counter": "kills",
     "path": "bestiary.kills.nutcracker_50"
+  },
+  {
+    "name": "Reindrake Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.reindrake_100"
   },
   {
     "name": "Fishing XP",
