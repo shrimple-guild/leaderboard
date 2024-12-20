@@ -1,8 +1,23 @@
 [
   {
-    "name": "Fire Eel Bestiary",
+    "name": "Frozen Steve Bestiary",
     "counter": "kills",
-    "path": "bestiary.kills.fire_eel_240"
+    "path": "bestiary.kills.frozen_steve_7"
+  },
+  {
+    "name": "Frosty Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.frosty_the_snowman_13"
+  },
+  {
+    "name": "Yeti Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.yeti_175/"
+  },
+  {
+    "name": "Nutcracker Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.nutcracker_50"
   },
   {
     "name": "Fishing XP",

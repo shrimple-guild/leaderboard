@@ -5,13 +5,18 @@
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
   "intro": "A {metric} event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting a weekend **{metric}** event! Good luck!",
+  "description": "Shrimple and Prawn Academy are hosting a weekend **{metric}** event for Marina! Good luck!",
   "outro": "The event has finished. Thanks for participating!",
   "author": "Marina",
   "icon": "marina.png",
-  "start": 1734152400000,
+  "start": 1734750900000,
   "duration": 172800000,
-  "metric": "Fire Eel Bestiary",
+  "metrics": [
+    "Frozen Steve Bestiary",
+    "Frosty Bestiary",
+    "Yeti Bestiary",
+    "Nutcracker Bestiary"
+  ],
   "related": [
     "Fishing XP"
   ]
