@@ -46,6 +46,10 @@ export class Database {
     this.addMetrics(metrics)
   }
 
+  backup(path: string) {
+    this.db.backup(path)
+  }
+
   getLeaderboard(guildId: string, metric: string, start?: number, end?: number): LeaderboardPositionWithoutRank[] {
     const stmt = this.db.prepare(`
       WITH ProfileLeaderboard AS (
@@ -73,6 +77,19 @@ export class Database {
       end: end ?? Date.now(),
       guildId: guildId,
     }) as LeaderboardPosition[]
+  }
+
+  deletePlayer(username: string) {
+    const stmt = this.db.prepare(`
+      DELETE FROM ProfileData
+      WHERE profileId IN (
+          SELECT Profiles.id
+          FROM Profiles
+          JOIN Players ON Profiles.playerId = Players.id
+          WHERE Players.username = ?
+      );
+    `)
+    stmt.run(username)
   }
 
   getTimeseries(username: string, cuteName: string, metric: string, start?: number, end?: number): Timeseries[] {

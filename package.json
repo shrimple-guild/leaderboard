@@ -12,7 +12,9 @@
   "scripts": {
     "start": "node --no-warnings --loader ts-node/esm.mjs ./main.ts",
     "test": "node --loader ts-node/esm.mjs ./test.ts",
-    "update-metric": "node --loader ts-node/esm.mjs ./update_derived_metric.ts"
+    "update-metric": "node --loader ts-node/esm.mjs ./update_derived_metric.ts",
+    "delete-player": "node --loader ts-node/esm.mjs ./delete_player.ts"
+
   },
   "dependencies": {
     "async-lock": "^1.4.1",
