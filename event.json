@@ -9,19 +9,14 @@
   "outro": "The event has finished. Thanks for participating!",
   "author": "Marina",
   "icon": "marina.png",
-  "start": 1734750900000,
-  "duration": 172800000,
+  "start": 1734923700000,
+  "duration": 446400000,
   "metrics": [
-    "Frozen Steve Bestiary",
-    "Frosty Bestiary",
-    "Grinch Bestiary",
-    "Yeti Bestiary"
+    "Fishing XP"
   ],
   "related": [
-    "Fishing XP",
-    "Reindrake Bestiary",
-    "Yeti Bestiary",
-    "Nutcracker Bestiary",
-    "Grinch Bestiary"
+    "Lord Jawbus Kills",
+    "Lord Jawbus Deaths",
+    "Shark Kills"
   ]
 }
