@@ -132,10 +132,16 @@ export class DiscordBot {
     })
     const blankField = { name: "\u200b", value: "\u200b", inline: true }
     fields = fields.flatMap((value, index) => ((index + 1) % 2 == 0 ? [value, blankField] : value))
-    const continued10 = continueData(10, leaderboard)
-    if (continued10 != null) fields.push(continued10)
-    const continued15 = continueData(15, leaderboard)
-    if (continued15 != null) fields.push(continued15, blankField)
+
+    const extendedFields = 4
+    for (let i = 10; i < 10 + 5 * extendedFields; i += 5) {
+      const continuation = continueData(i, leaderboard)
+      if (continuation != null) fields.push(continuation)
+      if (i % 10 == 5) {
+        fields.push(blankField)
+      }
+    }
+
     if (fields.length == 0) {
       fields.push({
         name: "No data",
