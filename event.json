@@ -4,19 +4,27 @@
   "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
-  "intro": "A {metric} event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting a weekend **{metric}** event for Marina! Good luck!",
+  "intro": "A {metric} major event is starting!",
+  "description": "Shrimple and Prawn Academy are hosting a {metric} event for the duration of Derpy! Good luck!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Marina",
-  "icon": "marina.png",
-  "start": 1734924900000,
+  "author": "Derpy",
+  "icon": "derpy.png",
+  "start": 1735371300000,
   "duration": 445200000,
-  "metrics": [
-    "Fishing XP"
+  "metric": [
+    "Skill Weight"
   ],
   "related": [
-    "Lord Jawbus Kills",
-    "Lord Jawbus Deaths",
-    "Shark Kills"
+    "Fishing XP",
+    "Alchemy XP",
+    "Runecrafting XP",
+    "Mining XP",
+    "Farming XP",
+    "Enchanting XP",
+    "Taming XP",
+    "Foraging XP",
+    "Social XP",
+    "Carpentry XP",
+    "Combat XP"
   ]
 }

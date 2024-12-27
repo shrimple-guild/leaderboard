@@ -181,15 +181,15 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return getMythologicalKills(member)?.mythologicalKills
   } else if (metric.name == "Skill Weight") {
     return (
-      (member.experience_skill_fishing ?? 0) * 0.6 +
-      (member.experience_skill_mining ?? 0) * 0.2 +
-      (member.experience_skill_combat ?? 0) * 0.375 +
-      (member.experience_skill_foraging ?? 0) * 1.6 +
-      (member.experience_skill_farming ?? 0) * 1.5 +
-      (member.experience_skill_enchanting ?? 0) * 0.04 +
-      (member.experience_skill_alchemy ?? 0) * 0.002 +
-      (member.experience_skill_social2 ?? 0) * 7.77
-    )
+      ((member.player_data?.experience?.SKILL_FISHING ?? 0) * 0.6) +
+      ((member.player_data?.experience?.SKILL_MINING ?? 0) * 0.2) +
+      ((member.player_data?.experience?.SKILL_COMBAT ?? 0) * 0.375) +
+      ((member.player_data?.experience?.SKILL_FORAGING ?? 0) * 1.6) +
+      ((member.player_data?.experience?.SKILL_FARMING ?? 0) * 1.2) +
+      ((member.player_data?.experience?.SKILL_ENCHANTING ?? 0) * 0.04) +
+      ((member.player_data?.experience?.SKILL_ALCHEMY ?? 0) * 0.002) +
+      ((member.player_data?.experience?.SKILL_SOCIAL ?? 0) * 7.77)
+    );
   } else if (metric.name == "Dungeon Boss Collections") {
     const catacombs = member.dungeons?.dungeon_types?.catacombs?.tier_completions
     const masterModeCatacombs = member.dungeons?.dungeon_types?.master_catacombs?.tier_completions
