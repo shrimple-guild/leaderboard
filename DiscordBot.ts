@@ -25,7 +25,7 @@ export class DiscordBot {
     client.on(Events.InteractionCreate, async interaction => {
       try {
         if (!interaction.inCachedGuild() || !interaction.isStringSelectMenu()) return
-        if (interaction.customId != `leaderboardSelector_${event.guildIds.join("_")}`) return
+        if (interaction.customId != `leaderboardSelector_${event.identifier()}`) return
         await interaction.deferReply({ ephemeral: true })
         const metric = interaction.values[0]
         const data = await this.getLeaderboardEmbed(event, metric).catch(console.error)
