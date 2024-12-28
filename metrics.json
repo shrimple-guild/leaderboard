@@ -53,5 +53,9 @@
     "name": "Combat XP",
     "counter": "xp",
     "path": "player_data.experience.SKILL_COMBAT"
+  },
+  {
+    "name": "Skill Weight",
+    "counter": "weight"
   }
 ]
