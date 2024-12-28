@@ -11,9 +11,7 @@
   "icon": "derpy.png",
   "start": 1735371300000,
   "duration": 445200000,
-  "metrics": [
-    "Skill Weight"
-  ],
+  "metric": "Skill Weight",
   "related": [
     "Fishing XP",
     "Alchemy XP",
