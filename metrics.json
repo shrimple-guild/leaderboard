@@ -1,61 +1,12 @@
 [
   {
+    "name": "Ink Collection",
+    "counter": "sacs",
+    "path": "collection.INK_SACK"
+  },
+  {
     "name": "Fishing XP",
     "counter": "xp",
     "path": "player_data.experience.SKILL_FISHING"
-  },
-  {
-    "name": "Alchemy XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_ALCHEMY"
-  },
-  {
-    "name": "Runecrafting XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_RUNECRAFTING"
-  },
-  {
-    "name": "Mining XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_MINING"
-  },
-  {
-    "name": "Farming XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FARMING"
-  },
-  {
-    "name": "Enchanting XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_ENCHANTING"
-  },
-  {
-    "name": "Taming XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_TAMING"
-  },
-  {
-    "name": "Foraging XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FORAGING"
-  },
-  {
-    "name": "Social XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_SOCIAL"
-  },
-  {
-    "name": "Carpentry XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_CARPENTRY"
-  },
-  {
-    "name": "Combat XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_COMBAT"
-  },
-  {
-    "name": "Skill Weight",
-    "counter": "weight"
   }
 ]

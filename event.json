@@ -4,25 +4,15 @@
   "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
-  "intro": "A {metric} major event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting a {metric} event for the duration of Derpy! Good luck!",
+  "intro": "A five-day {metric} major event is starting!",
+  "description": "Shrimple and Prawn Academy are hosting a {metric} event for the next five days! Good luck!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Derpy",
-  "icon": "derpy.png",
-  "start": 1735371300000,
-  "duration": 445200000,
-  "metric": "Skill Weight",
+  "author": "Vanessa",
+  "icon": "vanessa.png",
+  "start": 1735880400000,
+  "duration": 432000000,
+  "metric": "Ink Collection",
   "related": [
-    "Fishing XP",
-    "Alchemy XP",
-    "Runecrafting XP",
-    "Mining XP",
-    "Farming XP",
-    "Enchanting XP",
-    "Taming XP",
-    "Foraging XP",
-    "Social XP",
-    "Carpentry XP",
-    "Combat XP"
+    "Fishing XP"
   ]
 }

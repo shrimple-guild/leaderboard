@@ -80,6 +80,6 @@ GROUP BY playerId
 ORDER BY value DESC
 `)
 
-const rows = res.all({ metric: "Jerry Event Score" })
+const rows = res.all({ metric: "Skill Weight" })
 
 console.log(rows)

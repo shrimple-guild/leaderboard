@@ -17,15 +17,13 @@ const database = new Database(dbName, metrics)
 const lb = new Leaderboard(api, database)
 const event = GuildEvent.from(eventConfig, lb)
 
-console.log(event.identifier())
-
 const discordBot = await DiscordBot.create(config.discordToken, [], event)
 
 console.log("Event ready.")
 
 const runUpdateOnInit = false
 
-const updateEventJob = new CronJob("0 15-59/20 * * * *", doEventUpdate)
+const updateEventJob = new CronJob("0 */20 * * * *", doEventUpdate)
 
 async function doEventUpdate() {
   try {
