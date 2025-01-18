@@ -238,6 +238,14 @@ function getMetric(member: any, metric: Metric): number | undefined {
     )
   } else if (metric.name == "Sea Emperor Bestiary") {
     return getEmperorKills(member)
+  } else if (metric.name == "Trapper Kills") {
+    const kills = member.player_stats?.kills
+    return (kills?.trapper_cow ?? 0) + 
+      (kills?.trapper_chicken ?? 0) + 
+      (kills?.trapper_sheep ?? 0) + 
+      (kills?.trapper_pig ?? 0) + 
+      (kills?.trapper_rabbit ?? 0) + 
+      (kills?.trapper_horse ?? 0)
   }
 }
 

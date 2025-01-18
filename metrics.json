@@ -1,12 +1,6 @@
 [
   {
-    "name": "Ink Collection",
-    "counter": "sacs",
-    "path": "collection.INK_SACK"
-  },
-  {
-    "name": "Fishing XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FISHING"
+    "name": "Trapper Kills",
+    "counter": "kills"
   }
 ]

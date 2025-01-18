@@ -4,15 +4,13 @@
   "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
-  "intro": "A five-day {metric} major event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting a {metric} event for the next five days! Good luck!",
+  "intro": "The first {metric} weekend event is starting!",
+  "description": "Shrimple and Prawn Academy are hosting a short {metric} event today! Have fun!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Vanessa",
-  "icon": "vanessa.png",
-  "start": 1735880400000,
-  "duration": 432000000,
-  "metric": "Ink Collection",
-  "related": [
-    "Fishing XP"
-  ]
+  "author": "Trevor",
+  "icon": "trevor.png",
+  "start": 1737262800000,
+  "duration": 86400000,
+  "metric": "Trapper Kills"
 }
+
