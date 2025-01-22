@@ -4,13 +4,16 @@
   "pingRoleIds": ["1067299969926709278", "1155991667145441350"],
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
-  "intro": "The first {metric} weekend event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting a short {metric} event today! Have fun!",
+  "intro": "A {metric} event is starting!",
+  "description": "Shrimple and Prawn Academy are hosting a {metric} event for the duration of Marina! Note: as of this event, members must be in the guild for at least one week before the event starts to be eligible for prizes. Thanks for your understanding, and have fun!",
   "outro": "The event has finished. Thanks for participating!",
-  "author": "Trevor",
-  "icon": "trevor.png",
-  "start": 1737262800000,
-  "duration": 86400000,
-  "metric": "Trapper Kills"
+  "author": "Marina",
+  "icon": "marina.png",
+  "start": 1737602100000,
+  "duration": 446400000,
+  "metric": "Fishing XP",
+  "related": [
+    "Shark Kills",
+    "Plhlegblast Bestiary"
+  ]
 }
-
