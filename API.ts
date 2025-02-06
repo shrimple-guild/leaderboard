@@ -134,35 +134,35 @@ function getMetric(member: any, metric: Metric): number | undefined {
     )
   } else if (metric.name == "Jerry Event Score") {
     return (
-      (member.player_data?.experience?.SKILL_FISHING ?? 0) * 0.6 +
-      (member.player_data?.experience?.SKILL_MINING ?? 0) * 0.125 +
+      (member.player_data?.experience?.SKILL_FISHING ?? 0) * 0.5 +
+      (member.player_data?.experience?.SKILL_MINING ?? 0) * 0.17 +
       (member.player_data?.experience?.SKILL_FORAGING ?? 0) * 1.6 +
-      (member.player_data?.experience?.SKILL_FARMING ?? 0) * 1.5 +
-      (member.player_data?.experience?.SKILL_ENCHANTING ?? 0) * 0.04 +
-      (member.slayer?.slayer_bosses?.zombie?.xp ?? 0) * 4.68 +
-      (member.slayer?.slayer_bosses?.spider?.xp ?? 0) * 4.88 +
-      (member.slayer?.slayer_bosses?.wolf?.xp ?? 0) * 17.14 +
-      (member.slayer?.slayer_bosses?.enderman?.xp ?? 0) * 32.32 +
-      (member.slayer?.slayer_bosses?.blaze?.xp ?? 0) * 30 +
+      (member.player_data?.experience?.SKILL_FARMING ?? 0) * 1 +
+      (member.player_data?.experience?.SKILL_ENCHANTING ?? 0) * 0.268 +
+      (member.slayer?.slayer_bosses?.zombie?.xp ?? 0) * 3.33 +
+      (member.slayer?.slayer_bosses?.spider?.xp ?? 0) * 7.5 +
+      (member.slayer?.slayer_bosses?.wolf?.xp ?? 0) * 9.38 +
+      (member.slayer?.slayer_bosses?.enderman?.xp ?? 0) * 37.5 +
+      (member.slayer?.slayer_bosses?.blaze?.xp ?? 0) * 42.86 +
       (member.slayer?.slayer_bosses?.vampire?.xp ?? 0) * 500 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 37500 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 37500 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) * 37500 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 56000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) * 43500 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 62000 +
-      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 143000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 43500 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 48000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 56000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 69000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 56000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 69000 +
-      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 154000 +
-      (member.nether_island_player_data?.kuudra_completed_tiers?.fiery ?? 0) * 41500 +
-      (member.nether_island_player_data?.kuudra_completed_tiers?.infernal ?? 0) * 41500 +
-      (member.player_stats?.mythos_kills ?? 0) * 5400 +
-      (member.leveling.experience ?? 0) * 1500
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 41667 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 41667 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[3] ?? 0) * 62500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[4] ?? 0) * 62500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[5] ?? 0) * 41667 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[6] ?? 0) * 62500 +
+      (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[7] ?? 0) * 125000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[1] ?? 0) * 41667 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[2] ?? 0) * 50000 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[3] ?? 0) * 62500 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[4] ?? 0) * 68750 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[5] ?? 0) * 60417 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) * 68750 +
+      (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 150000 +
+      (member.nether_island_player_data?.kuudra_completed_tiers?.fiery ?? 0) * 37500 +
+      (member.nether_island_player_data?.kuudra_completed_tiers?.infernal ?? 0) * 37500 +
+      (member.player_stats?.mythos_kills ?? 0) * 6000 +
+      (member.player_stats?.end_island?.dragon_fight?.amount_summoned?.total ?? 0) * 1500
     )
   } else if (metric.name == "Total Powder") {
     return totalMithril + totalGemstone
