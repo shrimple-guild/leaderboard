@@ -167,7 +167,7 @@ export class DiscordBot {
     return [
       new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
         new StringSelectMenuBuilder()
-          .setCustomId(`leaderboardSelector_${event.guildIds.join("_")}`)
+          .setCustomId(`leaderboardSelector_${event.identifier()}`)
           .setPlaceholder("View other leaderboards")
           .addOptions(options)
       ),
