@@ -161,7 +161,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0) * 150000 +
       (member.nether_island_player_data?.kuudra_completed_tiers?.fiery ?? 0) * 37500 +
       (member.nether_island_player_data?.kuudra_completed_tiers?.infernal ?? 0) * 37500 +
-      (member.player_stats?.mythos_kills ?? 0) * 6000 +
+      (member.player_stats?.mythos?.kills ?? 0) * 6000 +
       (member.player_stats?.end_island?.dragon_fight?.amount_summoned?.total ?? 0) * 1500
     )
   } else if (metric.name == "Total Powder") {
