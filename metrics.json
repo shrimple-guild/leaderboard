@@ -5,147 +5,157 @@
     "path": "player_data.experience.SKILL_FISHING"
   },
   {
-    "name": "Mining XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_MINING"
-  },
-  {
-    "name": "Foraging XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FORAGING"
-  },
-  {
-    "name": "Farming XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FARMING"
-  },
-  {
-    "name": "Enchanting XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_ENCHANTING"
-  },
-  {
-    "name": "Zombie XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.zombie.xp"
-  },
-  {
-    "name": "Spider XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.spider.xp"
-  },
-  {
-    "name": "Wolf XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.wolf.xp"
-  },
-  {
-    "name": "Enderman XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.enderman.xp"
-  },
-  {
-    "name": "Blaze XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.blaze.xp"
-  },
-  {
-    "name": "Vampire XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.vampire.xp"
-  },
-  {
-    "name": "F1 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.1"
-  },
-  {
-    "name": "F2 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.2"
-  },
-  {
-    "name": "F3 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.3"
-  },
-  {
-    "name": "F4 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.4"
-  },
-  {
-    "name": "F5 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.5"
-  },
-  {
-    "name": "F6 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.6"
-  },
-  {
-    "name": "F7 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.catacombs.tier_completions.7"
-  },
-  {
-    "name": "M1 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.1"
-  },
-  {
-    "name": "M2 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.2"
-  },
-  {
-    "name": "M3 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.3"
-  },
-  {
-    "name": "M4 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.4"
-  },
-  {
-    "name": "M5 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.5"
-  },
-  {
-    "name": "M6 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.6"
-  },
-  {
-    "name": "M7 Completions",
-    "counter": "completions",
-    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.7"
-  },
-  {
-    "name": "T4 Kuudra Runs",
-    "counter": "runs",
-    "path": "nether_island_player_data.kuudra_completed_tiers.fiery"
-  },
-  {
-    "name": "T5 Kuudra Runs",
-    "counter": "runs",
-    "path": "nether_island_player_data.kuudra_completed_tiers.infernal"
-  },
-  {
-    "name": "Mythos Kills",
+    "name": "Abyssal Miner Bestiary",
     "counter": "kills",
-    "path": "player_stats.mythos.kills"
+    "path": "bestiary.kills.zombie_miner_150"
   },
   {
-    "name": "Dragons Summoned",
+    "name": "Agarimoo Bestiary",
     "counter": "kills",
-    "path": "player_stats.end_island.dragon_fight.amount_summoned.total"
+    "path": "bestiary.kills.agarimoo_35"
   },
   {
-    "name": "Jerry Event Score",
-    "counter": "score"
+    "name": "Carrot King Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.carrot_king_25"
+  },
+  {
+    "name": "Catfish Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.catfish_23"
+  },
+  {
+    "name": "Deep Sea Protector Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.deep_sea_protector_60"
+  },
+  {
+    "name": "Guardian Defender Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.guardian_defender_45"
+  },
+  {
+    "name": "Night Squid Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.night_squid_6"
+  },
+  {
+    "name": "Oasis Rabbit Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.oasis_rabbit_10"
+  },
+  {
+    "name": "Oasis Sheep Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.oasis_sheep_10"
+  },
+  {
+    "name": "Poisoned Water Worm Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.poisoned_water_worm_25"
+  },
+  {
+    "name": "Water Worm Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.water_worm_20"
+  },
+  {
+    "name": "Monster of the Deep Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.zombie_deep_20"
+  },
+  {
+    "name": "Sea Archer Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.sea_archer_15"
+  },
+  {
+    "name": "Sea Guardian Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.sea_guardian_10"
+  },
+  {
+    "name": "Sea Leech Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.sea_leech_30"
+  },
+  {
+    "name": "Sea Witch Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.sea_witch_15"
+  },
+  {
+    "name": "Squid Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.pond_squid_1"
+  },
+  {
+    "name": "Water Hydra Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.water_hydra_100"
+  },
+  {
+    "name": "Fire Eel Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.fire_eel_240"
+  },
+  {
+    "name": "Lava Blaze Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.lava_blaze_100"
+  },
+  {
+    "name": "Lava Pigman Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.lava_pigman_100"
+  },
+  {
+    "name": "Lava Flame Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.lava_flame_230"
+  },
+  {
+    "name": "Lava Leech Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.lava_leech_220"
+  },
+  {
+    "name": "Lord Jawbus Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.lord_jawbus_600"
+  },
+  {
+    "name": "Magma Slug Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.magma_slug_200"
+  },
+  {
+    "name": "Moogma Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.moogma_210"
+  },
+  {
+    "name": "Plhlegblast Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.pond_squid_300"
+  },
+  {
+    "name": "Sea Emperor Bestiary",
+    "counter": "kills"
+  },
+  {
+    "name": "Pyroclastic Worm Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.pyroclastic_worm_240"
+  },
+  {
+    "name": "Taurus Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.pig_rider_250"
+  },
+  {
+    "name": "Thunder Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.thunder_400"
   }
-]
+  ]
