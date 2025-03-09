@@ -135,7 +135,7 @@ export function getRareSeaCreatureScore(member: any) {
 
   }
   const bestiaryScore = Object.entries(kills).reduce((score, [mob, kills]) => {
-    return score + kills * rareSeaCreatureScore[mob]
+    return score + kills * (rareSeaCreatureScore[mob] ?? 0)
   }, 0)
   return bestiaryScore
 }
@@ -149,10 +149,7 @@ const rareSeaCreatureScore: Record<string, number> = {
   thunder: 77000,
   lordJawbus: 306000,
   zombieMiner: 22000,
-  flamingWorm: 800,
   seaEmperor: 60000,
   waterHydra: 15000,
-  lavaBlaze: 1300,
-  lavaPigman: 1300,
   plhlegblast: 77,
 }
