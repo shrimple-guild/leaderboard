@@ -5,56 +5,28 @@
     "path": "player_data.experience.SKILL_FISHING"
   },
   {
-    "name": "Rare Sea Creature Score",
-    "counter": "score"
-  },
-  {
-    "name": "Phantom Fisher Bestiary",
+    "name": "Ragnarok Bestiary",
     "counter": "kills",
-    "path": "bestiary.kills.phantom_fisherman_160"
+    "path": "bestiary.kills.ragnarok_666"
   },
   {
-    "name": "Grim Reaper Bestiary",
+    "name": "Scuttler Bestiary",
     "counter": "kills",
-    "path": "bestiary.kills.grim_reaper_190"
+    "path": "bestiary.kills.fiery_scuttler_475"
   },
   {
-    "name": "Yeti Bestiary",
+    "name": "Titanoboa Bestiary",
     "counter": "kills",
-    "path": "bestiary.kills.yeti_175"
+    "path": "bestiary.kills.titanoboa_240"
   },
   {
-    "name": "Reindrake Bestiary",
+    "name": "Wiki Tiki Bestiary",
     "counter": "kills",
-    "path": "bestiary.kills.reindrake_100"
+    "path": "bestiary.kills.wiki_tiki_400"
   },
   {
-    "name": "Thunder Bestiary",
+    "name": "Octopus Bestiary",
     "counter": "kills",
-    "path": "bestiary.kills.thunder_400"
-  },
-  {
-    "name": "Lord Jawbus Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lord_jawbus_600"
-  },
-  {
-    "name": "Abyssal Miner Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.zombie_miner_150"
-  },
-  {
-    "name": "Sea Emperor Bestiary",
-    "counter": "kills"
-  },
-  {
-    "name": "Water Hydra Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.water_hydra_100"
-  },
-  {
-    "name": "Plhlegblast Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.pond_squid_300"
+    "path": "bestiary.kills.blue_ringed_octopus_275"
   }
-  ]
+]

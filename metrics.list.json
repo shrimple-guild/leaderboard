@@ -319,5 +319,30 @@
     "name": "Plhlegblast Bestiary",
     "counter": "kills",
     "path": "bestiary.kills.pond_squid_300"
+  },
+  {
+    "name": "Ragnarok Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.ragnarok_666"
+  },
+  {
+    "name": "Scuttler Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.fiery_scuttler_475"
+  },
+  {
+    "name": "Titanoboa Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.titanoboa_240"
+  },
+  {
+    "name": "Wiki Tiki Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.wiki_tiki_400"
+  },
+  {
+    "name": "Octopus Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.blue_ringed_octopus_275"
   }
 ]
