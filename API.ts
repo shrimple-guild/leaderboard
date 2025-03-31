@@ -246,7 +246,40 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (kills?.trapper_pig ?? 0) + 
       (kills?.trapper_rabbit ?? 0) + 
       (kills?.trapper_horse ?? 0)
+  } else if (metric.name == "Stat {} + []") {
+    return getTotalFailedBosses(member)
+  } else if (metric.name == "Shrimple Weight") {
+    return (
+      getTotalFailedBosses(member) * 12 +
+      (member.glacite_player_data?.mineshafts_entered ?? 0) * 144 +
+      (member.player_stats?.end_island?.summoning_eyes_collected) * 660 +
+      (member.player_stats?.gifts?.total_received ?? 0) * 2 +
+      (member.player_stats?.rift?.west_hot_dogs_given ?? 0) * 2 +
+      (member.player_stats?.glowing_mushrooms_broken ?? 0) * 1 +
+      (member.rift?.village_plaza?.lonely?.seconds_sitting ?? 0) * 1
+    )
   }
+}
+
+function getTotalFailedBosses(member: any) {
+  const bosses = member.slayer?.slayer_bosses
+  return getFailedBosses(bosses?.zombie) + 
+    getFailedBosses(bosses?.spider) +
+    getFailedBosses(bosses?.wolf) +
+    getFailedBosses(bosses?.enderman) +
+    getFailedBosses(bosses?.blaze) +
+    getFailedBosses(bosses?.vampire)
+}
+
+function getFailedBosses(slayerData: any) {
+  if (slayerData == null) return 0
+  let totalKills = 0
+  let totalAttempts = 0
+  for (let i = 0; i < 5; i++) {
+    totalKills += slayerData[`boss_kills_tier_${i}`] ?? 0
+    totalAttempts = slayerData[`boss_attempts_tier_${i}`] ?? 0
+  }
+  return totalAttempts - totalKills
 }
 
 function sumKills(member: any, mobs: string[]) {

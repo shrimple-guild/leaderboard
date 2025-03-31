@@ -123,30 +123,19 @@ export class DiscordBot {
     if (!leaderboard) return
     const plot = generateLeaderboardPlot(event, leaderboard, metric)
     if (!plot) return
-    let fields = leaderboard.slice(0, 10).map(({ rank, username, cuteName, value, counter }) => {
+    let fields = leaderboard.slice(0, 20).map(({ rank, username, cuteName, value, counter }) => {
       return {
         name: `${rank}. ${username} (${cuteName})`,
         value: `**${formatter.format(value)}** ${counter}`,
-        inline: true,
+        inline: false
       }
     })
-    const blankField = { name: "\u200b", value: "\u200b", inline: true }
-    fields = fields.flatMap((value, index) => ((index + 1) % 2 == 0 ? [value, blankField] : value))
-
-    const extendedFields = 4
-    for (let i = 10; i < 10 + 5 * extendedFields; i += 5) {
-      const continuation = continueData(i, leaderboard)
-      if (continuation != null) fields.push(continuation)
-      if (i % 10 == 5) {
-        fields.push(blankField)
-      }
-    }
 
     if (fields.length == 0) {
       fields.push({
         name: "No data",
         value: "Either there is no event data yet, or the leaderboard broke!",
-        inline: false,
+        inline: false
       })
     }
 

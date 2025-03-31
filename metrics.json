@@ -1,32 +1,40 @@
 [
   {
-    "name": "Fishing XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FISHING"
+    "name": "Shrimple Weight",
+    "counter": "weight"
   },
   {
-    "name": "Ragnarok Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.ragnarok_666"
+    "name": "Stat {} + []",
+    "counter": "humiliating defeats"
   },
   {
-    "name": "Scuttler Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.fiery_scuttler_475"
+    "name": "Stat 1/137",
+    "counter": "groundbreaking discoveries",
+    "path": "glacite_player_data.mineshafts_entered"
   },
   {
-    "name": "Titanoboa Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.titanoboa_240"
+    "name": "Stat 1",
+    "counter": "optical enlightenments",
+    "path": "player_stats.end_island.summoning_eyes_collected"
   },
   {
-    "name": "Wiki Tiki Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.wiki_tiki_400"
+    "name": "Stat e^π - π",
+    "counter": "anti-karma",
+    "path": "player_stats.gifts.total_received"
   },
   {
-    "name": "Octopus Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.blue_ringed_octopus_275"
+    "name": "Stat 2147483647",
+    "counter": "kcal",
+    "path": "player_stats.rift.west_hot_dogs_given"
+  },
+  {
+    "name": "Stat BB(6)",
+    "counter": "grams dithiapentane",
+    "path": "player_stats.glowing_mushrooms_broken"
+  },
+  {
+    "name": "Stat ∞",
+    "counter": "thrombosis symptoms",
+    "path": "rift.village_plaza.lonely.seconds_sitting"
   }
 ]
