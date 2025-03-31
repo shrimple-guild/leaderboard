@@ -5,18 +5,18 @@
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Mini-Event",
   "intro": "A {metric} mini-event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting a {metric} mini-event for this update! A bayou and/or water event will happen tomorrow.",
+  "description": "Shrimple and Prawn Academy are hosting a {metric} mini-event for this update!",
   "outro": "The event has finished. A water event will be coming shortly! Thanks for participating.",
   "author": "Marina",
   "icon": "marina.png",
-  "start": 1742619600000,
+  "start": 1742707200000,
   "duration": 86400000,
-  "metric": "Ragnarok Bestiary",
+  "metric": "Wiki Tiki Bestiary",
   "related": [
     "Fishing XP",
     "Scuttler Bestiary",
     "Titanoboa Bestiary",
-    "Wiki Tiki Bestiary",
+    "Ragnarok Bestiary",
     "Octopus Bestiary"
   ]
 }
