@@ -277,7 +277,7 @@ function getFailedBosses(slayerData: any) {
   let totalAttempts = 0
   for (let i = 0; i < 5; i++) {
     totalKills += slayerData[`boss_kills_tier_${i}`] ?? 0
-    totalAttempts = slayerData[`boss_attempts_tier_${i}`] ?? 0
+    totalAttempts += slayerData[`boss_attempts_tier_${i}`] ?? 0
   }
   return totalAttempts - totalKills
 }
