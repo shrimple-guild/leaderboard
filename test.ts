@@ -9,9 +9,9 @@ import eventConfig from "./event.json" assert { type: "json" }
 import { getBestiary, getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
 
 const api = new API(config.apiKey, metrics)
-const database = new Database(":memory:", metrics)
+const database = new Database("lb_63d0278d8ea8c999a1004ef9_651316cd8ea8c9e6a31fbccb-1743480000000_1743566400000.db", metrics)
 const lb = new Leaderboard(api, database)
-//const event = GuildEvent.from(eventConfig, lb)
+const event = GuildEvent.from(eventConfig, lb)
 
 const uuid = "59998433ceda41c1b0acffe7d9b33594"
 const profileName = "orange"
@@ -19,6 +19,25 @@ const profileName = "orange"
 const profiles = await api.fetchProfiles(uuid)
 const profile = profiles.find(profile => profile.cuteName.toLowerCase() == profileName)
 console.log(profile!.metrics)
+
+const currentLb = event.getLeaderboard("Shrimple Weight")
+
+
+const stats = [
+  "Stat {} + []",
+  "Stat 1/137",
+  "Stat 1",
+  "Stat e^π - π",
+  "Stat 2147483647",
+  "Stat BB(6)",
+  "Stat ∞"
+]
+
+for (const stat of stats) {
+  console.log(event.getLeaderboard(stat)!![0])
+}
+console.log(currentLb)
+
 
 /*
 const res = await fetch(`https://api.hypixel.net/skyblock/profiles?uuid=${uuid}&key=${config.apiKey}`).then(res =>

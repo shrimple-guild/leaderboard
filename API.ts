@@ -252,7 +252,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return (
       getTotalFailedBosses(member) * 12 +
       (member.glacite_player_data?.mineshafts_entered ?? 0) * 144 +
-      (member.player_stats?.end_island?.summoning_eyes_collected) * 660 +
+      (member.player_stats?.end_island?.summoning_eyes_collected ?? 0) * 660 +
       (member.player_stats?.gifts?.total_received ?? 0) * 2 +
       (member.player_stats?.rift?.west_hot_dogs_given ?? 0) * 2 +
       (member.player_stats?.glowing_mushrooms_broken ?? 0) * 1 +
@@ -276,8 +276,8 @@ function getFailedBosses(slayerData: any) {
   let totalKills = 0
   let totalAttempts = 0
   for (let i = 0; i < 5; i++) {
-    totalKills += slayerData[`boss_kills_tier_${i}`] ?? 0
-    totalAttempts += slayerData[`boss_attempts_tier_${i}`] ?? 0
+    totalKills += (slayerData[`boss_kills_tier_${i}`] ?? 0)
+    totalAttempts += (slayerData[`boss_attempts_tier_${i}`] ?? 0)
   }
   return totalAttempts - totalKills
 }

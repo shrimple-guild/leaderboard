@@ -171,6 +171,8 @@ export class Database {
       })()
     } catch (e) {
       console.error(e)
+      console.log(profile)
+      console.log(timestamp)
       throw e
     }
   }
