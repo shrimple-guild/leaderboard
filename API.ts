@@ -253,42 +253,82 @@ function sumKills(member: any, mobs: string[]) {
   return mobs.reduce((cum, cur) => cum + (member?.player_stats?.kills?.[cur] ?? 0), 0)
 }
 
-const trophyFishBase: Record<string, number> = {
-  golden_fish: 400,
-  karate_fish: 160,
-  soul_fish: 80,
-  moldfin: 80,
-  skeleton_fish: 80,
-  vanille: 90,
-  volcanic_stonefish: 16,
-  mana_ray: 40,
-  lava_horse: 32,
-  flyfish: 12,
-  slugfish: 145,
-  obfuscated_fish_3: 40,
-  blobfish: 8,
-  obfuscated_fish_2: 22,
-  gusher: 8,
-  obfuscated_fish_1: 0,
-  steaming_hot_flounder: 5,
-  sulphur_skitter: 2,
+type TierWeights = {
+  bronze: number,
+  silver: number,
+  gold: number,
+  diamond: number
 }
 
-const trophyFishMultipliers: Record<string, number> = {
-  bronze: 1,
-  silver: 2.5,
-  gold: 21.7391304348,
-  diamond: 86.9565217391,
+const trophyFishBase: Record<string, TierWeights> = {
+  golden_fish: {
+    bronze: 400,
+    silver: 1000,
+    gold: 10000,
+    diamond: 32000
+  },
+  karate_fish: {
+    bronze: 40,
+    silver: 100,
+    gold: 1000,
+    diamond: 3200
+  },
+  soul_fish: {
+    bronze: 80,
+    silver: 200,
+    gold: 2000,
+    diamond: 6400
+  },
+  moldfin: {
+    bronze: 40,
+    silver: 100,
+    gold: 1000,
+    diamond: 3200
+  },
+  skeleton_fish: {
+    bronze: 40,
+    silver: 100,
+    gold: 1000,
+    diamond: 3200
+  },
+  vanille: {
+    bronze: 15,
+    silver: 40,
+    gold: 400,
+    diamond: 1350
+  },
+  volcanic_stonefish: {
+    bronze: 28,
+    silver: 70,
+    gold: 700,
+    diamond: 2240
+  },
+  mana_ray: {
+    bronze: 8,
+    silver: 20,
+    gold: 200,
+    diamond: 640
+  },
+  lava_horse: {
+    bronze: 24,
+    silver: 60,
+    gold: 600,
+    diamond: 1920
+  },
+  slugfish: {
+    bronze: 72,
+    silver: 180,
+    gold: 1800,
+    diamond: 5760
+  }
 }
 
 const trophyFishWeights: Record<string, number> = {}
 
-for (const baseKey in trophyFishBase) {
-  for (const multiplierKey in trophyFishMultipliers) {
-    const concatenatedKey = `${baseKey}_${multiplierKey}`
-    const baseValue = trophyFishBase[baseKey]
-    const multiplierValue = trophyFishMultipliers[multiplierKey]
-    trophyFishWeights[concatenatedKey] = baseValue * multiplierValue
+for (const [fish, tierWeights] of Object.entries(trophyFishBase)) {
+  for (const [tier, weight] of Object.entries(tierWeights)) {
+    const apiFish = `${fish}_${tier}`
+    trophyFishWeights[apiFish] = weight
   }
 }
 
