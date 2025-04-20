@@ -125,14 +125,17 @@ export function getRareSeaCreatureScore(member: any) {
     greatWhiteShark: bestiary.fishing_fishing_festival.great_white_shark.kills,
     thunder: bestiary.fishing_lava.thunder.kills,
     lordJawbus: bestiary.fishing_lava.lord_jawbus.kills,
-    zombieMiner: bestiary.fishing_fishing.zombie_miner.kills,
+    zombieMiner: bestiary.fishing_fishing.abyssal_miner.kills,
     flamingWorm: bestiary.fishing_lava.flaming_worm.kills,
     seaEmperor: bestiary.fishing_fishing.the_sea_emperor.kills,
     waterHydra: bestiary.fishing_fishing.water_hydra.kills,
     lavaBlaze: bestiary.fishing_lava.lava_blaze.kills,
     lavaPigman: bestiary.fishing_lava.lava_pigman.kills,
     plhlegblast: bestiary.fishing_lava.plhlegblast.kills,
-
+    wikiTiki: bestiary.fishing_fishing.wiki_tiki.kills,
+    titanoboa: bestiary.fishing_backwater_bayou.titanoboa.kills,
+    ragnarok: bestiary.fishing_lava.ragnarok.kills,
+    scuttler: bestiary.fishing_lava.fiery_scuttler.kills,
   }
   const bestiaryScore = Object.entries(kills).reduce((score, [mob, kills]) => {
     return score + kills * (rareSeaCreatureScore[mob] ?? 0)
@@ -145,11 +148,14 @@ const rareSeaCreatureScore: Record<string, number> = {
   grimReaper: 126000,
   yeti: 74000,
   reindrake: 191000,
-  greatWhiteShark: 38000,
-  thunder: 77000,
-  lordJawbus: 306000,
-  zombieMiner: 22000,
+  thunder: 27000,
+  lordJawbus: 122000,
+  abyssalMiner: 22000,
   seaEmperor: 60000,
   waterHydra: 15000,
   plhlegblast: 77,
+  scuttler: 15000,
+  ragnarok: 93000,
+  titanoboa: 275000,
+  wikiTiki: 185000,
 }

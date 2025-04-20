@@ -1,261 +1,80 @@
 [
   {
+    "name": "Rare Sea Creature Score",
+    "counter": "points"
+  },
+  {
     "name": "Fishing XP",
     "counter": "xp",
     "path": "player_data.experience.SKILL_FISHING"
   },
   {
-    "name": "Trophy Fish Weight",
-    "counter": "weight"
+    "name": "Grim Reaper Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.grim_reaper_190"
   },
   {
-    "name": "Golden Fish (Bronze)",
-    "counter": "catches",
-    "path": "trophy_fish.golden_fish_bronze"
+    "name": "Phantom Fisher Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.phantom_fisherman_160"
   },
   {
-    "name": "Golden Fish (Silver)",
-    "counter": "catches",
-    "path": "trophy_fish.golden_fish_silver"
+    "name": "Yeti Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.yeti_175"
   },
   {
-    "name": "Golden Fish (Gold)",
-    "counter": "catches",
-    "path": "trophy_fish.golden_fish_gold"
+    "name": "Reindrake Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.reindrake_100"
   },
   {
-    "name": "Golden Fish (Diamond)",
-    "counter": "catches",
-    "path": "trophy_fish.golden_fish_diamond"
+    "name": "Thunder Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.thunder_400"
   },
   {
-    "name": "Karate Fish (Bronze)",
-    "counter": "catches",
-    "path": "trophy_fish.karate_fish_bronze"
+    "name": "Lord Jawbus Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.lord_jawbus_600"
   },
   {
-    "name": "Karate Fish (Silver)",
-    "counter": "catches",
-    "path": "trophy_fish.karate_fish_silver"
+    "name": "Abyssal Miner Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.zombie_miner_150"
   },
   {
-    "name": "Karate Fish (Gold)",
-    "counter": "catches",
-    "path": "trophy_fish.karate_fish_gold"
+    "name": "Sea Emperor Bestiary",
+    "counter": "kills"
   },
   {
-    "name": "Karate Fish (Diamond)",
-    "counter": "catches",
-    "path": "trophy_fish.karate_fish_diamond"
+    "name": "Water Hydra Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.water_hydra_100"
   },
   {
-    "name": "Soul Fish (Bronze)",
-    "counter": "catches",
-    "path": "trophy_fish.soul_fish_bronze"
+    "name": "Plhlegblast Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.pond_squid_300"
   },
   {
-    "name": "Soul Fish (Silver)",
-    "counter": "catches",
-    "path": "trophy_fish.soul_fish_silver"
+    "name": "Ragnarok Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.ragnarok_666"
   },
   {
-    "name": "Soul Fish (Gold)",
-    "counter": "catches",
-    "path": "trophy_fish.soul_fish_gold"
+    "name": "Scuttler Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.fiery_scuttler_475"
   },
   {
-    "name": "Soul Fish (Diamond)",
-    "counter": "catches",
-    "path": "trophy_fish.soul_fish_diamond"
+    "name": "Titanoboa Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.titanoboa_240"
   },
   {
-    "name": "Moldfin (Bronze)",
-    "counter": "catches",
-    "path": "trophy_fish.moldfin_bronze"
-  },
-  {
-    "name": "Moldfin (Silver)",
-    "counter": "catches",
-    "path": "trophy_fish.moldfin_silver"
-  },
-  {
-    "name": "Moldfin (Gold)",
-    "counter": "catches",
-    "path": "trophy_fish.moldfin_gold"
-  },
-  {
-    "name": "Moldfin (Diamond)",
-    "counter": "catches",
-    "path": "trophy_fish.moldfin_diamond"
-  },
-  {
-    "name": "Skeleton Fish (Bronze)",
-    "counter": "catches",
-    "path": "trophy_fish.skeleton_fish_bronze"
-  },
-  {
-    "name": "Skeleton Fish (Silver)",
-    "counter": "catches",
-    "path": "trophy_fish.skeleton_fish_silver"
-  },
-  {
-    "name": "Skeleton Fish (Gold)",
-    "counter": "catches",
-    "path": "trophy_fish.skeleton_fish_gold"
-  },
-  {
-    "name": "Skeleton Fish (Diamond)",
-    "counter": "catches",
-    "path": "trophy_fish.skeleton_fish_diamond"
-  },
-  {
-    "name": "Vanille (Bronze)",
-    "counter": "catches",
-    "path": "trophy_fish.vanille_bronze"
-  },
-  {
-    "name": "Vanille (Silver)",
-    "counter": "catches",
-    "path": "trophy_fish.vanille_silver"
-  },
-  {
-    "name": "Vanille (Gold)",
-    "counter": "catches",
-    "path": "trophy_fish.vanille_gold"
-  },
-  {
-    "name": "Vanille (Diamond)",
-    "counter": "catches",
-    "path": "trophy_fish.vanille_diamond"
-  },
-  {
-    "name": "Volcanic Stonefish (Bronze)",
-    "counter": "catches",
-    "path": "trophy_fish.volcanic_stonefish_bronze"
-  },
-  {
-    "name": "Volcanic Stonefish (Silver)",
-    "counter": "catches",
-    "path": "trophy_fish.volcanic_stonefish_silver"
-  },
-  {
-    "name": "Volcanic Stonefish (Gold)",
-    "counter": "catches",
-    "path": "trophy_fish.volcanic_stonefish_gold"
-  },
-  {
-    "name": "Volcanic Stonefish (Diamond)",
-    "counter": "catches",
-    "path": "trophy_fish.volcanic_stonefish_diamond"
-  },
-  {
-    "name": "Mana Ray (Bronze)",
-    "counter": "catches",
-    "path": "trophy_fish.mana_ray_bronze"
-  },
-  {
-    "name": "Mana Ray (Silver)",
-    "counter": "catches",
-    "path": "trophy_fish.mana_ray_silver"
-  },
-  {
-    "name": "Mana Ray (Gold)",
-    "counter": "catches",
-    "path": "trophy_fish.mana_ray_gold"
-  },
-  {
-    "name": "Mana Ray (Diamond)",
-    "counter": "catches",
-    "path": "trophy_fish.mana_ray_diamond"
-  },
-  {
-    "name": "Lavahorse (Bronze)",
-    "counter": "catches",
-    "path": "trophy_fish.lava_horse_bronze"
-  },
-  {
-    "name": "Lavahorse (Silver)",
-    "counter": "catches",
-    "path": "trophy_fish.lava_horse_silver"
-  },
-  {
-    "name": "Lavahorse (Gold)",
-    "counter": "catches",
-    "path": "trophy_fish.lava_horse_gold"
-  },
-  {
-    "name": "Lavahorse (Diamond)",
-    "counter": "catches",
-    "path": "trophy_fish.lava_horse_diamond"
-  },
-  {
-    "name": "Slugfish (Bronze)",
-    "counter": "catches",
-    "path": "trophy_fish.slugfish_bronze"
-  },
-  {
-    "name": "Slugfish (Silver)",
-    "counter": "catches",
-    "path": "trophy_fish.slugfish_silver"
-  },
-  {
-    "name": "Slugfish (Gold)",
-    "counter": "catches",
-    "path": "trophy_fish.slugfish_gold"
-  },
-  {
-    "name": "Slugfish (Diamond)",
-    "counter": "catches",
-    "path": "trophy_fish.slugfish_diamond"
-  },
-  {
-    "name": "Golden Fish",
-    "counter": "catches",
-    "path": "trophy_fish.golden_fish"
-  },
-  {
-    "name": "Karate Fish",
-    "counter": "catches",
-    "path": "trophy_fish.karate_fish"
-  },
-  {
-    "name": "Soul Fish",
-    "counter": "catches",
-    "path": "trophy_fish.soul_fish"
-  },
-  {
-    "name": "Moldfin",
-    "counter": "catches",
-    "path": "trophy_fish.moldfin"
-  },
-  {
-    "name": "Skeleton Fish",
-    "counter": "catches",
-    "path": "trophy_fish.skeleton_fish"
-  },
-  {
-    "name": "Vanille",
-    "counter": "catches",
-    "path": "trophy_fish.vanille"
-  },
-  {
-    "name": "Volcanic Stonefish",
-    "counter": "catches",
-    "path": "trophy_fish.volcanic_stonefish"
-  },
-  {
-    "name": "Mana Ray",
-    "counter": "catches",
-    "path": "trophy_fish.mana_ray"
-  },
-  {
-    "name": "Lavahorse",
-    "counter": "catches",
-    "path": "trophy_fish.lava_horse"
-  },
-  {
-    "name": "Slugfish",
-    "counter": "catches",
-    "path": "trophy_fish.slugfish"
+    "name": "Wiki Tiki Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.wiki_tiki_400"
   }
 ]
