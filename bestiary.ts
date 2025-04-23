@@ -144,18 +144,18 @@ export function getRareSeaCreatureScore(member: any) {
 }
 
 const rareSeaCreatureScore: Record<string, number> = {
-  phantomFisher: 39000,
-  grimReaper: 126000,
-  yeti: 74000,
-  reindrake: 191000,
+  phantomFisher: 20000,
+  grimReaper: 64000,
+  yeti: 40000,
+  reindrake: 95000,
   thunder: 27000,
   lordJawbus: 122000,
-  abyssalMiner: 22000,
-  seaEmperor: 60000,
-  waterHydra: 15000,
+  abyssalMiner: 11000,
+  seaEmperor: 30000,
+  waterHydra: 8000,
   plhlegblast: 77,
   scuttler: 15000,
   ragnarok: 93000,
-  titanoboa: 275000,
-  wikiTiki: 185000,
+  titanoboa: 150000,
+  wikiTiki: 100000,
 }
