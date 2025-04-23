@@ -2,6 +2,7 @@ import Database from "better-sqlite3"
 import { existsSync } from "fs"
 
 const dbName = "lb_63d0278d8ea8c999a1004ef9_651316cd8ea8c9e6a31fbccb-1745190900000_1745637300000.db"
+
 const backupName = `backup:${dbName}`
 
 if (existsSync(backupName)) {
