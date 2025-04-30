@@ -1,7 +1,7 @@
 [
   {
-    "name": "Rare Sea Creature Score",
-    "counter": "points"
+    "name": "Derpy Weight",
+    "counter": "weight"
   },
   {
     "name": "Fishing XP",
@@ -9,72 +9,58 @@
     "path": "player_data.experience.SKILL_FISHING"
   },
   {
-    "name": "Grim Reaper Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.grim_reaper_190"
+    "name": "Alchemy XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_ALCHEMY"
   },
   {
-    "name": "Phantom Fisher Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.phantom_fisherman_160"
+    "name": "Runecrafting XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_RUNECRAFTING"
   },
   {
-    "name": "Yeti Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.yeti_175"
+    "name": "Mining XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_MINING"
   },
   {
-    "name": "Reindrake Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.reindrake_100"
+    "name": "Farming XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_FARMING"
   },
   {
-    "name": "Thunder Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.thunder_400"
+    "name": "Enchanting XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_ENCHANTING"
   },
   {
-    "name": "Lord Jawbus Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lord_jawbus_600"
+    "name": "Taming XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_TAMING"
   },
   {
-    "name": "Abyssal Miner Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.zombie_miner_150"
+    "name": "Foraging XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_FORAGING"
   },
   {
-    "name": "Sea Emperor Bestiary",
-    "counter": "kills"
+    "name": "Social XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_SOCIAL"
   },
   {
-    "name": "Water Hydra Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.water_hydra_100"
+    "name": "Carpentry XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_CARPENTRY"
   },
   {
-    "name": "Plhlegblast Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.pond_squid_300"
+    "name": "Combat XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_COMBAT"
   },
   {
-    "name": "Ragnarok Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.ragnarok_666"
-  },
-  {
-    "name": "Scuttler Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.fiery_scuttler_475"
-  },
-  {
-    "name": "Titanoboa Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.titanoboa_240"
-  },
-  {
-    "name": "Wiki Tiki Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.wiki_tiki_400"
+    "name": "Cata XP",
+    "counter": "xp",
+    "path": "dungeons.dungeon_types.catacombs.experience"
   }
 ]
