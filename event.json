@@ -5,25 +5,14 @@
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
   "intro": "The {metric} event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting a {metric} event for the duration of Derpy! This time, we're counting cata XP (and reducing fishing xp a bit. Go do something other than fishing!)",
+  "description": "Shrimple and Prawn Academy are hosting a {metric} event. Thanks to Diana for sponsoring!",
   "outro": "The event has finished. Thanks for participating.",
-  "author": "Derpy",
-  "icon": "derpy.png",
-  "start": 1746083700000,
-  "duration": 446400000,
-  "metric": "Derpy Weight",
+  "author": "IGrindDiana77",
+  "icon": "diana.png",
+  "start": 1746987300000,
+  "duration": 435600000,
+  "metric": "Alligator Bestiary",
   "related": [
-    "Fishing XP",
-    "Alchemy XP",
-    "Runecrafting XP",
-    "Mining XP",
-    "Farming XP",
-    "Enchanting XP",
-    "Taming XP",
-    "Foraging XP",
-    "Social XP",
-    "Carpentry XP",
-    "Combat XP",
-    "Cata XP"
+    "Fishing XP"
   ]
 }
