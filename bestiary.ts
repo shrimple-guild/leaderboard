@@ -141,7 +141,6 @@ export function getRareSeaCreatureScore(member: any) {
     greatWhiteShark: bestiary.fishing_fishing_festival.great_white_shark.kills,
   }
 
-  console.log(kills)
   const bestiaryScore = Object.entries(kills).reduce((score, [mob, kills]) => {
     return score + kills * (rareSeaCreatureScore[mob] ?? 0)
   }, 0)
