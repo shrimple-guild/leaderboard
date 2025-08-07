@@ -39,6 +39,7 @@ const { brackets, ...categories }: { brackets: Brackets } = bestiaryConstants
 function flattenCategories(obj: NestedCategories): BestiaryCategories {
   const unnested: BestiaryCategories = {}
   for (const key in obj) {
+    if (typeof obj[key] != "object") continue;
     if ("mobs" in obj[key]) {
       unnested[key] = obj[key].mobs as BestiaryFamily[]
     } else {
@@ -111,32 +112,36 @@ export function getMythologicalKills(member: any) {
 export function getEmperorKills(member: any) {
   const bestiary = getBestiary(member)
   if (!bestiary) return
-  return bestiary.fishing_fishing.the_sea_emperor.kills
+  return bestiary.foraging_2.the_loch_emperor.kills
 }
 
 export function getRareSeaCreatureScore(member: any) {
   const bestiary = getBestiary(member)
   if (!bestiary) return
+
   const kills = {
-    grimReaper: bestiary.fishing_spooky_festival.grim_reaper.kills,
     phantomFisher: bestiary.fishing_spooky_festival.phantom_fisher.kills,
+    grimReaper: bestiary.fishing_spooky_festival.grim_reaper.kills,
     yeti: bestiary.fishing_winter.yeti.kills,
     reindrake: bestiary.fishing_winter.reindrake.kills,
-    greatWhiteShark: bestiary.fishing_fishing_festival.great_white_shark.kills,
     thunder: bestiary.fishing_lava.thunder.kills,
     lordJawbus: bestiary.fishing_lava.lord_jawbus.kills,
     abyssalMiner: bestiary.fishing_fishing.abyssal_miner.kills,
+    lochEmperor: bestiary.foraging_2.the_loch_emperor.kills,
     flamingWorm: bestiary.fishing_lava.flaming_worm.kills,
-    seaEmperor: bestiary.fishing_fishing.the_sea_emperor.kills,
     waterHydra: bestiary.fishing_fishing.water_hydra.kills,
     lavaBlaze: bestiary.fishing_lava.lava_blaze.kills,
     lavaPigman: bestiary.fishing_lava.lava_pigman.kills,
     plhlegblast: bestiary.fishing_lava.plhlegblast.kills,
+    scuttler: bestiary.fishing_lava.fiery_scuttler.kills,
+    ragnarok: bestiary.fishing_lava.ragnarok.kills,
+    alligator: bestiary.fishing_backwater_bayou.alligator.kills,
     wikiTiki: bestiary.fishing_fishing.wiki_tiki.kills,
     titanoboa: bestiary.fishing_backwater_bayou.titanoboa.kills,
-    ragnarok: bestiary.fishing_lava.ragnarok.kills,
-    scuttler: bestiary.fishing_lava.fiery_scuttler.kills,
+    greatWhiteShark: bestiary.fishing_fishing_festival.great_white_shark.kills,
   }
+
+  console.log(kills)
   const bestiaryScore = Object.entries(kills).reduce((score, [mob, kills]) => {
     return score + kills * (rareSeaCreatureScore[mob] ?? 0)
   }, 0)
@@ -150,12 +155,14 @@ const rareSeaCreatureScore: Record<string, number> = {
   reindrake: 95000,
   thunder: 27000,
   lordJawbus: 122000,
-  abyssalMiner: 11000,
-  seaEmperor: 30000,
+  abyssalMiner: 17000,
+  lochEmperor: 10000,
   waterHydra: 8000,
-  plhlegblast: 77,
+  plhlegblast: 77000,
   scuttler: 15000,
   ragnarok: 93000,
-  titanoboa: 150000,
-  wikiTiki: 100000,
+  alligator: 25000,
+  titanoboa: 120000,
+  wikiTiki: 80000,
+  greatWhiteShark: 17500
 }

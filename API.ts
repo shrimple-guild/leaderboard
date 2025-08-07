@@ -237,7 +237,7 @@ function getMetric(member: any, metric: Metric): number | undefined {
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[6] ?? 0) +
       (member.dungeons?.dungeon_types?.master_catacombs?.tier_completions?.[7] ?? 0)
     )
-  } else if (metric.name == "Sea Emperor Bestiary") {
+  } else if (metric.name == "Loch Emperor Bestiary") {
     return getEmperorKills(member)
   } else if (metric.name == "Trapper Kills") {
     const kills = member.player_stats?.kills
