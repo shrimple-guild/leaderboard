@@ -1,90 +1,17 @@
 [
   {
-    "name": "Rare Sea Creature Score",
-    "counter": "points"
-  },
-  {
-    "name": "Fishing XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FISHING"
-  },
-  {
-    "name": "Grim Reaper Bestiary",
+    "name": "Mythos Kills",
     "counter": "kills",
-    "path": "bestiary.kills.grim_reaper_190"
+    "path": "player_stats.mythos.kills"
   },
   {
-    "name": "Phantom Fisher Bestiary",
+    "name": "Inquisitor Kills",
     "counter": "kills",
-    "path": "bestiary.kills.phantom_fisherman_160"
+    "path": "bestiary.kills.minos_inquisitor_750"
   },
   {
-    "name": "Yeti Bestiary",
+    "name": "Inquisitor Deaths",
     "counter": "kills",
-    "path": "bestiary.kills.yeti_175"
-  },
-  {
-    "name": "Reindrake Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.reindrake_100"
-  },
-  {
-    "name": "Thunder Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.thunder_400"
-  },
-  {
-    "name": "Lord Jawbus Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.lord_jawbus_600"
-  },
-  {
-    "name": "Abyssal Miner Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.zombie_miner_150"
-  },
-  {
-    "name": "Loch Emperor Bestiary",
-    "counter": "kills"
-  },
-  {
-    "name": "Water Hydra Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.water_hydra_100"
-  },
-  {
-    "name": "Plhlegblast Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.pond_squid_300"
-  },
-  {
-    "name": "Ragnarok Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.ragnarok_666"
-  },
-  {
-    "name": "Scuttler Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.fiery_scuttler_475"
-  },
-  {
-    "name": "Titanoboa Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.titanoboa_240"
-  },
-  {
-    "name": "Wiki Tiki Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.wiki_tiki_400"
-  },
-  {
-    "name": "Alligator Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.alligator_120"
-  },
-  {
-    "name": "Great White Shark Bestiary",
-    "counter": "kills",
-    "path": "bestiary.kills.great_white_shark_180"
+    "path": "bestiary.deaths.minos_inquisitor_750"
   }
 ]
