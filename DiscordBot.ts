@@ -118,6 +118,10 @@ export class DiscordBot {
     if (ping) await channel.send(pingMessage).catch(console.error)
   }
 
+  private escapeMarkdown(text: string): string {
+    return text.replace(/([\\`*_{}\[\]()#+\-.!>])/g, "\\$1");
+  }
+
   private async getLeaderboardEmbed(event: GuildEvent, metric?: string) {
     const leaderboard = event.getLeaderboard(metric)
     if (!leaderboard) return
@@ -125,7 +129,7 @@ export class DiscordBot {
     if (!plot) return
     let fields = leaderboard.slice(0, 10).map(({ rank, username, cuteName, value, counter }) => {
       return {
-        name: `${rank}. ${username} (${cuteName})`,
+        name: `${rank}. ${this.escapeMarkdown(username)} (${cuteName})`,
         value: `**${formatter.format(value)}** ${counter}`,
         inline: true,
       }
