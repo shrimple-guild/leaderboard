@@ -181,11 +181,11 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return getMythologicalKills(member)?.mythologicalKills
   } else if (metric.name == "Derpy Weight") {
     return (
-      ((member.player_data?.experience?.SKILL_FISHING ?? 0) * 0.3) +
-      ((member.player_data?.experience?.SKILL_MINING ?? 0) * 0.2) +
-      ((member.player_data?.experience?.SKILL_COMBAT ?? 0) * 0.375) +
-      ((member.player_data?.experience?.SKILL_FORAGING ?? 0) * 1.6) +
-      ((member.player_data?.experience?.SKILL_FARMING ?? 0) * 1.5) +
+      ((member.player_data?.experience?.SKILL_FISHING ?? 0) * 0.25) +
+      ((member.player_data?.experience?.SKILL_MINING ?? 0) * 0.17) +
+      ((member.player_data?.experience?.SKILL_COMBAT ?? 0) * 0.22) +
+      ((member.player_data?.experience?.SKILL_FORAGING ?? 0) * 0.18) +
+      ((member.player_data?.experience?.SKILL_FARMING ?? 0) * 1) +
       ((member.player_data?.experience?.SKILL_ENCHANTING ?? 0) * 0.04) +
       ((member.player_data?.experience?.SKILL_ALCHEMY ?? 0) * 0.002) +
       ((member.player_data?.experience?.SKILL_SOCIAL ?? 0) * 7.77) +
