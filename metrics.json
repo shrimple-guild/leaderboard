@@ -1,66 +1,17 @@
 [
   {
-    "name": "Derpy Weight",
-    "counter": "weight"
+    "name": "Mythos Kills",
+    "counter": "kills",
+    "path": "player_stats.mythos.kills"
   },
   {
-    "name": "Fishing XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FISHING"
+    "name": "Inquisitor Kills",
+    "counter": "kills",
+    "path": "bestiary.kills.minos_inquisitor_750"
   },
   {
-    "name": "Alchemy XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_ALCHEMY"
-  },
-  {
-    "name": "Runecrafting XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_RUNECRAFTING"
-  },
-  {
-    "name": "Mining XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_MINING"
-  },
-  {
-    "name": "Farming XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FARMING"
-  },
-  {
-    "name": "Enchanting XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_ENCHANTING"
-  },
-  {
-    "name": "Taming XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_TAMING"
-  },
-  {
-    "name": "Foraging XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FORAGING"
-  },
-  {
-    "name": "Social XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_SOCIAL"
-  },
-  {
-    "name": "Carpentry XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_CARPENTRY"
-  },
-  {
-    "name": "Combat XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_COMBAT"
-  },
-  {
-    "name": "Cata XP",
-    "counter": "xp",
-    "path": "dungeons.dungeon_types.catacombs.experience"
+    "name": "Inquisitor Deaths",
+    "counter": "kills",
+    "path": "bestiary.deaths.minos_inquisitor_750"
   }
 ]

@@ -5,25 +5,15 @@
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
   "intro": "The {metric} event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting a {metric} event for the duration of Derpy! Enjoy your skill grinding!",
+  "description": "Shrimple and Prawn Academy are hosting a {metric} event for the duration of Diana!",
   "outro": "The event has finished. Thanks for participating.",
-  "author": "Derpy",
-  "icon": "derpy.png",
-  "start": 1756797300000,
+  "author": "Diana",
+  "icon": "diana.png",
+  "start": 1759029300000,
   "duration": 446400000,
-  "metric": "Derpy Weight",
+  "metric": "Mythos Kills",
   "related": [
-    "Fishing XP",
-    "Alchemy XP",
-    "Runecrafting XP",
-    "Mining XP",
-    "Farming XP",
-    "Enchanting XP",
-    "Taming XP",
-    "Foraging XP",
-    "Social XP",
-    "Carpentry XP",
-    "Combat XP",
-    "Cata XP"
+    "Inquisitor Kills",
+    "Inquisitor Deaths"
   ]
 }
