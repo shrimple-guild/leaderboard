@@ -136,14 +136,14 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return (
       (member.player_data?.experience?.SKILL_FISHING ?? 0) * 0.25 +
       (member.player_data?.experience?.SKILL_MINING ?? 0) * 0.17 +
-      (member.player_data?.experience?.SKILL_FORAGING ?? 0) * 1.6 +
+      (member.player_data?.experience?.SKILL_FORAGING ?? 0) * 0.18 +
       (member.player_data?.experience?.SKILL_FARMING ?? 0) * 1 +
-      (member.player_data?.experience?.SKILL_ENCHANTING ?? 0) * 0.268 +
+      (member.player_data?.experience?.SKILL_ENCHANTING ?? 0) * 0.04 +
       (member.slayer?.slayer_bosses?.zombie?.xp ?? 0) * 2.5 +
-      (member.slayer?.slayer_bosses?.spider?.xp ?? 0) * 6.25 +
-      (member.slayer?.slayer_bosses?.wolf?.xp ?? 0) * 12 +
+      (member.slayer?.slayer_bosses?.spider?.xp ?? 0) * 8 +
+      (member.slayer?.slayer_bosses?.wolf?.xp ?? 0) * 11 +
       (member.slayer?.slayer_bosses?.enderman?.xp ?? 0) * 37.5 +
-      (member.slayer?.slayer_bosses?.blaze?.xp ?? 0) * 33.33 +
+      (member.slayer?.slayer_bosses?.blaze?.xp ?? 0) * 30 +
       (member.slayer?.slayer_bosses?.vampire?.xp ?? 0) * 781.3 +
       (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[1] ?? 0) * 41667 +
       (member.dungeons?.dungeon_types?.catacombs?.tier_completions?.[2] ?? 0) * 41667 +

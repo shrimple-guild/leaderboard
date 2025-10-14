@@ -1,17 +1,156 @@
 [
   {
+    "name": "Skyblock XP",
+    "counter": "xp",
+    "path": "leveling.experience"
+  },
+  {
+    "name": "Fishing XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_FISHING"
+  },
+  {
+    "name": "Mining XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_MINING"
+  },
+  {
+    "name": "Foraging XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_FORAGING"
+  },
+  {
+    "name": "Farming XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_FARMING"
+  },
+  {
+    "name": "Enchanting XP",
+    "counter": "xp",
+    "path": "player_data.experience.SKILL_ENCHANTING"
+  },
+  {
+    "name": "Zombie XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.zombie.xp"
+  },
+  {
+    "name": "Spider XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.spider.xp"
+  },
+  {
+    "name": "Wolf XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.wolf.xp"
+  },
+  {
+    "name": "Enderman XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.enderman.xp"
+  },
+  {
+    "name": "Blaze XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.blaze.xp"
+  },
+  {
+    "name": "Vampire XP",
+    "counter": "xp",
+    "path": "slayer.slayer_bosses.vampire.xp"
+  },
+  {
+    "name": "F1 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.1"
+  },
+  {
+    "name": "F2 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.2"
+  },
+  {
+    "name": "F3 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.3"
+  },
+  {
+    "name": "F4 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.4"
+  },
+  {
+    "name": "F5 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.5"
+  },
+  {
+    "name": "F6 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.6"
+  },
+  {
+    "name": "F7 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.catacombs.tier_completions.7"
+  },
+  {
+    "name": "M1 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.1"
+  },
+  {
+    "name": "M2 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.2"
+  },
+  {
+    "name": "M3 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.3"
+  },
+  {
+    "name": "M4 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.4"
+  },
+  {
+    "name": "M5 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.5"
+  },
+  {
+    "name": "M6 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.6"
+  },
+  {
+    "name": "M7 Completions",
+    "counter": "completions",
+    "path": "dungeons.dungeon_types.master_catacombs.tier_completions.7"
+  },
+  {
+    "name": "T4 Kuudra Runs",
+    "counter": "runs",
+    "path": "nether_island_player_data.kuudra_completed_tiers.fiery"
+  },
+  {
+    "name": "T5 Kuudra Runs",
+    "counter": "runs",
+    "path": "nether_island_player_data.kuudra_completed_tiers.infernal"
+  },
+  {
     "name": "Mythos Kills",
     "counter": "kills",
     "path": "player_stats.mythos.kills"
   },
   {
-    "name": "Inquisitor Kills",
+    "name": "Dragons Summoned",
     "counter": "kills",
-    "path": "bestiary.kills.minos_inquisitor_750"
+    "path": "player_stats.end_island.dragon_fight.amount_summoned.total"
   },
   {
-    "name": "Inquisitor Deaths",
-    "counter": "kills",
-    "path": "bestiary.deaths.minos_inquisitor_750"
+    "name": "Jerry Event Score",
+    "counter": "score"
   }
 ]
