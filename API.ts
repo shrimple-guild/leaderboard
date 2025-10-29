@@ -104,12 +104,12 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return [...normalCompletions, ...masterCompletions].reduce((cum, cur) => cum + cur, 0)
   } else if (metric.name == "Slayer Weight") {
     return (
-      (member.slayer_bosses?.zombie?.xp ?? 0) * 0.15 +
-      (member.slayer_bosses?.spider?.xp ?? 0) * 0.16 +
-      (member.slayer_bosses?.wolf?.xp ?? 0) * 0.55 +
-      (member.slayer_bosses?.enderman?.xp ?? 0) * 0.75 +
-      (member.slayer_bosses?.blaze?.xp ?? 0) * 0.64 +
-      (member.slayer_bosses?.vampire?.xp ?? 0) * 31
+      (member.slayer?.slayer_bosses?.zombie?.xp ?? 0) * 2.5 +
+      (member.slayer?.slayer_bosses?.spider?.xp ?? 0) * 8 +
+      (member.slayer?.slayer_bosses?.wolf?.xp ?? 0) * 11 +
+      (member.slayer?.slayer_bosses?.enderman?.xp ?? 0) * 37.5 +
+      (member.slayer?.slayer_bosses?.blaze?.xp ?? 0) * 30 +
+      (member.slayer?.slayer_bosses?.vampire?.xp ?? 0) * 781.3
     )
   } else if (metric.name == "Mithril Powder") {
     return totalMithril
