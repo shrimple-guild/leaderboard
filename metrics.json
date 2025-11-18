@@ -1,36 +1,12 @@
 [
   {
-    "name": "Zombie XP",
+    "name": "Fishing XP",
     "counter": "xp",
-    "path": "slayer.slayer_bosses.zombie.xp"
+    "path": "player_data.experience.SKILL_FISHING"
   },
   {
-    "name": "Spider XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.spider.xp"
-  },
-  {
-    "name": "Wolf XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.wolf.xp"
-  },
-  {
-    "name": "Enderman XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.enderman.xp"
-  },
-  {
-    "name": "Blaze XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.blaze.xp"
-  },
-  {
-    "name": "Vampire XP",
-    "counter": "xp",
-    "path": "slayer.slayer_bosses.vampire.xp"
-  },
-  {
-    "name": "Slayer Weight",
-    "counter": "weight"
+    "name": "Plhlegblast Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.pond_squid_300"
   }
 ]
