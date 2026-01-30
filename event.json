@@ -5,14 +5,16 @@
   "guildIds": ["63d0278d8ea8c999a1004ef9", "651316cd8ea8c9e6a31fbccb"],
   "name": "{metric} Event",
   "intro": "The {metric} event is starting!",
-  "description": "Shrimple and Prawn Academy are hosting a {metric} event for the duration of Marina! Dupe lots of scuttlers.",
+  "description": "Shrimple and Prawn Academy are hosting a {metric} event for the next 24 hours. Happy Deep Caverning!",
   "outro": "The event has finished, thanks for participating!",
   "author": "Marina",
   "icon": "marina.png",
-  "start": 1763493300000,
-  "duration": 446400000,
+  "start": 1769835600000,
+  "duration": 86400000,
   "metric": "Fishing XP",
   "related": [
-    "Plhlegblast Bestiary"
+    "Plhlegblast Bestiary",
+    "Scuttler Bestiary",
+    "Jawbus Bestiary"
   ]
 }

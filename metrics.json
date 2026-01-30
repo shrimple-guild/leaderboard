@@ -8,5 +8,15 @@
     "name": "Plhlegblast Bestiary",
     "counter": "kills",
     "path": "bestiary.kills.pond_squid_300"
+  },
+  {
+    "name": "Scuttler Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.fiery_scuttler_475"
+  },
+  {
+    "name": "Jawbus Bestiary",
+    "counter": "kills",
+    "path": "bestiary.kills.lord_jawbus_600"
   }
 ]
