@@ -1,22 +1,37 @@
 [
   {
-    "name": "Fishing XP",
-    "counter": "xp",
-    "path": "player_data.experience.SKILL_FISHING"
+    "name": "Mythos Kills",
+    "counter": "kills",
+    "path": "player_stats.mythos.kills"
   },
   {
-    "name": "Plhlegblast Bestiary",
+    "name": "Inquisitor Kills",
     "counter": "kills",
-    "path": "bestiary.kills.pond_squid_300"
+    "path": "bestiary.kills.minos_inquisitor_750"
   },
   {
-    "name": "Scuttler Bestiary",
+    "name": "Inquisitor Deaths",
     "counter": "kills",
-    "path": "bestiary.kills.fiery_scuttler_475"
+    "path": "bestiary.deaths.minos_inquisitor_750"
+  },
+    {
+    "name": "Manticore Kills",
+    "counter": "kills",
+    "path": "bestiary.kills.manticore_1750"
+  },
+    {
+    "name": "Manticore Deaths",
+    "counter": "kills",
+    "path": "bestiary.deaths.manticore_1750"
   },
   {
-    "name": "Jawbus Bestiary",
+    "name": "King Minos Kills",
     "counter": "kills",
-    "path": "bestiary.kills.lord_jawbus_600"
+    "path": "bestiary.kills.king_minos_1750"
+  },
+    {
+    "name": "King Minos Deaths",
+    "counter": "kills",
+    "path": "bestiary.deaths.king_minos_1750"
   }
 ]

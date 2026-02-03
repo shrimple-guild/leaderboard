@@ -13,8 +13,8 @@ const database = new Database(":memory:", metrics)
 const lb = new Leaderboard(api, database)
 //const event = GuildEvent.from(eventConfig, lb)
 
-const uuid = "f91aea42ce3b4744b1dd0223235f8270" // meowmeowlynn
-const profileName = "cucumber"
+const uuid = "56c4dee635c24a0a9d013c8f2ee679f4" // soutifdeluxe
+const profileName = "tomato"
 
 const profiles = await api.fetchProfiles(uuid)
 const profile = profiles.find(profile => profile.cuteName.toLowerCase() == profileName)
