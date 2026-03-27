@@ -263,10 +263,10 @@ type TierWeights = {
 
 const trophyFishBase: Record<string, TierWeights> = {
   golden_fish: {
-    bronze: 400,
-    silver: 1000,
-    gold: 10000,
-    diamond: 32000
+    bronze: 150,
+    silver: 300,
+    gold: 3000,
+    diamond: 10000
   },
   karate_fish: {
     bronze: 40,
