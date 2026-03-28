@@ -46,7 +46,7 @@ export class DiscordBot {
     this.client.on(Events.InteractionCreate, async (interaction: Interaction) => {
       try {
         if (interaction.isChatInputCommand()) {
-          if (interaction.commandName === 'startguildevent') {
+          if (interaction.commandName === 'scheduleevent') {
             await this.handleStartEventCommand(interaction)
           }
         } else if (interaction.isModalSubmit()) {
@@ -250,29 +250,28 @@ export class DiscordBot {
       return interaction.reply({ content: "No pending event request found or it has expired.", ephemeral: true })
     }
 
+    await interaction.update({ 
+      content: `✅ Event **${eventConfig.name}** scheduled successfully!\nStarts at: <t:${Math.round(eventConfig.start/1000)}:F>`, 
+      embeds: [],
+      components: [] 
+    })
+
     if (this.onEventScheduled) {
       await this.onEventScheduled(eventConfig)
       this.pendingEvents.delete(interaction.user.id)
-      
-      await interaction.update({ 
-        content: `✅ Event **${eventConfig.name}** scheduled successfully!\nStarts at: <t:${Math.round(eventConfig.start/1000)}:F>`, 
-        embeds: [],
-        components: [] 
-      })
-    } else {
-      await interaction.reply({ content: "Error: Event scheduler not initialized.", ephemeral: true })
     }
   }
 
   private async handleCancelButton(interaction: Interaction) {
     if (!interaction.isButton()) return
     
-    this.pendingEvents.delete(interaction.user.id)
     await interaction.update({ 
       content: "❌ Event scheduling cancelled.", 
       embeds: [],
       components: [] 
     })
+    
+    this.pendingEvents.delete(interaction.user.id)
   }
 
   setEventScheduler(fn: (config: any) => Promise<void>) {
@@ -288,8 +287,9 @@ export class DiscordBot {
     
     const commands = [
       new SlashCommandBuilder()
-        .setName('startguildevent')
+        .setName('scheduleevent')
         .setDescription('Schedule a new guild event')
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
     ].map(command => command.toJSON())
 
     const rest = new REST({ version: '10' }).setToken(token)
@@ -299,6 +299,11 @@ export class DiscordBot {
       client.once(Events.ClientReady, async client => {
         try {
           console.log(`Bot logged in as ${client.user.tag}`)
+          
+          // Clear global commands
+          await rest.put(Routes.applicationCommands(client.user.id), { body: [] })
+          console.log("Successfully cleared global commands.")
+
           const guilds = await client.guilds.fetch()
           for (const [guildId] of guilds) {
             await rest.put(Routes.applicationGuildCommands(client.user.id, guildId), { body: commands })

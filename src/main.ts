@@ -67,7 +67,6 @@ discordBot = await DiscordBot.create(config.discordToken, [
 discordBot.setEventScheduler(async (eventConfig) => {
   initEvent(eventConfig);
   saveEvents();
-  await doAllUpdates();
 });
 
 discordBot.setSelectMenuHandler(async (interaction) => {
@@ -122,7 +121,8 @@ async function doAllUpdates() {
 
     for (const [id, { event }] of activeEvents.entries()) {
       try {
-        if (now > event.end + 3600000) continue;
+        // Skip if cleanup time or already concluded
+        if (now > event.end + 3600000 || (now >= event.end && event.outroSent)) continue;
 
         if (now >= event.start) {
           console.log(`Updating event: ${event.name}`);
@@ -165,7 +165,3 @@ loadEvents();
 updateJob.start();
 statusCheckJob.start();
 
-if (activeEvents.size > 0) {
-  console.log("Running initial update for active events...");
-  await doAllUpdates();
-}
