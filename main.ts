@@ -4,33 +4,28 @@ import { Leaderboard } from "./Leaderboard.js"
 import { CronJob } from "cron"
 import { GuildEvent } from "./GuildEvent.js"
 import { DiscordBot } from "./DiscordBot.js"
+import { GatewayIntentBits } from "discord.js"
 import metrics from "./metrics.json" with { type: "json" }
 import config from "./config.json" with { type: "json" }
 import eventConfig from "./event.json" with { type: "json" }
 
-const api = new API(config.apiKey, metrics)
+let api: API;
+let database: Database;
+let lb: Leaderboard;
+let event: GuildEvent;
+let discordBot: DiscordBot;
+let updateEventJob: CronJob;
+let updateTime: number;
 
-const dbName = `./lb_${eventConfig.guildIds.join("_")}-${eventConfig.start}_${
-  eventConfig.start + eventConfig.duration
-}.db`
-const database = new Database(dbName, metrics)
-const lb = new Leaderboard(api, database)
-const event = GuildEvent.from(eventConfig, lb)
-
-const discordBot = await DiscordBot.create(config.discordToken, [], event)
-
-console.log("Event ready.")
-
-const runUpdateOnInit = false
-
-const updateEventJob = new CronJob("0 15-59/20 * * *", doEventUpdate)
+const runUpdateOnInit = true;
 
 async function doEventUpdate() {
   try {
     if (updateTime > event.end) {
-        updateEventJob.stop();
-        console.log(`Job started after expected end time, aborting.`)
-      }
+      updateEventJob.stop();
+      console.log(`Job started after expected end time, aborting.`)
+      return;
+    }
 
     console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
 
@@ -50,13 +45,13 @@ async function doEventUpdate() {
       await event.updateProfiles(updateTime, isStart)
       console.log(`Profiles updated.`)
 
-      if (updateTime == event.start) {
+      if (updateTime <= event.start + 60000) { // Dentro de 1 minuto do início
         await discordBot.sendIntroEmbed(event)
         console.log(`Sent start embed.`)
-      } else {
-        await discordBot.sendLeaderboardEmbed(event)
-        console.log(`Sent leaderboard embed.`)
-      }
+      } 
+      
+      await discordBot.sendLeaderboardEmbed(event)
+      console.log(`Sent leaderboard embed.`)
 
       if (updateTime == event.end) {
         await discordBot.sendOutroEmbed(event)
@@ -69,14 +64,34 @@ async function doEventUpdate() {
     }
     updateTime = updateEventJob.nextDate().toMillis()
   } catch (e) {
-    console.error(e)
+    console.error("Error during event update:", e)
   }
 }
 
-let updateTime = updateEventJob.nextDate().toMillis()
-updateEventJob.start()
+try {
+  api = new API(config.apiKey, metrics)
 
-if (runUpdateOnInit) {
-  console.log("Running update on initialization.")
-  await doEventUpdate()
+  const dbName = `./lb_${eventConfig.guildIds.join("_")}-${eventConfig.start}_${
+    eventConfig.start + eventConfig.duration
+  }.db`
+  database = new Database(dbName, metrics)
+  lb = new Leaderboard(api, database)
+  event = GuildEvent.from(eventConfig, lb)
+
+  discordBot = await DiscordBot.create(config.discordToken, [GatewayIntentBits.Guilds], event)
+
+  console.log("Event ready.")
+
+  updateEventJob = new CronJob("0 15-59/20 * * * *", doEventUpdate)
+  updateTime = updateEventJob.nextDate().toMillis()
+  updateEventJob.start()
+
+  if (runUpdateOnInit) {
+    console.log("Running update on initialization.")
+    updateTime = Date.now()
+    await doEventUpdate()
+  }
+} catch (error) {
+  console.error("Failed to initialize bot:", error);
+  process.exit(1);
 }

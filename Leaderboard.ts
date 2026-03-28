@@ -18,14 +18,34 @@ export class Leaderboard {
     this.db.setGuildMembers(guildId, members)
   }
 
-  async updatePlayers(members: string[]) {
-    const result = await Promise.allSettled(members.map(uuid => this.updatePlayer(uuid)))
-    return this.successRate(result)
+  async updateProfiles(members: string[], timestamp: number, isStart?: boolean) {
+    let count = 0;
+    console.log(`Starting profile updates for ${members.length} members...`);
+    const result = await Promise.allSettled(members.map(async uuid => {
+      const res = await this.updateProfilesOfPlayer(uuid, timestamp, isStart);
+      count++;
+      if (count % 20 === 0 || count === members.length) {
+        console.log(`Processed profiles: ${count}/${members.length}`);
+      }
+      return res;
+    }));
+    console.log(`Finished profile updates.`);
+    return this.successRate(result);
   }
 
-  async updateProfiles(members: string[], timestamp: number, isStart?: boolean) {
-    const result = await Promise.allSettled(members.map(uuid => this.updateProfilesOfPlayer(uuid, timestamp, isStart)))
-    return this.successRate(result)
+  async updatePlayers(members: string[]) {
+    let count = 0;
+    console.log(`Starting player name updates for ${members.length} members...`);
+    const result = await Promise.allSettled(members.map(async uuid => {
+      const res = await this.updatePlayer(uuid);
+      count++;
+      if (count % 20 === 0 || count === members.length) {
+        console.log(`Processed players: ${count}/${members.length}`);
+      }
+      return res;
+    }));
+    console.log(`Finished player updates.`);
+    return this.successRate(result);
   }
 
   async updatePlayer(uuid: string) {

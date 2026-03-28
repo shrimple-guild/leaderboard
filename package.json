@@ -10,10 +10,10 @@
     "node": "24.14.1"
   },
   "scripts": {
-    "start": "node --no-warnings --loader ts-node/esm.mjs ./main.ts",
-    "test": "node --loader ts-node/esm.mjs ./test.ts",
-    "update-metric": "node --loader ts-node/esm.mjs ./update_derived_metric.ts",
-    "delete-player": "node --loader ts-node/esm.mjs ./delete_player.ts"
+    "start": "tsx ./main.ts",
+    "test": "tsx ./test.ts",
+    "update-metric": "tsx ./update_derived_metric.ts",
+    "delete-player": "tsx ./delete_player.ts"
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.97",
@@ -38,6 +38,7 @@
   "devDependencies": {
     "@types/async-lock": "^1.4.2",
     "@types/node": "^25.5.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0"
   }
 }
