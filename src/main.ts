@@ -45,7 +45,7 @@ async function doEventUpdate() {
       await event.updateProfiles(updateTime, isStart)
       console.log(`Profiles updated.`)
 
-      if (updateTime <= event.start + 60000) { // Dentro de 1 minuto do início
+      if (updateTime <= event.start + 60000) { // Within 1 minute of start
         await discordBot.sendIntroEmbed(event)
         console.log(`Sent start embed.`)
       } 
