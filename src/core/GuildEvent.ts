@@ -18,9 +18,11 @@ export class GuildEvent {
   duration!: number
   metrics!: string[]
   metric: string | undefined
-  related: string[] | undefined
+  related:string[] | undefined
   iconAttachment!: AttachmentBuilder
   lb!: Leaderboard
+  introSent: boolean = false
+  outroSent: boolean = false
 
   private constructor() {}
 
@@ -89,9 +91,9 @@ export class GuildEvent {
     return (
       this.parse(this.description) +
       `\n
-**Start:** <t:${Math.round(this.start / 1000)}:f>
-**End:** <t:${Math.round(this.end / 1000)}:f>
-**Last updated:** <t:${Math.round(Date.now() / 1000)}:R>`
+      **Start:** <t:${Math.round(this.start / 1000)}:f>
+      **End:** <t:${Math.round(this.end / 1000)}:f>
+      **Last updated:** <t:${Math.round(Date.now() / 1000)}:R>`
     )
   }
 

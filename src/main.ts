@@ -14,6 +14,7 @@ const EVENTS_FILE = "./events.json"
 let api: API;
 let discordBot: DiscordBot;
 let activeEvents: Map<string, { event: GuildEvent, database: Database }> = new Map();
+let isUpdating = false;
 
 // Initialize API
 api = new API(config.apiKey, metrics)
@@ -40,7 +41,7 @@ function loadEvents() {
 
 function saveEvents() {
   const configs = Array.from(activeEvents.values()).map(e => {
-    // Extract raw config from GuildEvent (this is simplified, might need a proper serializable object)
+    // Extract raw config from GuildEvent
     const { lb, iconAttachment, metric, ...config } = e.event as any;
     return config;
   });
@@ -71,54 +72,90 @@ discordBot.setEventScheduler(async (eventConfig) => {
 
 console.log("Bot ready and listening for commands.");
 
-// Unified Update Job (Every 20 minutes)
+// Cron Jobs
 const updateJob = new CronJob("0 */20 * * * *", doAllUpdates)
+const statusCheckJob = new CronJob("0 * * * * *", checkEventStatus)
 
-async function doAllUpdates() {
+async function checkEventStatus() {
+  if (isUpdating) return;
   const now = Date.now();
-  console.log(`[${new Date(now).toISOString()}] Starting global update for ${activeEvents.size} events.`);
-
   for (const [id, { event }] of activeEvents.entries()) {
     try {
-      if (now > event.end + 3600000) { // Keep finished events for 1 hour
-        console.log(`Event ${event.name} has ended. Removing from active list.`);
+      if (now > event.end + 3600000) {
+        console.log(`Event ${event.name} has ended 1h ago. Removing.`);
         activeEvents.delete(id);
         saveEvents();
         continue;
       }
 
-      if (now >= event.start) {
-        console.log(`Updating event: ${event.name}`);
-        
-        const isFirstUpdate = !event.metric;
-        const isStart = now <= event.start + 1200000;
-        const isEnd = now >= event.end;
+      if (now >= event.start && !event.introSent) {
+        console.log(`Event ${event.name} just started! Triggering initial update.`);
+        await doAllUpdates();
+        continue;
+      }
 
-        await event.updateGuilds()
-        await event.fetchMetric()
-        await event.updatePlayers()
-        await event.updateProfiles(now, isStart)
-
-        if (isStart && isFirstUpdate) {
-           await discordBot.sendIntroEmbed(event)
-        }
-
-        await discordBot.sendLeaderboardEmbed(event)
-
-        if (isEnd) {
-          await discordBot.sendOutroEmbed(event)
-        }
-      } else {
-        console.log(`Event ${event.name} hasn't started yet (starts in ${Math.round((event.start - now)/60000)} mins)`);
+      if (now >= event.end && !event.outroSent) {
+        console.log(`Event ${event.name} just ended! Triggering final update.`);
+        await doAllUpdates();
+        continue;
       }
     } catch (e) {
-      console.error(`Error updating event ${event.name}:`, e);
+      console.error(`Error in status check for ${event.name}:`, e);
     }
+  }
+}
+
+async function doAllUpdates() {
+  if (isUpdating) return;
+  isUpdating = true;
+  try {
+    const now = Date.now();
+    console.log(`[${new Date(now).toISOString()}] Starting global update for ${activeEvents.size} events.`);
+
+    for (const [id, { event }] of activeEvents.entries()) {
+      try {
+        if (now > event.end + 3600000) continue;
+
+        if (now >= event.start) {
+          console.log(`Updating event: ${event.name}`);
+          
+          const isFirstUpdate = !event.introSent;
+          const isStart = now <= event.start + 1200000;
+          const isEnd = now >= event.end;
+
+          if (isStart && isFirstUpdate) {
+             event.introSent = true;
+             saveEvents();
+             await discordBot.sendIntroEmbed(event);
+          }
+
+          await event.updateGuilds()
+          await event.fetchMetric()
+          await event.updatePlayers()
+          await event.updateProfiles(now, isStart)
+
+          await discordBot.sendLeaderboardEmbed(event)
+
+          if (isEnd && !event.outroSent) {
+            event.outroSent = true;
+            saveEvents();
+            await discordBot.sendOutroEmbed(event)
+          }
+        } else {
+          console.log(`Event ${event.name} hasn't started yet (starts in ${Math.round((event.start - now)/60000)} mins)`);
+        }
+      } catch (e) {
+        console.error(`Error updating event ${event.name}:`, e);
+      }
+    }
+  } finally {
+    isUpdating = false;
   }
 }
 
 loadEvents();
 updateJob.start();
+statusCheckJob.start();
 
 if (activeEvents.size > 0) {
   console.log("Running initial update for active events...");
