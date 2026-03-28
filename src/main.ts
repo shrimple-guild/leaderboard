@@ -20,7 +20,7 @@ let isUpdating = false;
 api = new API(config.apiKey, metrics)
 
 // Load events from persistence
-function loadEvents() {
+async function loadEvents() {
   if (!fs.existsSync(EVENTS_FILE)) {
     fs.writeFileSync(EVENTS_FILE, '[]');
     return;
@@ -31,7 +31,7 @@ function loadEvents() {
   try {
     const data = JSON.parse(content);
     for (const eventConfig of data) {
-      initEvent(eventConfig);
+      await initEvent(eventConfig);
     }
   } catch (e) {
     console.error("Failed to parse events.json, initializing empty:", e);
@@ -66,7 +66,7 @@ discordBot = await DiscordBot.create(config.discordToken, [
 ])
 
 discordBot.setEventScheduler(async (eventConfig) => {
-  initEvent(eventConfig);
+  await initEvent(eventConfig);
   saveEvents();
 });
 
@@ -201,7 +201,7 @@ async function doAllUpdates() {
   }
 }
 
-loadEvents();
+await loadEvents();
 updateJob.start();
 statusCheckJob.start();
 
