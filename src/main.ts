@@ -138,6 +138,7 @@ async function doAllUpdates() {
           if (isStart && isFirstUpdate) {
              event.introSent = true;
              saveEvents();
+             await event.fetchMetric() // Ensure metric is loaded for placeholder
              await discordBot.sendIntroEmbed(event);
           }
 
