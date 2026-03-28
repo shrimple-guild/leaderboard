@@ -48,12 +48,13 @@ function saveEvents() {
   fs.writeFileSync(EVENTS_FILE, JSON.stringify(configs, null, 2));
 }
 
-function initEvent(eventConfig: any) {
+async function initEvent(eventConfig: any) {
   const dbName = `./lb_${eventConfig.guildIds.join("_")}-${eventConfig.start}_${eventConfig.start + eventConfig.duration}.db`
   const database = new Database(dbName, metrics)
   const lb = new Leaderboard(api, database)
   const event = GuildEvent.from(eventConfig, lb)
   
+  await event.fetchMetric(); // Load metric name immediately
   activeEvents.set(event.identifier(), { event, database });
   console.log(`Initialized event: ${event.name} (${event.identifier()})`);
 }
