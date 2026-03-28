@@ -1,659 +1,37 @@
-import { GuildEvent } from "../core/GuildEvent.js"
-import { generateLeaderboardPlot } from "../utils/chart.js"
 import {
-  ActionRowBuilder,
+  Client,
   AttachmentBuilder,
   ChannelType,
-  EmbedBuilder,
   Events,
   GatewayIntentBits,
   Message,
-  StringSelectMenuBuilder,
-  StringSelectMenuOptionBuilder,
   SlashCommandBuilder,
-  ModalBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-  CheckboxGroupBuilder,
-  CheckboxGroupOptionBuilder,
   Interaction,
   PermissionsBitField,
   REST,
   Routes,
-  LabelBuilder,
-  ChatInputCommandInteraction,
-  ModalSubmitInteraction,
-  StringSelectMenuInteraction,
-  ButtonBuilder,
-  ButtonStyle,
-  MessageFlags
+  ActionRowBuilder,
+  StringSelectMenuBuilder,
+  StringSelectMenuOptionBuilder
 } from "discord.js"
-import { Client } from "discord.js"
-import { LeaderboardPosition } from "../core/types.js"
-import eventPresets from "../data/event_presets.json" with { type: "json" }
-import guildsConfig from "../data/guilds.json" with { type: "json" }
-import crypto from "crypto"
+import { GuildEvent } from "../core/GuildEvent.js"
+import { InteractionManager } from "./InteractionManager.js"
+import { EventManager } from "../core/EventManager.js"
+import { EmbedGenerator } from "./EmbedGenerator.js"
 
 export class DiscordBot {
-  private currentMessages: Map<string, Message<true>> = new Map()
-  private pendingEvents: Map<string, any> = new Map()
-  private pendingDeletions: Map<string, string> = new Map()
-  private pendingForceStarts: Map<string, string> = new Map()
-  private pendingDurationModifications: Map<string, { identifier: string, action: 'extend' | 'reduce', hours: number }> = new Map()
-  private onEventScheduled?: (eventConfig: any) => Promise<void>
-  private onSelectMenu?: (interaction: StringSelectMenuInteraction) => Promise<void>
-  private onListEvents?: () => GuildEvent[]
-  private onDeleteEvent?: (identifier: string) => Promise<boolean>
-  private onForceStartEvent?: (identifier: string) => Promise<boolean>
-  private onModifyDuration?: (identifier: string, action: 'extend' | 'reduce', hours: number) => Promise<boolean>
+  private readonly currentMessages: Map<string, Message<true>> = new Map()
+  public interactionManager!: InteractionManager
 
-  private constructor(private client: Client<true>) {
-    this.setupInteractions()
-  }
+  private constructor(public client: Client<true>) {}
 
   private setupInteractions() {
     this.client.on(Events.InteractionCreate, async (interaction: Interaction) => {
-      try {
-        if (interaction.isChatInputCommand()) {
-          if (interaction.commandName === 'scheduleevent') {
-            await this.handleScheduleEventCommand(interaction)
-          } else if (interaction.commandName === 'listevents') {
-            await this.handleListEventsCommand(interaction)
-          } else if (interaction.commandName === 'deleteevent') {
-            await this.handleDeleteEventCommand(interaction)
-          } else if (interaction.commandName === 'forcestartevent') {
-            await this.handleForceStartEventCommand(interaction)
-          } else if (interaction.commandName === 'modifyeventduration') {
-            await this.handleModifyDurationCommand(interaction)
-          }
-        } else if (interaction.isModalSubmit()) {
-          if (interaction.customId === 'eventModal') {
-            await this.handleModalSubmit(interaction)
-          }
-        } else if (interaction.isButton()) {
-          if (interaction.customId === 'confirmEvent') {
-            await this.handleConfirmButton(interaction)
-          } else if (interaction.customId === 'cancelEvent') {
-            await this.handleCancelButton(interaction)
-          } else if (interaction.customId === 'confirmDelete') {
-            await this.handleConfirmDeleteButton(interaction)
-          } else if (interaction.customId === 'cancelDelete') {
-            await this.handleCancelDeleteButton(interaction)
-          } else if (interaction.customId === 'confirmForceStart') {
-            await this.handleConfirmForceStartButton(interaction)
-          } else if (interaction.customId === 'cancelForceStart') {
-            await this.handleCancelForceStartButton(interaction)
-          } else if (interaction.customId === 'confirmModifyDuration') {
-            await this.handleConfirmModifyDurationButton(interaction)
-          } else if (interaction.customId === 'cancelModifyDuration') {
-            await this.handleCancelModifyDurationButton(interaction)
-          }
-        } else if (interaction.isStringSelectMenu()) {
-          if (this.onSelectMenu) {
-            await this.onSelectMenu(interaction)
-          }
-        }
-      } catch (e) {
-        console.error("Interaction error:", e)
-      }
+      await this.interactionManager.handleInteraction(interaction)
     })
   }
 
-  private async handleScheduleEventCommand(interaction: ChatInputCommandInteraction) {
-    if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply({ content: "You need Administrator permissions to use this command.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    const modal = new ModalBuilder()
-      .setCustomId(`eventModal`)
-      .setTitle(`Schedule Guild Event`)
-
-    const presetLabel = new LabelBuilder()
-      .setLabel("Select Event Preset")
-      .setStringSelectMenuComponent(new StringSelectMenuBuilder()
-        .setCustomId('presetId')
-        .setPlaceholder('Choose a preset...')
-        .addOptions(eventPresets.map(p => 
-          new StringSelectMenuOptionBuilder()
-            .setLabel(p.name)
-            .setValue(p.id)
-        ))
-      )
-
-    const startInput = new TextInputBuilder()
-      .setCustomId('startTime')
-      .setPlaceholder("e.g. 01/04/26 18:00")
-      .setStyle(TextInputStyle.Short)
-      .setRequired(true)
-
-    const startLabel = new LabelBuilder()
-      .setLabel("Start Time (DD/MM/YY HH:mm)")
-      .setTextInputComponent(startInput)
-
-    const gmtOptions = []
-    for (let i = -11; i <= 13; i++) {
-      const sign = i >= 0 ? "+" : "-"
-      const abs = Math.abs(i)
-      const formatted = `${sign}${abs.toString().padStart(2, '0')}:00`
-      gmtOptions.push(new StringSelectMenuOptionBuilder()
-        .setLabel(`GMT${formatted}`)
-        .setValue(formatted)
-        .setDefault(i === 0)
-      )
-    }
-
-    const timezoneLabel = new LabelBuilder()
-      .setLabel("Timezone (for Start Time)")
-      .setStringSelectMenuComponent(new StringSelectMenuBuilder()
-        .setCustomId('timezone')
-        .setPlaceholder('Select GMT offset...')
-        .addOptions(gmtOptions)
-      )
-
-    const durationInput = new TextInputBuilder()
-      .setCustomId('durationHours')
-      .setPlaceholder("e.g. 124 (1 SB Year)")
-      .setStyle(TextInputStyle.Short)
-      .setRequired(true)
-
-    const durationLabel = new LabelBuilder()
-      .setLabel("Duration in Hours")
-      .setTextInputComponent(durationInput)
-    
-    const guildCheckboxGroup = new CheckboxGroupBuilder()
-      .setCustomId('guildSelection')
-      .addOptions(guildsConfig.map(g => 
-        new CheckboxGroupOptionBuilder()
-          .setLabel(g.name)
-          .setValue(g.id)
-          .setDescription(`Include ${g.name}`)
-      ))
-
-    const guildLabel = new LabelBuilder()
-      .setLabel("Select Guilds")
-      .setCheckboxGroupComponent(guildCheckboxGroup)
-
-    modal.addLabelComponents(presetLabel, startLabel, timezoneLabel, durationLabel, guildLabel)
-
-    await interaction.showModal(modal)
-  }
-
-  private async handleListEventsCommand(interaction: ChatInputCommandInteraction) {
-    if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply({ content: "You need Administrator permissions to use this command.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    if (!this.onListEvents) {
-      return interaction.reply({ content: "Event lister not initialized.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    const events = this.onListEvents()
-    if (events.length === 0) {
-      return interaction.reply({ content: "No events currently scheduled or active.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    const embed = new EmbedBuilder()
-      .setTitle("Guild Events List")
-      .setColor("Blue")
-      .setTimestamp()
-
-    const now = Date.now()
-    
-    const eventList = events.map(e => {
-      let status = "📅 Queued"
-      if (now >= e.end) status = "🏁 Finished"
-      else if (now >= e.start) status = "🚀 Active"
-      
-      const guildNames = e.guildIds.map((id: string) => guildsConfig.find(g => g.id === id)?.name || id).join(", ")
-      
-      return `**${e.name}**\nID: \`${e.identifier()}\`\nStatus: ${status}\nChannel: <#${e.discordChannelId}>\nStart: <t:${Math.round(e.start/1000)}:f>\nEnd: <t:${Math.round(e.end/1000)}:f>\nMetric: ${e.metric || "Pending"}\nGuilds: ${guildNames}`
-    }).join("\n\n")
-
-    embed.setDescription(eventList)
-
-    await interaction.reply({ embeds: [embed], flags: [MessageFlags.Ephemeral] })
-  }
-
-  private async handleDeleteEventCommand(interaction: ChatInputCommandInteraction) {
-    if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply({ content: "You need Administrator permissions to use this command.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    const identifier = interaction.options.getString('identifier', true)
-    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", flags: [MessageFlags.Ephemeral] })
-    
-    const events = this.onListEvents()
-    const event = events.find(e => e.identifier() === identifier)
-
-    if (!event) {
-      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, flags: [MessageFlags.Ephemeral] })
-    }
-
-    this.pendingDeletions.set(interaction.user.id, identifier)
-
-    const guildNames = event.guildIds.map((id: string) => guildsConfig.find(g => g.id === id)?.name || id).join(", ")
-
-    const confirmEmbed = new EmbedBuilder()
-      .setTitle("Confirm Event Deletion")
-      .setColor("Red")
-      .setDescription(`Are you sure you want to delete the following event?\n\n**${event.name}**\nID: \`${identifier}\`\nStart: <t:${Math.round(event.start/1000)}:f>\nGuilds: ${guildNames}`)
-      .setFooter({ text: "This action cannot be undone." })
-
-    const row = new ActionRowBuilder<ButtonBuilder>()
-      .addComponents(
-        new ButtonBuilder()
-          .setCustomId('confirmDelete')
-          .setLabel('Delete')
-          .setStyle(ButtonStyle.Danger),
-        new ButtonBuilder()
-          .setCustomId('cancelDelete')
-          .setLabel('Cancel')
-          .setStyle(ButtonStyle.Secondary)
-      )
-
-    await interaction.reply({ 
-      embeds: [confirmEmbed],
-      components: [row],
-      flags: [MessageFlags.Ephemeral] 
-    })
-  }
-
-  private async handleConfirmDeleteButton(interaction: Interaction) {
-    if (!interaction.isButton()) return
-    
-    const identifier = this.pendingDeletions.get(interaction.user.id)
-    if (!identifier) {
-      return interaction.reply({ content: "No pending deletion request found.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    if (this.onDeleteEvent) {
-      const success = await this.onDeleteEvent(identifier)
-      this.pendingDeletions.delete(interaction.user.id)
-      
-      if (success) {
-        await interaction.update({ 
-          content: `✅ Event \`${identifier}\` has been deleted.`, 
-          embeds: [],
-          components: [] 
-        })
-      } else {
-        await interaction.update({ 
-          content: `❌ Failed to delete event \`${identifier}\`. It may have already been removed.`, 
-          embeds: [],
-          components: [] 
-        })
-      }
-    } else {
-      await interaction.reply({ content: "Error: Event deleter not initialized.", flags: [MessageFlags.Ephemeral] })
-    }
-  }
-
-  private async handleCancelDeleteButton(interaction: Interaction) {
-    if (!interaction.isButton()) return
-    
-    this.pendingDeletions.delete(interaction.user.id)
-    await interaction.update({ 
-      content: "❌ Deletion cancelled.", 
-      embeds: [],
-      components: [] 
-    })
-  }
-
-  private async handleForceStartEventCommand(interaction: ChatInputCommandInteraction) {
-    if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply({ content: "You need Administrator permissions to use this command.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    const identifier = interaction.options.getString('identifier', true)
-    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", flags: [MessageFlags.Ephemeral] })
-    
-    const events = this.onListEvents()
-    const event = events.find(e => e.identifier() === identifier)
-
-    if (!event) {
-      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, flags: [MessageFlags.Ephemeral] })
-    }
-
-    if (event.hasStarted) {
-      return interaction.reply({ content: `Event \`${event.name}\` has already started.`, flags: [MessageFlags.Ephemeral] })
-    }
-
-    this.pendingForceStarts.set(interaction.user.id, identifier)
-
-    const confirmEmbed = new EmbedBuilder()
-      .setTitle("Confirm Force Start")
-      .setColor("Orange")
-      .setDescription(`Are you sure you want to start the following event **IMMEDIATELY**?\n\n**${event.name}**\nID: \`${identifier}\`\nOriginal Start: <t:${Math.round(event.start/1000)}:f>`)
-      .setFooter({ text: "The event will start as soon as you confirm." })
-
-    const row = new ActionRowBuilder<ButtonBuilder>()
-      .addComponents(
-        new ButtonBuilder()
-          .setCustomId('confirmForceStart')
-          .setLabel('Force Start')
-          .setStyle(ButtonStyle.Success),
-        new ButtonBuilder()
-          .setCustomId('cancelForceStart')
-          .setLabel('Cancel')
-          .setStyle(ButtonStyle.Secondary)
-      )
-
-    await interaction.reply({ 
-      embeds: [confirmEmbed],
-      components: [row],
-      flags: [MessageFlags.Ephemeral] 
-    })
-  }
-
-  private async handleConfirmForceStartButton(interaction: Interaction) {
-    if (!interaction.isButton()) return
-    
-    const identifier = this.pendingForceStarts.get(interaction.user.id)
-    if (!identifier) {
-      return interaction.reply({ content: "No pending force-start request found.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    if (this.onForceStartEvent) {
-      const success = await this.onForceStartEvent(identifier)
-      this.pendingForceStarts.delete(interaction.user.id)
-      
-      if (success) {
-        await interaction.update({ 
-          content: `🚀 Event \`${identifier}\` is starting now!`, 
-          embeds: [],
-          components: [] 
-        })
-      } else {
-        await interaction.update({ 
-          content: `❌ Failed to force-start event \`${identifier}\`. It may have already started or been removed.`, 
-          embeds: [],
-          components: [] 
-        })
-      }
-    } else {
-      await interaction.reply({ content: "Error: Event starter not initialized.", flags: [MessageFlags.Ephemeral] })
-    }
-  }
-
-  private async handleCancelForceStartButton(interaction: Interaction) {
-    if (!interaction.isButton()) return
-    
-    this.pendingForceStarts.delete(interaction.user.id)
-    await interaction.update({ 
-      content: "❌ Force start cancelled.", 
-      embeds: [],
-      components: [] 
-    })
-  }
-
-  private async handleModifyDurationCommand(interaction: ChatInputCommandInteraction) {
-    if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply({ content: "You need Administrator permissions to use this command.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    const identifier = interaction.options.getString('identifier', true)
-    const action = interaction.options.getString('action', true) as 'extend' | 'reduce'
-    const hours = interaction.options.getNumber('hours', true)
-
-    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", flags: [MessageFlags.Ephemeral] })
-    
-    const events = this.onListEvents()
-    const event = events.find(e => e.identifier() === identifier)
-
-    if (!event) {
-      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, flags: [MessageFlags.Ephemeral] })
-    }
-
-    const currentDurationHours = event.duration / 3600000
-    const newDurationHours = action === 'extend' ? currentDurationHours + hours : currentDurationHours - hours
-
-    if (newDurationHours <= 0) {
-      return interaction.reply({ content: "Resulting duration must be greater than 0.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    const newEnd = event.start + (newDurationHours * 3600000)
-
-    this.pendingDurationModifications.set(interaction.user.id, { identifier, action, hours })
-
-    const confirmEmbed = new EmbedBuilder()
-      .setTitle("Confirm Duration Modification")
-      .setColor("Yellow")
-      .setDescription(`Modify duration for **${event.name}**?\n\n` +
-        `**Current Duration:** ${currentDurationHours}h\n` +
-        `**Action:** ${action === 'extend' ? "Extend by" : "Reduce by"} ${hours}h\n` +
-        `**New Duration:** ${newDurationHours}h\n` +
-        `**New End Time:** <t:${Math.round(newEnd/1000)}:f>`)
-      .setFooter({ text: "Please confirm this change." })
-
-    const row = new ActionRowBuilder<ButtonBuilder>()
-      .addComponents(
-        new ButtonBuilder()
-          .setCustomId('confirmModifyDuration')
-          .setLabel('Confirm')
-          .setStyle(ButtonStyle.Primary),
-        new ButtonBuilder()
-          .setCustomId('cancelModifyDuration')
-          .setLabel('Cancel')
-          .setStyle(ButtonStyle.Secondary)
-      )
-
-    await interaction.reply({ 
-      embeds: [confirmEmbed],
-      components: [row],
-      flags: [MessageFlags.Ephemeral] 
-    })
-  }
-
-  private async handleConfirmModifyDurationButton(interaction: Interaction) {
-    if (!interaction.isButton()) return
-    
-    const config = this.pendingDurationModifications.get(interaction.user.id)
-    if (!config) {
-      return interaction.reply({ content: "No pending duration modification found.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    if (this.onModifyDuration) {
-      const success = await this.onModifyDuration(config.identifier, config.action, config.hours)
-      this.pendingDurationModifications.delete(interaction.user.id)
-      
-      if (success) {
-        await interaction.update({ 
-          content: `✅ Duration for event \`${config.identifier}\` updated successfully.`, 
-          embeds: [],
-          components: [] 
-        })
-      } else {
-        await interaction.update({ 
-          content: `❌ Failed to update duration. The event may have been removed.`, 
-          embeds: [],
-          components: [] 
-        })
-      }
-    } else {
-      await interaction.reply({ content: "Error: Duration modifier not initialized.", flags: [MessageFlags.Ephemeral] })
-    }
-  }
-
-  private async handleCancelModifyDurationButton(interaction: Interaction) {
-    if (!interaction.isButton()) return
-    
-    this.pendingDurationModifications.delete(interaction.user.id)
-    await interaction.update({ 
-      content: "❌ Modification cancelled.", 
-      embeds: [],
-      components: [] 
-    })
-  }
-
-  private async handleModalSubmit(interaction: ModalSubmitInteraction) {
-    // Cast to any to bypass the missing TypeScript definitions for the new components
-    const fields = interaction.fields as any
-
-    const presetId = fields.fields.get('presetId')?.values?.[0]
-    const preset = eventPresets.find(p => p.id === presetId)
-    
-    if (!preset) {
-      return interaction.reply({ content: "Please select a valid event preset.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    const startTimeStr = fields.getTextInputValue('startTime')
-    const durationHours = parseFloat(fields.getTextInputValue('durationHours'))
-    const timezone = fields.fields.get('timezone')?.values?.[0]
-    
-    if (!timezone) {
-      return interaction.reply({ content: "Please select a timezone.", flags: [MessageFlags.Ephemeral] })
-    }
-    
-    const selectedGuildIds = fields.fields.get('guildSelection')?.values || []
-
-    let startTime: number
-    try {
-      const [datePart, timePart] = startTimeStr.split(' ')
-      const [day, month, year] = datePart.split('/')
-      const fullYear = year.length === 2 ? `20${year}` : year
-      const isoDateStr = `${fullYear}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T${timePart}:00${timezone}`
-      startTime = new Date(isoDateStr).getTime()
-    } catch (e) {
-      return interaction.reply({ content: `Invalid date format. Please use DD/MM/YY HH:mm. Provided: ${startTimeStr}`, flags: [MessageFlags.Ephemeral] })
-    }
-
-    if (isNaN(startTime)) {
-      return interaction.reply({ content: `Invalid date or timezone format. Provided: ${startTimeStr} ${timezone}`, flags: [MessageFlags.Ephemeral] })
-    }
-
-    if (isNaN(durationHours) || durationHours <= 0) {
-      return interaction.reply({ content: "Invalid duration.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    if (selectedGuildIds.length === 0) {
-      return interaction.reply({ content: "You must select at least one guild.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    const pingRoleIds = selectedGuildIds
-      .map((id: string) => guildsConfig.find(g => g.id === id)?.pingRoleId)
-      .filter((id: string | undefined): id is string => id !== undefined)
-
-    const eventConfig = {
-      ...preset,
-      discordGuildId: interaction.guildId,
-      discordChannelId: interaction.channelId,
-      guildIds: selectedGuildIds,
-      pingRoleIds: pingRoleIds,
-      start: startTime,
-      duration: durationHours * 3600000,
-    }
-
-    this.pendingEvents.set(interaction.user.id, eventConfig)
-
-    const guildNames = selectedGuildIds.map((id: string) => guildsConfig.find(g => g.id === id)?.name || id).join(", ")
-
-    const confirmEmbed = new EmbedBuilder()
-      .setTitle("Confirm Event Scheduling")
-      .setColor("Blue")
-      .addFields(
-        { name: "Event", value: preset.name, inline: true },
-        { name: "Channel", value: `<#${interaction.channelId}>`, inline: true },
-        { name: "Timezone", value: timezone, inline: true },
-        { name: "Start Time", value: `<t:${Math.round(startTime/1000)}:F>`, inline: false },
-        { name: "Duration", value: `${durationHours} hours`, inline: true },
-        { name: "Guilds", value: guildNames }
-      )
-      .setFooter({ text: "Please confirm or cancel this request." })
-
-    const row = new ActionRowBuilder<ButtonBuilder>()
-      .addComponents(
-        new ButtonBuilder()
-          .setCustomId('confirmEvent')
-          .setLabel('Confirm')
-          .setStyle(ButtonStyle.Success),
-        new ButtonBuilder()
-          .setCustomId('cancelEvent')
-          .setLabel('Cancel')
-          .setStyle(ButtonStyle.Danger)
-      )
-
-    await interaction.reply({ 
-      embeds: [confirmEmbed],
-      components: [row],
-      flags: [MessageFlags.Ephemeral] 
-    })
-  }
-
-  private async handleConfirmButton(interaction: Interaction) {
-    if (!interaction.isButton()) return
-    
-    const eventConfig = this.pendingEvents.get(interaction.user.id)
-    if (!eventConfig) {
-      return interaction.reply({ content: "No pending event request found or it has expired.", flags: [MessageFlags.Ephemeral] })
-    }
-
-    const guildNames = eventConfig.guildIds.map((id: string) => guildsConfig.find(g => g.id === id)?.name || id).join(", ")
-    
-    // Generate the unique identifier using the same logic as GuildEvent.identifier()
-    const identifier = crypto.createHash('md5').update(`${eventConfig.guildIds.join("_")}-${eventConfig.start}-${eventConfig.start + eventConfig.duration}`).digest('hex')
-    
-    const successEmbed = new EmbedBuilder()
-      .setTitle("Event Scheduled Successfully")
-      .setColor("Green")
-      .addFields(
-        { name: "Event", value: eventConfig.name, inline: true },
-        { name: "Management ID", value: `\`${identifier}\``, inline: true },
-        { name: "Channel", value: `<#${eventConfig.discordChannelId}>`, inline: true },
-        { name: "Starts", value: `<t:${Math.round(eventConfig.start/1000)}:F>`, inline: false },
-        { name: "Duration", value: `${eventConfig.duration / 3600000} hours`, inline: true },
-        { name: "Guilds", value: guildNames }
-      )
-      .setTimestamp()
-
-    await interaction.update({ 
-      content: "",
-      embeds: [successEmbed],
-      components: [] 
-    })
-
-    if (this.onEventScheduled) {
-      await this.onEventScheduled(eventConfig)
-      this.pendingEvents.delete(interaction.user.id)
-    }
-  }
-
-  private async handleCancelButton(interaction: Interaction) {
-    if (!interaction.isButton()) return
-    
-    await interaction.update({ 
-      content: "❌ Event scheduling cancelled.", 
-      embeds: [],
-      components: [] 
-    })
-    
-    this.pendingEvents.delete(interaction.user.id)
-  }
-
-  setEventScheduler(fn: (config: any) => Promise<void>) {
-    this.onEventScheduled = fn
-  }
-
-  setSelectMenuHandler(fn: (interaction: StringSelectMenuInteraction) => Promise<void>) {
-    this.onSelectMenu = fn
-  }
-
-  setListEventsHandler(fn: () => GuildEvent[]) {
-    this.onListEvents = fn
-  }
-
-  setDeleteEventHandler(fn: (identifier: string) => Promise<boolean>) {
-    this.onDeleteEvent = fn
-  }
-
-  setForceStartEventHandler(fn: (identifier: string) => Promise<boolean>) {
-    this.onForceStartEvent = fn
-  }
-
-  setModifyDurationHandler(fn: (identifier: string, action: 'extend' | 'reduce', hours: number) => Promise<boolean>) {
-    this.onModifyDuration = fn
-  }
-
-  static async create(token: string, intents: GatewayIntentBits[]) {
+  static async create(token: string, intents: GatewayIntentBits[], eventManager?: EventManager) {
     const client = new Client({ intents: intents })
     
     const commands = [
@@ -716,11 +94,15 @@ export class DiscordBot {
       client.once(Events.ClientReady, async client => {
         try {
           console.log(`Bot logged in as ${client.user.tag}`)
+          
+          // Clear global commands
+          await rest.put(Routes.applicationCommands(client.user.id), { body: [] })
+          
           const guilds = await client.guilds.fetch()
           for (const [guildId] of guilds) {
             await rest.put(Routes.applicationGuildCommands(client.user.id, guildId), { body: commands })
           }
-          console.log(`Successfully reloaded application (/) commands across all guilds.`)
+          console.log(`Successfully reloaded application (/) commands.`)
           client.off(Events.Error, reject)
           resolve(client)
         } catch (error) {
@@ -731,7 +113,17 @@ export class DiscordBot {
       client.login(token)
     })
 
-    return new DiscordBot(clientReady)
+    const bot = new DiscordBot(clientReady)
+    if (eventManager) {
+      bot.interactionManager = new InteractionManager(bot, eventManager)
+      bot.setupInteractions()
+    }
+    return bot
+  }
+
+  initInteractionManager(eventManager: EventManager) {
+    this.interactionManager = new InteractionManager(this, eventManager)
+    this.setupInteractions()
   }
 
   async fetchLeaderboardChannel(event: GuildEvent) {
@@ -742,26 +134,22 @@ export class DiscordBot {
   }
 
   async sendIntroEmbed(event: GuildEvent) {
-    const embed = new EmbedBuilder()
-      .setTitle("The event has started!")
-      .setColor("Green")
-      .setDescription(event.parse(event.intro))
-      .setTimestamp()
+    const embed = EmbedGenerator.createIntroEmbed(event)
     await this.send(event, { embeds: [embed] }, false, true)
   }
 
   async sendLeaderboardEmbed(event: GuildEvent) {
-    const data = await this.getLeaderboardEmbed(event)
-    if (!data) return
-    data.embed.setTitle(event.parse(event.name)).setDescription(event.fullDescription)
+    const result = await EmbedGenerator.createLeaderboardEmbed(event)
+    if (!result) return
+    result.embed.setTitle(event.parse(event.name)).setDescription(event.fullDescription)
 
     const actionBar = this.getActionBar(event)
 
     await this.send(
       event,
       {
-        embeds: [data.embed],
-        files: [event.iconAttachment, new AttachmentBuilder(data.attachment, { name: "chart.png" })],
+        embeds: [result.embed],
+        files: [event.iconAttachment, new AttachmentBuilder(result.attachment, { name: "chart.png" })],
         components: actionBar,
       },
       true,
@@ -770,20 +158,11 @@ export class DiscordBot {
   }
 
   async sendOutroEmbed(event: GuildEvent) {
-    const embed = new EmbedBuilder()
-      .setTitle("Event over")
-      .setColor("Red")
-      .setDescription(event.parse(event.outro))
-      .setTimestamp()
+    const embed = EmbedGenerator.createOutroEmbed(event)
     await this.send(event, { embeds: [embed] }, false, true)
   }
 
-  private async send(
-    event: GuildEvent,
-    message: any,
-    tryEdit: boolean,
-    ping: boolean
-  ) {
+  private async send(event: GuildEvent, message: any, tryEdit: boolean, ping: boolean) {
     const channel = await this.fetchLeaderboardChannel(event)
     const eventId = event.identifier()
     const existingMsg = this.currentMessages.get(eventId)
@@ -806,53 +185,6 @@ export class DiscordBot {
     if (ping && pingMessage) await channel.send(pingMessage).catch(console.error)
   }
 
-  private escapeMarkdown(text: string): string {
-    return text.replace(/([\\`*_{}\[\]()#+\-.!>])/g, "\\$1");
-  }
-
-  private async getLeaderboardEmbed(event: GuildEvent, metric?: string) {
-    const leaderboard = event.getLeaderboard(metric)
-    if (!leaderboard) return
-    const plot = generateLeaderboardPlot(event, leaderboard, metric)
-    if (!plot) return
-    let fields = leaderboard.slice(0, 10).map(({ rank, username, cuteName, value, counter }) => {
-      return {
-        name: `${rank}. ${this.escapeMarkdown(username)} (${cuteName})`,
-        value: `**${formatter.format(value)}** ${counter}`,
-        inline: true,
-      }
-    })
-    const blankField = { name: "\u200b", value: "\u200b", inline: true }
-    fields = fields.flatMap((value, index) => ((index + 1) % 2 == 0 ? [value, blankField] : value))
-
-    const extendedFields = 4
-    for (let i = 10; i < 10 + 5 * extendedFields; i += 5) {
-      const continuation = continueData(i, leaderboard)
-      if (continuation != null) fields.push(continuation)
-      if (i % 10 == 5) {
-        fields.push(blankField)
-      }
-    }
-
-    if (fields.length == 0) {
-      fields.push({
-        name: "No data",
-        value: "Either there is no event data yet, or the leaderboard broke!",
-        inline: false,
-      })
-    }
-
-    return {
-      embed: new EmbedBuilder()
-        .setAuthor({ name: event.author, iconURL: "attachment://icon.png" })
-        .setColor("DarkBlue")
-        .addFields(fields)
-        .setImage("attachment://chart.png")
-        .setTimestamp(),
-      attachment: plot,
-    }
-  }
-
   private getActionBar(event: GuildEvent) {
     const options = event.related?.map(metric => new StringSelectMenuOptionBuilder().setLabel(metric).setValue(metric))
     if (options == null || options.length == 0) return undefined
@@ -864,42 +196,5 @@ export class DiscordBot {
           .addOptions(options)
       ),
     ]
-  }
-
-  async handleSelectMenu(interaction: StringSelectMenuInteraction, event: GuildEvent) {
-    if (interaction.customId !== `leaderboardSelector_${event.identifier()}`) return
-    await interaction.deferReply({ flags: [MessageFlags.Ephemeral] })
-    const metric = interaction.values[0]
-    const data = await this.getLeaderboardEmbed(event, metric).catch(console.error)
-    if (!data) return
-    data.embed.setTitle(`${metric} Leaderboard`)
-
-    await interaction
-      .editReply({
-        embeds: [data.embed],
-        files: [event.iconAttachment, new AttachmentBuilder(data.attachment, { name: "chart.png" })],
-      })
-      .catch(console.error)
-  }
-}
-
-const formatter = Intl.NumberFormat("en", {
-  notation: "compact",
-  maximumSignificantDigits: 3,
-  minimumSignificantDigits: 1,
-})
-
-function continueData(start: number, data: LeaderboardPosition[]) {
-  const continuedData = data.slice(start, start + 5)
-  if (continuedData.length > 0) {
-    return {
-      name: "Continued",
-      value: continuedData
-        .map(({ rank, username, cuteName, value, counter }) => `**${rank}.** ${username} (${formatter.format(value)})`)
-        .join("\n"),
-      inline: true,
-    }
-  } else {
-    return undefined
   }
 }
