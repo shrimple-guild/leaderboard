@@ -5,7 +5,7 @@ import { CronJob } from "cron"
 import { GuildEvent } from "./core/GuildEvent.js"
 import { DiscordBot } from "./bot/DiscordBot.js"
 import { GatewayIntentBits } from "discord.js"
-import metrics from "../metrics.json" with { type: "json" }
+import metrics from "./data/metrics.json" with { type: "json" }
 import config from "../config.json" with { type: "json" }
 import eventConfig from "../event.json" with { type: "json" }
 
@@ -82,7 +82,7 @@ try {
 
   console.log("Event ready.")
 
-  updateEventJob = new CronJob("0 15-59/20 * * * *", doEventUpdate)
+  updateEventJob = new CronJob("0 */20 * * * *", doEventUpdate)
   updateTime = updateEventJob.nextDate().toMillis()
   updateEventJob.start()
 

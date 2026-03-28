@@ -3,7 +3,7 @@ import { API } from "./api/API.js"
 import { Leaderboard } from "./core/Leaderboard.js"
 import { GuildEvent } from "./core/GuildEvent.js"
 import { DiscordBot } from "./bot/DiscordBot.js"
-import metrics from "../metrics.json" with { type: "json" }
+import metrics from "./data/metrics.json" with { type: "json" }
 import config from "../config.json" with { type: "json" }
 import eventConfig from "../event.json" with { type: "json" }
 import { getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./api/bestiary.js"
