@@ -7,91 +7,118 @@ import { DiscordBot } from "./bot/DiscordBot.js"
 import { GatewayIntentBits } from "discord.js"
 import metrics from "./data/metrics.json" with { type: "json" }
 import config from "../config.json" with { type: "json" }
-import eventConfig from "../event.json" with { type: "json" }
+import fs from "fs"
+
+const EVENTS_FILE = "./events.json"
 
 let api: API;
-let database: Database;
-let lb: Leaderboard;
-let event: GuildEvent;
 let discordBot: DiscordBot;
-let updateEventJob: CronJob;
-let updateTime: number;
+let activeEvents: Map<string, { event: GuildEvent, database: Database }> = new Map();
 
-const runUpdateOnInit = true;
+// Initialize API
+api = new API(config.apiKey, metrics)
 
-async function doEventUpdate() {
+// Load events from persistence
+function loadEvents() {
+  if (!fs.existsSync(EVENTS_FILE)) {
+    fs.writeFileSync(EVENTS_FILE, '[]');
+    return;
+  }
+  const content = fs.readFileSync(EVENTS_FILE, 'utf-8').trim();
+  if (!content) return;
+  
   try {
-    if (updateTime > event.end) {
-      updateEventJob.stop();
-      console.log(`Job started after expected end time, aborting.`)
-      return;
+    const data = JSON.parse(content);
+    for (const eventConfig of data) {
+      initEvent(eventConfig);
     }
-
-    console.log(`[${new Date(updateTime).toISOString()}] Starting event update.`)
-
-    if (updateTime >= event.start) {
-      await event.updateGuilds()
-      console.log("Guilds updated.")
-
-      const metric = await event.fetchMetric()
-      console.log(`Event metric: ${metric}`)
-
-      await event.updatePlayers()
-      console.log(`Players updated.`)
-
-      // tri state booleans B)
-      const isStart = updateTime == event.start ? true : updateTime == event.end ? false : undefined
-
-      await event.updateProfiles(updateTime, isStart)
-      console.log(`Profiles updated.`)
-
-      if (updateTime <= event.start + 60000) { // Within 1 minute of start
-        await discordBot.sendIntroEmbed(event)
-        console.log(`Sent start embed.`)
-      } 
-      
-      await discordBot.sendLeaderboardEmbed(event)
-      console.log(`Sent leaderboard embed.`)
-
-      if (updateTime == event.end) {
-        await discordBot.sendOutroEmbed(event)
-        console.log(`Sent outro embed; stopping.`)
-
-        updateEventJob.stop()
-      }
-    } else {
-      console.log(`Skipping because the event hasn't started yet!`)
-    }
-    updateTime = updateEventJob.nextDate().toMillis()
   } catch (e) {
-    console.error("Error during event update:", e)
+    console.error("Failed to parse events.json, initializing empty:", e);
+    fs.writeFileSync(EVENTS_FILE, '[]');
   }
 }
 
-try {
-  api = new API(config.apiKey, metrics)
+function saveEvents() {
+  const configs = Array.from(activeEvents.values()).map(e => {
+    // Extract raw config from GuildEvent (this is simplified, might need a proper serializable object)
+    const { lb, iconAttachment, metric, ...config } = e.event as any;
+    return config;
+  });
+  fs.writeFileSync(EVENTS_FILE, JSON.stringify(configs, null, 2));
+}
 
-  const dbName = `./lb_${eventConfig.guildIds.join("_")}-${eventConfig.start}_${
-    eventConfig.start + eventConfig.duration
-  }.db`
-  database = new Database(dbName, metrics)
-  lb = new Leaderboard(api, database)
-  event = GuildEvent.from(eventConfig, lb)
+function initEvent(eventConfig: any) {
+  const dbName = `./lb_${eventConfig.guildIds.join("_")}-${eventConfig.start}_${eventConfig.start + eventConfig.duration}.db`
+  const database = new Database(dbName, metrics)
+  const lb = new Leaderboard(api, database)
+  const event = GuildEvent.from(eventConfig, lb)
+  
+  activeEvents.set(event.identifier(), { event, database });
+  console.log(`Initialized event: ${event.name} (${event.identifier()})`);
+}
 
-  discordBot = await DiscordBot.create(config.discordToken, [GatewayIntentBits.Guilds], event)
+// Setup Discord Bot
+discordBot = await DiscordBot.create(config.discordToken, [
+  GatewayIntentBits.Guilds,
+  GatewayIntentBits.GuildMessages
+])
 
-  console.log("Event ready.")
+discordBot.setEventScheduler(async (eventConfig) => {
+  initEvent(eventConfig);
+  saveEvents();
+});
 
-  updateEventJob = new CronJob("0 */20 * * * *", doEventUpdate)
-  updateTime = updateEventJob.nextDate().toMillis()
-  updateEventJob.start()
+console.log("Bot ready and listening for commands.");
 
-  if (runUpdateOnInit) {
-    console.log("Running update on initialization.")
-    updateTime = Date.now()
-    await doEventUpdate()
+// Unified Update Job (Every 20 minutes)
+const updateJob = new CronJob("0 */20 * * * *", doAllUpdates)
+
+async function doAllUpdates() {
+  const now = Date.now();
+  console.log(`[${new Date(now).toISOString()}] Starting global update for ${activeEvents.size} events.`);
+
+  for (const [id, { event }] of activeEvents.entries()) {
+    try {
+      if (now > event.end + 3600000) { // Keep finished events for 1 hour
+        console.log(`Event ${event.name} has ended. Removing from active list.`);
+        activeEvents.delete(id);
+        saveEvents();
+        continue;
+      }
+
+      if (now >= event.start) {
+        console.log(`Updating event: ${event.name}`);
+        
+        await event.updateGuilds()
+        await event.updatePlayers()
+
+        const isStart = now <= event.start + 1200000;
+        const isEnd = now >= event.end;
+
+        await event.updateProfiles(now, isStart)
+
+        if (isStart && !event.metric) {
+           await discordBot.sendIntroEmbed(event)
+        }
+
+        await discordBot.sendLeaderboardEmbed(event)
+
+        if (isEnd) {
+          await discordBot.sendOutroEmbed(event)
+        }
+      } else {
+        console.log(`Event ${event.name} hasn't started yet (starts in ${Math.round((event.start - now)/60000)} mins)`);
+      }
+    } catch (e) {
+      console.error(`Error updating event ${event.name}:`, e);
+    }
   }
-} catch (error) {
-  console.error("Failed to initialize bot:", error);
-  process.exit(1);
+}
+
+loadEvents();
+updateJob.start();
+
+if (activeEvents.size > 0) {
+  console.log("Running initial update for active events...");
+  await doAllUpdates();
 }

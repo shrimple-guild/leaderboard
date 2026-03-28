@@ -80,7 +80,8 @@ export class GuildEvent {
     return this.metric
   }
 
-  parse(str: string) {
+  parse(str: string | null | undefined) {
+    if (!str) return "";
     return str.replaceAll("{metric}", this.metric ?? "unknown")
   }
 

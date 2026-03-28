@@ -1,5 +1,6 @@
 *.db
 config.json
+events.json
 results.png
 /node_modules
 .DS_Store
