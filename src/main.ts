@@ -81,6 +81,15 @@ discordBot.setListEventsHandler(() => {
   return Array.from(activeEvents.values()).map(e => e.event);
 });
 
+discordBot.setDeleteEventHandler(async (identifier) => {
+  const deleted = activeEvents.delete(identifier);
+  if (deleted) {
+    saveEvents();
+    return true;
+  }
+  return false;
+});
+
 console.log("Bot ready and listening for commands.");
 
 // Cron Jobs

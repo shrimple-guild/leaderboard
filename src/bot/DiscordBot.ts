@@ -35,9 +35,11 @@ import guildsConfig from "../data/guilds.json" with { type: "json" }
 export class DiscordBot {
   private currentMessages: Map<string, Message<true>> = new Map()
   private pendingEvents: Map<string, any> = new Map()
+  private pendingDeletions: Map<string, string> = new Map()
   private onEventScheduled?: (eventConfig: any) => Promise<void>
   private onSelectMenu?: (interaction: StringSelectMenuInteraction) => Promise<void>
   private onListEvents?: () => GuildEvent[]
+  private onDeleteEvent?: (identifier: string) => Promise<boolean>
 
   private constructor(private client: Client<true>) {
     this.setupInteractions()
@@ -51,6 +53,8 @@ export class DiscordBot {
             await this.handleScheduleEventCommand(interaction)
           } else if (interaction.commandName === 'listevents') {
             await this.handleListEventsCommand(interaction)
+          } else if (interaction.commandName === 'deleteevent') {
+            await this.handleDeleteEventCommand(interaction)
           }
         } else if (interaction.isModalSubmit()) {
           if (interaction.customId === 'eventModal') {
@@ -61,6 +65,10 @@ export class DiscordBot {
             await this.handleConfirmButton(interaction)
           } else if (interaction.customId === 'cancelEvent') {
             await this.handleCancelButton(interaction)
+          } else if (interaction.customId === 'confirmDelete') {
+            await this.handleConfirmDeleteButton(interaction)
+          } else if (interaction.customId === 'cancelDelete') {
+            await this.handleCancelDeleteButton(interaction)
           }
         } else if (interaction.isStringSelectMenu()) {
           if (this.onSelectMenu) {
@@ -178,12 +186,95 @@ export class DiscordBot {
       if (now >= e.end) status = "🏁 Finished"
       else if (now >= e.start) status = "🚀 Active"
       
-      return `**${e.name}**\nStatus: ${status}\nChannel: <#${e.discordChannelId}>\nStart: <t:${Math.round(e.start/1000)}:f>\nEnd: <t:${Math.round(e.end/1000)}:f>\nMetric: ${e.metric || "Pending"}`
+      return `**${e.name}**\nID: \`${e.identifier()}\`\nStatus: ${status}\nChannel: <#${e.discordChannelId}>\nStart: <t:${Math.round(e.start/1000)}:f>\nEnd: <t:${Math.round(e.end/1000)}:f>\nMetric: ${e.metric || "Pending"}`
     }).join("\n\n")
 
     embed.setDescription(eventList)
 
     await interaction.reply({ embeds: [embed], ephemeral: true })
+  }
+
+  private async handleDeleteEventCommand(interaction: ChatInputCommandInteraction) {
+    if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
+      return interaction.reply({ content: "You need Administrator permissions to use this command.", ephemeral: true })
+    }
+
+    const identifier = interaction.options.getString('identifier', true)
+    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", ephemeral: true })
+    
+    const events = this.onListEvents()
+    const event = events.find(e => e.identifier() === identifier)
+
+    if (!event) {
+      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, ephemeral: true })
+    }
+
+    this.pendingDeletions.set(interaction.user.id, identifier)
+
+    const confirmEmbed = new EmbedBuilder()
+      .setTitle("Confirm Event Deletion")
+      .setColor("Red")
+      .setDescription(`Are you sure you want to delete the following event?\n\n**${event.name}**\nID: \`${identifier}\`\nStart: <t:${Math.round(event.start/1000)}:f>`)
+      .setFooter({ text: "This action cannot be undone." })
+
+    const row = new ActionRowBuilder<ButtonBuilder>()
+      .addComponents(
+        new ButtonBuilder()
+          .setCustomId('confirmDelete')
+          .setLabel('Delete')
+          .setStyle(ButtonStyle.Danger),
+        new ButtonBuilder()
+          .setCustomId('cancelDelete')
+          .setLabel('Cancel')
+          .setStyle(ButtonStyle.Secondary)
+      )
+
+    await interaction.reply({ 
+      embeds: [confirmEmbed],
+      components: [row],
+      ephemeral: true 
+    })
+  }
+
+  private async handleConfirmDeleteButton(interaction: Interaction) {
+    if (!interaction.isButton()) return
+    
+    const identifier = this.pendingDeletions.get(interaction.user.id)
+    if (!identifier) {
+      return interaction.reply({ content: "No pending deletion request found.", ephemeral: true })
+    }
+
+    if (this.onDeleteEvent) {
+      const success = await this.onDeleteEvent(identifier)
+      this.pendingDeletions.delete(interaction.user.id)
+      
+      if (success) {
+        await interaction.update({ 
+          content: `✅ Event \`${identifier}\` has been deleted.`, 
+          embeds: [],
+          components: [] 
+        })
+      } else {
+        await interaction.update({ 
+          content: `❌ Failed to delete event \`${identifier}\`. It may have already been removed.`, 
+          embeds: [],
+          components: [] 
+        })
+      }
+    } else {
+      await interaction.reply({ content: "Error: Event deleter not initialized.", ephemeral: true })
+    }
+  }
+
+  private async handleCancelDeleteButton(interaction: Interaction) {
+    if (!interaction.isButton()) return
+    
+    this.pendingDeletions.delete(interaction.user.id)
+    await interaction.update({ 
+      content: "❌ Deletion cancelled.", 
+      embeds: [],
+      components: [] 
+    })
   }
 
   private async handleModalSubmit(interaction: ModalSubmitInteraction) {
@@ -324,6 +415,10 @@ export class DiscordBot {
     this.onListEvents = fn
   }
 
+  setDeleteEventHandler(fn: (identifier: string) => Promise<boolean>) {
+    this.onDeleteEvent = fn
+  }
+
   static async create(token: string, intents: GatewayIntentBits[]) {
     const client = new Client({ intents: intents })
     
@@ -335,7 +430,16 @@ export class DiscordBot {
       new SlashCommandBuilder()
         .setName('listevents')
         .setDescription('List all scheduled and active events')
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
+      new SlashCommandBuilder()
+        .setName('deleteevent')
+        .setDescription('Delete a scheduled or active event')
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
+        .addStringOption(option => 
+          option.setName('identifier')
+            .setDescription('The ID of the event to delete (get from /listevents)')
+            .setRequired(true)
+        )
     ].map(command => command.toJSON())
 
     const rest = new REST({ version: '10' }).setToken(token)
