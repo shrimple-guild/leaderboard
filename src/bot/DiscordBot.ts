@@ -32,6 +32,7 @@ import { Client } from "discord.js"
 import { LeaderboardPosition } from "../core/types.js"
 import eventPresets from "../data/event_presets.json" with { type: "json" }
 import guildsConfig from "../data/guilds.json" with { type: "json" }
+import crypto from "crypto"
 
 export class DiscordBot {
   private currentMessages: Map<string, Message<true>> = new Map()
@@ -203,7 +204,9 @@ export class DiscordBot {
       if (now >= e.end) status = "🏁 Finished"
       else if (now >= e.start) status = "🚀 Active"
       
-      return `**${e.name}**\nID: \`${e.identifier()}\`\nStatus: ${status}\nChannel: <#${e.discordChannelId}>\nStart: <t:${Math.round(e.start/1000)}:f>\nEnd: <t:${Math.round(e.end/1000)}:f>\nMetric: ${e.metric || "Pending"}`
+      const guildNames = e.guildIds.map((id: string) => guildsConfig.find(g => g.id === id)?.name || id).join(", ")
+      
+      return `**${e.name}**\nID: \`${e.identifier()}\`\nStatus: ${status}\nChannel: <#${e.discordChannelId}>\nStart: <t:${Math.round(e.start/1000)}:f>\nEnd: <t:${Math.round(e.end/1000)}:f>\nMetric: ${e.metric || "Pending"}\nGuilds: ${guildNames}`
     }).join("\n\n")
 
     embed.setDescription(eventList)
@@ -228,10 +231,12 @@ export class DiscordBot {
 
     this.pendingDeletions.set(interaction.user.id, identifier)
 
+    const guildNames = event.guildIds.map((id: string) => guildsConfig.find(g => g.id === id)?.name || id).join(", ")
+
     const confirmEmbed = new EmbedBuilder()
       .setTitle("Confirm Event Deletion")
       .setColor("Red")
-      .setDescription(`Are you sure you want to delete the following event?\n\n**${event.name}**\nID: \`${identifier}\`\nStart: <t:${Math.round(event.start/1000)}:f>`)
+      .setDescription(`Are you sure you want to delete the following event?\n\n**${event.name}**\nID: \`${identifier}\`\nStart: <t:${Math.round(event.start/1000)}:f>\nGuilds: ${guildNames}`)
       .setFooter({ text: "This action cannot be undone." })
 
     const row = new ActionRowBuilder<ButtonBuilder>()
@@ -582,9 +587,27 @@ export class DiscordBot {
       return interaction.reply({ content: "No pending event request found or it has expired.", flags: [MessageFlags.Ephemeral] })
     }
 
+    const guildNames = eventConfig.guildIds.map((id: string) => guildsConfig.find(g => g.id === id)?.name || id).join(", ")
+    
+    // Generate the unique identifier using the same logic as GuildEvent.identifier()
+    const identifier = crypto.createHash('md5').update(`${eventConfig.guildIds.join("_")}-${eventConfig.start}-${eventConfig.start + eventConfig.duration}`).digest('hex')
+    
+    const successEmbed = new EmbedBuilder()
+      .setTitle("Event Scheduled Successfully")
+      .setColor("Green")
+      .addFields(
+        { name: "Event", value: eventConfig.name, inline: true },
+        { name: "Management ID", value: `\`${identifier}\``, inline: true },
+        { name: "Channel", value: `<#${eventConfig.discordChannelId}>`, inline: true },
+        { name: "Starts", value: `<t:${Math.round(eventConfig.start/1000)}:F>`, inline: false },
+        { name: "Duration", value: `${eventConfig.duration / 3600000} hours`, inline: true },
+        { name: "Guilds", value: guildNames }
+      )
+      .setTimestamp()
+
     await interaction.update({ 
-      content: `✅ Event **${eventConfig.name}** scheduled successfully!\nStarts at: <t:${Math.round(eventConfig.start/1000)}:F>`, 
-      embeds: [],
+      content: "",
+      embeds: [successEmbed],
       components: [] 
     })
 
