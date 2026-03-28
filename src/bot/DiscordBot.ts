@@ -178,7 +178,7 @@ export class DiscordBot {
       if (now >= e.end) status = "🏁 Finished"
       else if (now >= e.start) status = "🚀 Active"
       
-      return `**${e.name}**\nStatus: ${status}\nStart: <t:${Math.round(e.start/1000)}:f>\nEnd: <t:${Math.round(e.end/1000)}:f>\nMetric: ${e.metric || "Pending"}`
+      return `**${e.name}**\nStatus: ${status}\nChannel: <#${e.discordChannelId}>\nStart: <t:${Math.round(e.start/1000)}:f>\nEnd: <t:${Math.round(e.end/1000)}:f>\nMetric: ${e.metric || "Pending"}`
     }).join("\n\n")
 
     embed.setDescription(eventList)
@@ -253,6 +253,7 @@ export class DiscordBot {
       .setColor("Blue")
       .addFields(
         { name: "Event", value: preset.name, inline: true },
+        { name: "Channel", value: `<#${interaction.channelId}>`, inline: true },
         { name: "Timezone", value: timezone, inline: true },
         { name: "Start Time", value: `<t:${Math.round(startTime/1000)}:F>`, inline: false },
         { name: "Duration", value: `${durationHours} hours`, inline: true },
