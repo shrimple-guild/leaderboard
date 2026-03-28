@@ -66,6 +66,7 @@ discordBot = await DiscordBot.create(config.discordToken, [
 discordBot.setEventScheduler(async (eventConfig) => {
   initEvent(eventConfig);
   saveEvents();
+  await doAllUpdates();
 });
 
 console.log("Bot ready and listening for commands.");
@@ -89,15 +90,16 @@ async function doAllUpdates() {
       if (now >= event.start) {
         console.log(`Updating event: ${event.name}`);
         
-        await event.updateGuilds()
-        await event.updatePlayers()
-
+        const isFirstUpdate = !event.metric;
         const isStart = now <= event.start + 1200000;
         const isEnd = now >= event.end;
 
+        await event.updateGuilds()
+        await event.fetchMetric()
+        await event.updatePlayers()
         await event.updateProfiles(now, isStart)
 
-        if (isStart && !event.metric) {
+        if (isStart && isFirstUpdate) {
            await discordBot.sendIntroEmbed(event)
         }
 

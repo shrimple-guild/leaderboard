@@ -362,14 +362,18 @@ export class DiscordBot {
     const eventId = event.identifier()
     const existingMsg = this.currentMessages.get(eventId)
 
-    if (tryEdit && existingMsg) {
-      await existingMsg.edit(message).catch(async () => {
+    if (tryEdit) {
+      if (existingMsg) {
+        await existingMsg.edit(message).catch(async () => {
+          const ret = await channel.send(message).catch(console.error)
+          if (ret) this.currentMessages.set(eventId, ret)
+        })
+      } else {
         const ret = await channel.send(message).catch(console.error)
         if (ret) this.currentMessages.set(eventId, ret)
-      })
+      }
     } else {
-      const ret = await channel.send(message).catch(console.error)
-      if (ret) this.currentMessages.set(eventId, ret)
+      await channel.send(message).catch(console.error)
     }
     
     const pingMessage = event.pingRoleIds.map(id => `<@&${id}>`).join("")
