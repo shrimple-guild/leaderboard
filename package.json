@@ -10,10 +10,10 @@
     "node": "24.14.1"
   },
   "scripts": {
-    "start": "tsx ./main.ts",
-    "test": "tsx ./test.ts",
-    "update-metric": "tsx ./update_derived_metric.ts",
-    "delete-player": "tsx ./delete_player.ts"
+    "start": "tsx src/main.ts",
+    "test": "tsx src/test.ts",
+    "update-metric": "tsx src/scripts/update_derived_metric.ts",
+    "delete-player": "tsx src/scripts/delete_player.ts"
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.97",

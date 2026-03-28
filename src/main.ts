@@ -1,13 +1,13 @@
-import { Database } from "./database.js"
-import { API } from "./API.js"
-import { Leaderboard } from "./Leaderboard.js"
+import { Database } from "./db/database.js"
+import { API } from "./api/API.js"
+import { Leaderboard } from "./core/Leaderboard.js"
 import { CronJob } from "cron"
-import { GuildEvent } from "./GuildEvent.js"
-import { DiscordBot } from "./DiscordBot.js"
+import { GuildEvent } from "./core/GuildEvent.js"
+import { DiscordBot } from "./bot/DiscordBot.js"
 import { GatewayIntentBits } from "discord.js"
-import metrics from "./metrics.json" with { type: "json" }
-import config from "./config.json" with { type: "json" }
-import eventConfig from "./event.json" with { type: "json" }
+import metrics from "../metrics.json" with { type: "json" }
+import config from "../config.json" with { type: "json" }
+import eventConfig from "../event.json" with { type: "json" }
 
 let api: API;
 let database: Database;

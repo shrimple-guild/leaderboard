@@ -1,7 +1,7 @@
-import { GuildEvent } from "./GuildEvent.js"
+import { GuildEvent } from "../core/GuildEvent.js"
 import { createCanvas } from "@napi-rs/canvas"
 import Chart from "chart.js/auto"
-import { LeaderboardPosition } from "./types.js"
+import { LeaderboardPosition } from "../core/types.js"
 
 function getColorFromIndex(index: number): string {
   if (index == 0) {

@@ -1,6 +1,6 @@
 import { DatabaseSync } from "node:sqlite"
 import { copyFileSync } from "node:fs"
-import { LeaderboardPosition, LeaderboardPositionWithoutRank, Metric, Profile, Timeseries } from "./types"
+import { LeaderboardPosition, LeaderboardPositionWithoutRank, Metric, Profile, Timeseries } from "../core/types.js"
 
 export class Database {
   private db: DatabaseSync

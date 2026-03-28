@@ -1,12 +1,12 @@
-import { Database } from "./database.js"
-import { API } from "./API.js"
-import { Leaderboard } from "./Leaderboard.js"
-import { GuildEvent } from "./GuildEvent.js"
-import { DiscordBot } from "./DiscordBot.js"
-import metrics from "./metrics.json" assert { type: "json" }
-import config from "./config.json" assert { type: "json" }
-import eventConfig from "./event.json" assert { type: "json" }
-import { getBestiary, getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./bestiary.js"
+import { Database } from "./db/database.js"
+import { API } from "./api/API.js"
+import { Leaderboard } from "./core/Leaderboard.js"
+import { GuildEvent } from "./core/GuildEvent.js"
+import { DiscordBot } from "./bot/DiscordBot.js"
+import metrics from "../metrics.json" with { type: "json" }
+import config from "../config.json" with { type: "json" }
+import eventConfig from "../event.json" with { type: "json" }
+import { getBestiaryTiers, getMythologicalKills, getRareSeaCreatureScore } from "./api/bestiary.js"
 
 const api = new API(config.apiKey, metrics)
 const database = new Database(":memory:", metrics)

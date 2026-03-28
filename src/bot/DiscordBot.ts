@@ -1,5 +1,5 @@
-import { GuildEvent } from "GuildEvent"
-import { generateLeaderboardPlot } from "./chart.js"
+import { GuildEvent } from "../core/GuildEvent.js"
+import { generateLeaderboardPlot } from "../utils/chart.js"
 import {
   ActionRowBuilder,
   AttachmentBuilder,
@@ -15,7 +15,7 @@ import {
   StringSelectMenuOptionBuilder,
 } from "discord.js"
 import { Client } from "discord.js"
-import { LeaderboardPosition } from "types.js"
+import { LeaderboardPosition } from "../core/types.js"
 
 export class DiscordBot {
   currentMessage?: Message<true>

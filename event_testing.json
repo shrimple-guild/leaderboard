@@ -10,7 +10,7 @@
   "author": "Marina",
   "icon": "marina.png",
   "start": 1774704840000,
-  "duration": 600000,
+  "duration": 600000000,
   "metric": "Trophy Fish Weight",
   "related": [
     "Golden Fish",

@@ -1,6 +1,6 @@
-import { Database } from "./database.js"
-import { API } from "./API.js"
-import { LeaderboardPosition } from "types.js"
+import { Database } from "../db/database.js"
+import { API } from "../api/API.js"
+import { LeaderboardPosition } from "./types.js"
 
 export class Leaderboard {
   constructor(private api: API, private db: Database) {}

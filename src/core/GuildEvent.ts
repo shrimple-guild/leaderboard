@@ -1,5 +1,5 @@
-import { Leaderboard } from "Leaderboard.js"
-import { pickRandom } from "./random.js"
+import { Leaderboard } from "./Leaderboard.js"
+import { pickRandom } from "../utils/random.js"
 import { AttachmentBuilder } from "discord.js"
 import crypto from "crypto";
 

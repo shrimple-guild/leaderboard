@@ -1,6 +1,6 @@
-import { Database } from "./database.js"
-import metrics from "./metrics.json" with { type: "json" }
-import eventConfig from "./event.json" with { type: "json" }
+import { Database } from "../db/database.js"
+import metrics from "../../metrics.json" with { type: "json" }
+import eventConfig from "../../event.json" with { type: "json" }
 
 const dbFileName = `${eventConfig.guildIds.join("_")}-${eventConfig.start}_${eventConfig.start + eventConfig.duration}`
 const dbName = `./lb_${dbFileName}.db`
