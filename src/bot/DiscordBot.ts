@@ -37,6 +37,7 @@ export class DiscordBot {
   private pendingEvents: Map<string, any> = new Map()
   private onEventScheduled?: (eventConfig: any) => Promise<void>
   private onSelectMenu?: (interaction: StringSelectMenuInteraction) => Promise<void>
+  private onListEvents?: () => GuildEvent[]
 
   private constructor(private client: Client<true>) {
     this.setupInteractions()
@@ -47,7 +48,9 @@ export class DiscordBot {
       try {
         if (interaction.isChatInputCommand()) {
           if (interaction.commandName === 'scheduleevent') {
-            await this.handleStartEventCommand(interaction)
+            await this.handleScheduleEventCommand(interaction)
+          } else if (interaction.commandName === 'listevents') {
+            await this.handleListEventsCommand(interaction)
           }
         } else if (interaction.isModalSubmit()) {
           if (interaction.customId === 'eventModal') {
@@ -70,7 +73,7 @@ export class DiscordBot {
     })
   }
 
-  private async handleStartEventCommand(interaction: ChatInputCommandInteraction) {
+  private async handleScheduleEventCommand(interaction: ChatInputCommandInteraction) {
     if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
       return interaction.reply({ content: "You need Administrator permissions to use this command.", ephemeral: true })
     }
@@ -147,6 +150,40 @@ export class DiscordBot {
     modal.addLabelComponents(presetLabel, startLabel, timezoneLabel, durationLabel, guildLabel)
 
     await interaction.showModal(modal)
+  }
+
+  private async handleListEventsCommand(interaction: ChatInputCommandInteraction) {
+    if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
+      return interaction.reply({ content: "You need Administrator permissions to use this command.", ephemeral: true })
+    }
+
+    if (!this.onListEvents) {
+      return interaction.reply({ content: "Event lister not initialized.", ephemeral: true })
+    }
+
+    const events = this.onListEvents()
+    if (events.length === 0) {
+      return interaction.reply({ content: "No events currently scheduled or active.", ephemeral: true })
+    }
+
+    const embed = new EmbedBuilder()
+      .setTitle("Guild Events List")
+      .setColor("Blue")
+      .setTimestamp()
+
+    const now = Date.now()
+    
+    const eventList = events.map(e => {
+      let status = "📅 Queued"
+      if (now >= e.end) status = "🏁 Finished"
+      else if (now >= e.start) status = "🚀 Active"
+      
+      return `**${e.name}**\nStatus: ${status}\nStart: <t:${Math.round(e.start/1000)}:f>\nEnd: <t:${Math.round(e.end/1000)}:f>\nMetric: ${e.metric || "Pending"}`
+    }).join("\n\n")
+
+    embed.setDescription(eventList)
+
+    await interaction.reply({ embeds: [embed], ephemeral: true })
   }
 
   private async handleModalSubmit(interaction: ModalSubmitInteraction) {
@@ -282,6 +319,10 @@ export class DiscordBot {
     this.onSelectMenu = fn
   }
 
+  setListEventsHandler(fn: () => GuildEvent[]) {
+    this.onListEvents = fn
+  }
+
   static async create(token: string, intents: GatewayIntentBits[]) {
     const client = new Client({ intents: intents })
     
@@ -289,6 +330,10 @@ export class DiscordBot {
       new SlashCommandBuilder()
         .setName('scheduleevent')
         .setDescription('Schedule a new guild event')
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
+      new SlashCommandBuilder()
+        .setName('listevents')
+        .setDescription('List all scheduled and active events')
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
     ].map(command => command.toJSON())
 

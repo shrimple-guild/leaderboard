@@ -77,6 +77,10 @@ discordBot.setSelectMenuHandler(async (interaction) => {
   }
 });
 
+discordBot.setListEventsHandler(() => {
+  return Array.from(activeEvents.values()).map(e => e.event);
+});
+
 console.log("Bot ready and listening for commands.");
 
 // Cron Jobs
