@@ -90,6 +90,16 @@ discordBot.setDeleteEventHandler(async (identifier) => {
   return false;
 });
 
+discordBot.setForceStartEventHandler(async (identifier) => {
+  const eventData = activeEvents.get(identifier);
+  if (eventData && !eventData.event.hasStarted) {
+    eventData.event.start = Date.now();
+    saveEvents();
+    return true;
+  }
+  return false;
+});
+
 console.log("Bot ready and listening for commands.");
 
 // Cron Jobs

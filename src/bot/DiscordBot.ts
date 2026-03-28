@@ -36,10 +36,12 @@ export class DiscordBot {
   private currentMessages: Map<string, Message<true>> = new Map()
   private pendingEvents: Map<string, any> = new Map()
   private pendingDeletions: Map<string, string> = new Map()
+  private pendingForceStarts: Map<string, string> = new Map()
   private onEventScheduled?: (eventConfig: any) => Promise<void>
   private onSelectMenu?: (interaction: StringSelectMenuInteraction) => Promise<void>
   private onListEvents?: () => GuildEvent[]
   private onDeleteEvent?: (identifier: string) => Promise<boolean>
+  private onForceStartEvent?: (identifier: string) => Promise<boolean>
 
   private constructor(private client: Client<true>) {
     this.setupInteractions()
@@ -55,6 +57,8 @@ export class DiscordBot {
             await this.handleListEventsCommand(interaction)
           } else if (interaction.commandName === 'deleteevent') {
             await this.handleDeleteEventCommand(interaction)
+          } else if (interaction.commandName === 'forcestartevent') {
+            await this.handleForceStartEventCommand(interaction)
           }
         } else if (interaction.isModalSubmit()) {
           if (interaction.customId === 'eventModal') {
@@ -69,6 +73,10 @@ export class DiscordBot {
             await this.handleConfirmDeleteButton(interaction)
           } else if (interaction.customId === 'cancelDelete') {
             await this.handleCancelDeleteButton(interaction)
+          } else if (interaction.customId === 'confirmForceStart') {
+            await this.handleConfirmForceStartButton(interaction)
+          } else if (interaction.customId === 'cancelForceStart') {
+            await this.handleCancelForceStartButton(interaction)
           }
         } else if (interaction.isStringSelectMenu()) {
           if (this.onSelectMenu) {
@@ -277,6 +285,93 @@ export class DiscordBot {
     })
   }
 
+  private async handleForceStartEventCommand(interaction: ChatInputCommandInteraction) {
+    if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
+      return interaction.reply({ content: "You need Administrator permissions to use this command.", ephemeral: true })
+    }
+
+    const identifier = interaction.options.getString('identifier', true)
+    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", ephemeral: true })
+    
+    const events = this.onListEvents()
+    const event = events.find(e => e.identifier() === identifier)
+
+    if (!event) {
+      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, ephemeral: true })
+    }
+
+    if (event.hasStarted) {
+      return interaction.reply({ content: `Event \`${event.name}\` has already started.`, ephemeral: true })
+    }
+
+    this.pendingForceStarts.set(interaction.user.id, identifier)
+
+    const confirmEmbed = new EmbedBuilder()
+      .setTitle("Confirm Force Start")
+      .setColor("Orange")
+      .setDescription(`Are you sure you want to start the following event **IMMEDIATELY**?\n\n**${event.name}**\nID: \`${identifier}\`\nOriginal Start: <t:${Math.round(event.start/1000)}:f>`)
+      .setFooter({ text: "The event will start as soon as you confirm." })
+
+    const row = new ActionRowBuilder<ButtonBuilder>()
+      .addComponents(
+        new ButtonBuilder()
+          .setCustomId('confirmForceStart')
+          .setLabel('Force Start')
+          .setStyle(ButtonStyle.Success),
+        new ButtonBuilder()
+          .setCustomId('cancelForceStart')
+          .setLabel('Cancel')
+          .setStyle(ButtonStyle.Secondary)
+      )
+
+    await interaction.reply({ 
+      embeds: [confirmEmbed],
+      components: [row],
+      ephemeral: true 
+    })
+  }
+
+  private async handleConfirmForceStartButton(interaction: Interaction) {
+    if (!interaction.isButton()) return
+    
+    const identifier = this.pendingForceStarts.get(interaction.user.id)
+    if (!identifier) {
+      return interaction.reply({ content: "No pending force-start request found.", ephemeral: true })
+    }
+
+    if (this.onForceStartEvent) {
+      const success = await this.onForceStartEvent(identifier)
+      this.pendingForceStarts.delete(interaction.user.id)
+      
+      if (success) {
+        await interaction.update({ 
+          content: `🚀 Event \`${identifier}\` is starting now!`, 
+          embeds: [],
+          components: [] 
+        })
+      } else {
+        await interaction.update({ 
+          content: `❌ Failed to force-start event \`${identifier}\`. It may have already started or been removed.`, 
+          embeds: [],
+          components: [] 
+        })
+      }
+    } else {
+      await interaction.reply({ content: "Error: Event starter not initialized.", ephemeral: true })
+    }
+  }
+
+  private async handleCancelForceStartButton(interaction: Interaction) {
+    if (!interaction.isButton()) return
+    
+    this.pendingForceStarts.delete(interaction.user.id)
+    await interaction.update({ 
+      content: "❌ Force start cancelled.", 
+      embeds: [],
+      components: [] 
+    })
+  }
+
   private async handleModalSubmit(interaction: ModalSubmitInteraction) {
     // Cast to any to bypass the missing TypeScript definitions for the new components
     const fields = interaction.fields as any
@@ -419,6 +514,10 @@ export class DiscordBot {
     this.onDeleteEvent = fn
   }
 
+  setForceStartEventHandler(fn: (identifier: string) => Promise<boolean>) {
+    this.onForceStartEvent = fn
+  }
+
   static async create(token: string, intents: GatewayIntentBits[]) {
     const client = new Client({ intents: intents })
     
@@ -438,6 +537,15 @@ export class DiscordBot {
         .addStringOption(option => 
           option.setName('identifier')
             .setDescription('The ID of the event to delete (get from /listevents)')
+            .setRequired(true)
+        ),
+      new SlashCommandBuilder()
+        .setName('forcestartevent')
+        .setDescription('Force an event to start immediately')
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
+        .addStringOption(option => 
+          option.setName('identifier')
+            .setDescription('The ID of the event to force start')
             .setRequired(true)
         )
     ].map(command => command.toJSON())
