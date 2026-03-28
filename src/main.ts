@@ -101,6 +101,21 @@ discordBot.setForceStartEventHandler(async (identifier) => {
   return false;
 });
 
+discordBot.setModifyDurationHandler(async (identifier, action, hours) => {
+  const eventData = activeEvents.get(identifier);
+  if (eventData) {
+    const ms = hours * 3600000;
+    if (action === 'extend') {
+      eventData.event.duration += ms;
+    } else {
+      eventData.event.duration = Math.max(3600000, eventData.event.duration - ms); // Minimum 1h
+    }
+    saveEvents();
+    return true;
+  }
+  return false;
+});
+
 console.log("Bot ready and listening for commands.");
 
 // Cron Jobs
@@ -112,8 +127,8 @@ async function checkEventStatus() {
   const now = Date.now();
   for (const [id, { event }] of activeEvents.entries()) {
     try {
-      if (now > event.end + 3600000) {
-        console.log(`Event ${event.name} has ended 1h ago. Removing.`);
+      if (now > event.end + 86400000) {
+        console.log(`Event ${event.name} has ended 24h ago. Removing.`);
         activeEvents.delete(id);
         saveEvents();
         continue;
@@ -146,7 +161,7 @@ async function doAllUpdates() {
     for (const [id, { event }] of activeEvents.entries()) {
       try {
         // Skip if cleanup time or already concluded
-        if (now > event.end + 3600000 || (now >= event.end && event.outroSent)) continue;
+        if (now > event.end + 86400000 || (now >= event.end && event.outroSent)) continue;
 
         if (now >= event.start) {
           console.log(`Updating event: ${event.name}`);

@@ -37,11 +37,13 @@ export class DiscordBot {
   private pendingEvents: Map<string, any> = new Map()
   private pendingDeletions: Map<string, string> = new Map()
   private pendingForceStarts: Map<string, string> = new Map()
+  private pendingDurationModifications: Map<string, { identifier: string, action: 'extend' | 'reduce', hours: number }> = new Map()
   private onEventScheduled?: (eventConfig: any) => Promise<void>
   private onSelectMenu?: (interaction: StringSelectMenuInteraction) => Promise<void>
   private onListEvents?: () => GuildEvent[]
   private onDeleteEvent?: (identifier: string) => Promise<boolean>
   private onForceStartEvent?: (identifier: string) => Promise<boolean>
+  private onModifyDuration?: (identifier: string, action: 'extend' | 'reduce', hours: number) => Promise<boolean>
 
   private constructor(private client: Client<true>) {
     this.setupInteractions()
@@ -59,6 +61,8 @@ export class DiscordBot {
             await this.handleDeleteEventCommand(interaction)
           } else if (interaction.commandName === 'forcestartevent') {
             await this.handleForceStartEventCommand(interaction)
+          } else if (interaction.commandName === 'modifyeventduration') {
+            await this.handleModifyDurationCommand(interaction)
           }
         } else if (interaction.isModalSubmit()) {
           if (interaction.customId === 'eventModal') {
@@ -77,6 +81,10 @@ export class DiscordBot {
             await this.handleConfirmForceStartButton(interaction)
           } else if (interaction.customId === 'cancelForceStart') {
             await this.handleCancelForceStartButton(interaction)
+          } else if (interaction.customId === 'confirmModifyDuration') {
+            await this.handleConfirmModifyDurationButton(interaction)
+          } else if (interaction.customId === 'cancelModifyDuration') {
+            await this.handleCancelModifyDurationButton(interaction)
           }
         } else if (interaction.isStringSelectMenu()) {
           if (this.onSelectMenu) {
@@ -372,6 +380,105 @@ export class DiscordBot {
     })
   }
 
+  private async handleModifyDurationCommand(interaction: ChatInputCommandInteraction) {
+    if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
+      return interaction.reply({ content: "You need Administrator permissions to use this command.", ephemeral: true })
+    }
+
+    const identifier = interaction.options.getString('identifier', true)
+    const action = interaction.options.getString('action', true) as 'extend' | 'reduce'
+    const hours = interaction.options.getNumber('hours', true)
+
+    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", ephemeral: true })
+    
+    const events = this.onListEvents()
+    const event = events.find(e => e.identifier() === identifier)
+
+    if (!event) {
+      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, ephemeral: true })
+    }
+
+    const currentDurationHours = event.duration / 3600000
+    const newDurationHours = action === 'extend' ? currentDurationHours + hours : currentDurationHours - hours
+
+    if (newDurationHours <= 0) {
+      return interaction.reply({ content: "Resulting duration must be greater than 0.", ephemeral: true })
+    }
+
+    const newEnd = event.start + (newDurationHours * 3600000)
+
+    this.pendingDurationModifications.set(interaction.user.id, { identifier, action, hours })
+
+    const confirmEmbed = new EmbedBuilder()
+      .setTitle("Confirm Duration Modification")
+      .setColor("Yellow")
+      .setDescription(`Modify duration for **${event.name}**?\n\n` +
+        `**Current Duration:** ${currentDurationHours}h\n` +
+        `**Action:** ${action === 'extend' ? "Extend by" : "Reduce by"} ${hours}h\n` +
+        `**New Duration:** ${newDurationHours}h\n` +
+        `**New End Time:** <t:${Math.round(newEnd/1000)}:f>`)
+      .setFooter({ text: "Please confirm this change." })
+
+    const row = new ActionRowBuilder<ButtonBuilder>()
+      .addComponents(
+        new ButtonBuilder()
+          .setCustomId('confirmModifyDuration')
+          .setLabel('Confirm')
+          .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+          .setCustomId('cancelModifyDuration')
+          .setLabel('Cancel')
+          .setStyle(ButtonStyle.Secondary)
+      )
+
+    await interaction.reply({ 
+      embeds: [confirmEmbed],
+      components: [row],
+      ephemeral: true 
+    })
+  }
+
+  private async handleConfirmModifyDurationButton(interaction: Interaction) {
+    if (!interaction.isButton()) return
+    
+    const config = this.pendingDurationModifications.get(interaction.user.id)
+    if (!config) {
+      return interaction.reply({ content: "No pending duration modification found.", ephemeral: true })
+    }
+
+    if (this.onModifyDuration) {
+      const success = await this.onModifyDuration(config.identifier, config.action, config.hours)
+      this.pendingDurationModifications.delete(interaction.user.id)
+      
+      if (success) {
+        await interaction.update({ 
+          content: `✅ Duration for event \`${config.identifier}\` updated successfully.`, 
+          embeds: [],
+          components: [] 
+        })
+      } else {
+        await interaction.update({ 
+          content: `❌ Failed to update duration. The event may have been removed.`, 
+          embeds: [],
+          components: [] 
+        })
+      }
+    } else {
+      await interaction.reply({ content: "Error: Duration modifier not initialized.", ephemeral: true })
+    }
+  }
+
+  private async handleCancelModifyDurationButton(interaction: Interaction) {
+    if (!interaction.isButton()) return
+    
+    this.pendingDurationModifications.delete(interaction.user.id)
+    await interaction.update({ 
+      content: "❌ Modification cancelled.", 
+      embeds: [],
+      components: [] 
+    })
+  }
+
   private async handleModalSubmit(interaction: ModalSubmitInteraction) {
     // Cast to any to bypass the missing TypeScript definitions for the new components
     const fields = interaction.fields as any
@@ -518,6 +625,10 @@ export class DiscordBot {
     this.onForceStartEvent = fn
   }
 
+  setModifyDurationHandler(fn: (identifier: string, action: 'extend' | 'reduce', hours: number) => Promise<boolean>) {
+    this.onModifyDuration = fn
+  }
+
   static async create(token: string, intents: GatewayIntentBits[]) {
     const client = new Client({ intents: intents })
     
@@ -547,6 +658,30 @@ export class DiscordBot {
           option.setName('identifier')
             .setDescription('The ID of the event to force start')
             .setRequired(true)
+        ),
+      new SlashCommandBuilder()
+        .setName('modifyeventduration')
+        .setDescription('Extend or reduce the duration of an event')
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
+        .addStringOption(option => 
+          option.setName('identifier')
+            .setDescription('The ID of the event to modify')
+            .setRequired(true)
+        )
+        .addStringOption(option => 
+          option.setName('action')
+            .setDescription('Whether to extend or reduce the duration')
+            .setRequired(true)
+            .addChoices(
+              { name: 'Extend', value: 'extend' },
+              { name: 'Reduce', value: 'reduce' }
+            )
+        )
+        .addNumberOption(option => 
+          option.setName('hours')
+            .setDescription('Number of hours to add or remove')
+            .setRequired(true)
+            .setMinValue(0.1)
         )
     ].map(command => command.toJSON())
 
