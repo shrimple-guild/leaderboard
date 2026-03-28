@@ -299,11 +299,6 @@ export class DiscordBot {
       client.once(Events.ClientReady, async client => {
         try {
           console.log(`Bot logged in as ${client.user.tag}`)
-          
-          // Clear global commands
-          await rest.put(Routes.applicationCommands(client.user.id), { body: [] })
-          console.log("Successfully cleared global commands.")
-
           const guilds = await client.guilds.fetch()
           for (const [guildId] of guilds) {
             await rest.put(Routes.applicationGuildCommands(client.user.id, guildId), { body: commands })
