@@ -1,4 +1,4 @@
-import Database from "better-sqlite3"
+import { DatabaseSync } from "node:sqlite"
 
 interface ProfileData {
   id: number
@@ -9,7 +9,7 @@ interface ProfileData {
   value: number
 }
 
-const db = new Database("lb_63d0278d8ea8c999a1004ef9_651316cd8ea8c9e6a31fbccb-1707606000000_1707692400000.db")
+const db = new DatabaseSync("lb_63d0278d8ea8c999a1004ef9_651316cd8ea8c9e6a31fbccb-1707606000000_1707692400000.db")
 
 const res = db
   .prepare(

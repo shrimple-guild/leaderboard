@@ -1,6 +1,6 @@
-import Database from "better-sqlite3"
+import { DatabaseSync } from "node:sqlite"
 
-const database = new Database("./main.db")
+const database = new DatabaseSync("./main.db")
 
 database.exec(`
 DELETE FROM ProfileData

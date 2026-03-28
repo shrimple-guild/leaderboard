@@ -1,7 +1,7 @@
-import { GuildEvent } from "GuildEvent"
-import { createCanvas } from "canvas"
+import { GuildEvent } from "./GuildEvent.js"
+import { createCanvas } from "@napi-rs/canvas"
 import Chart from "chart.js/auto"
-import { LeaderboardPosition } from "types"
+import { LeaderboardPosition } from "./types.js"
 
 function getColorFromIndex(index: number): string {
   if (index == 0) {
@@ -89,11 +89,6 @@ export function generateLeaderboardPlot(
       },
     },
   })
-  return canvas.toBuffer("image/png", {
-    compressionLevel: 6,
-    filters: canvas.PNG_ALL_FILTERS,
-    palette: undefined,
-    backgroundIndex: 0,
-    resolution: 600,
-  })
+  return canvas.toBuffer("image/png")
 }
+

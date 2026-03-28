@@ -1,11 +1,14 @@
-import Sql from "better-sqlite3"
+import { DatabaseSync } from "node:sqlite"
+import { copyFileSync } from "node:fs"
 import { LeaderboardPosition, LeaderboardPositionWithoutRank, Metric, Profile, Timeseries } from "./types"
 
 export class Database {
-  private db: Sql.Database
+  private db: DatabaseSync
+  private dbPath: string
 
   constructor(path: string, metrics: Metric[]) {
-    this.db = new Sql(path)
+    this.dbPath = path
+    this.db = new DatabaseSync(path)
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS Players (
         id TEXT PRIMARY KEY,
@@ -47,7 +50,7 @@ export class Database {
   }
 
   backup(path: string) {
-    this.db.backup(path)
+    copyFileSync(this.dbPath, path)
   }
 
   getLeaderboard(guildId: string, metric: string, start?: number, end?: number): LeaderboardPositionWithoutRank[] {
@@ -73,10 +76,10 @@ export class Database {
     `)
     return stmt.all({
       metric: metric,
-      start: start,
+      start: start ?? null,
       end: end ?? Date.now(),
       guildId: guildId,
-    }) as LeaderboardPosition[]
+    }) as any[]
   }
 
   deletePlayer(username: string) {
@@ -107,9 +110,9 @@ export class Database {
       username: username,
       cuteName: cuteName,
       metric: metric,
-      start: start,
-      end: end,
-    }) as Timeseries[]
+      start: start ?? null,
+      end: end ?? null,
+    }) as any[]
   }
 
   getGuildMembers(guildId: string): string[] {
@@ -123,10 +126,15 @@ export class Database {
       INSERT INTO Players (id, guildId) VALUES (:id, :guildId) 
       ON CONFLICT (id) DO UPDATE SET guildId = excluded.guildId
     `)
-    this.db.transaction(() => {
+    this.db.exec("BEGIN")
+    try {
       clearGuildMembers.run(guildId)
       members.forEach(member => insertGuildMember.run({ id: member, guildId: guildId }))
-    })()
+      this.db.exec("COMMIT")
+    } catch (e) {
+      this.db.exec("ROLLBACK")
+      throw e
+    }
   }
 
   setUsername(uuid: string, name: string) {
@@ -152,24 +160,25 @@ export class Database {
       AND hypixelProfileId = :hypixelProfileId 
       AND Metrics.name = :metricName
     `)
+    this.db.exec("BEGIN")
     try {
-      this.db.transaction(() => {
-        insertProfileStmt.run({
+      insertProfileStmt.run({
+        playerId: profile.playerId,
+        hypixelProfileId: profile.profileId,
+        cuteName: profile.cuteName,
+      })
+      profile.metrics.forEach(({ metric, value }) => {
+        insertDataStmt.run({
           playerId: profile.playerId,
           hypixelProfileId: profile.profileId,
-          cuteName: profile.cuteName,
+          timestamp: timestamp,
+          metricName: metric,
+          value: value ?? null,
         })
-        profile.metrics.forEach(({ metric, value }) => {
-          insertDataStmt.run({
-            playerId: profile.playerId,
-            hypixelProfileId: profile.profileId,
-            timestamp: timestamp,
-            metricName: metric,
-            value: value,
-          })
-        })
-      })()
+      })
+      this.db.exec("COMMIT")
     } catch (e) {
+      this.db.exec("ROLLBACK")
       console.error(e)
       throw e
     }
@@ -180,7 +189,14 @@ export class Database {
       INSERT INTO Metrics (name, counter) VALUES (:name, :counter) 
       ON CONFLICT (name) DO UPDATE SET counter = excluded.counter
     `)
-    metrics.forEach(metric => insertMetricStmt.run(metric))
+    this.db.exec("BEGIN")
+    try {
+      metrics.forEach(metric => insertMetricStmt.run({ name: metric.name, counter: metric.counter }))
+      this.db.exec("COMMIT")
+    } catch (e) {
+      this.db.exec("ROLLBACK")
+      throw e
+    }
   }
 
   insertProfileBackup(profileId: string, isStart: boolean, backupData: string) {
@@ -199,4 +215,6 @@ export class Database {
       console.error(`Error while saving backup for profileId ${profileId}: ${e}`)
     }
   }
+
 }
+

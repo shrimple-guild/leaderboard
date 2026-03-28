@@ -1,6 +1,6 @@
-import Database from "better-sqlite3"
+import { DatabaseSync } from "node:sqlite"
 
-const db = new Database("farming_BACKUP2.db")
+const db = new DatabaseSync("farming_BACKUP2.db")
 
 db.exec(`
 CREATE TEMPORARY TABLE ProfileDataPivot AS 
@@ -42,7 +42,7 @@ FROM ProfileDataPivot
 ORDER BY profileId ASC, timestamp ASC
 `
   )
-  .all() as Row[]
+  .all() as any[]
 
 type GroupedElements<T> = {
   [key: string]: T[]

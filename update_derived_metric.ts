@@ -1,5 +1,5 @@
-import Database from "better-sqlite3"
-import { existsSync } from "fs"
+import { DatabaseSync } from "node:sqlite"
+import { existsSync, copyFileSync } from "fs"
 
 const dbName = "lb_63d0278d8ea8c999a1004ef9_651316cd8ea8c9e6a31fbccb-1756797300000_1757243700000.db"
 
@@ -10,8 +10,8 @@ if (existsSync(backupName)) {
   process.exit(1)
 }
 
-const db = new Database(dbName)
-await db.backup(backupName)
+copyFileSync(dbName, backupName)
+const db = new DatabaseSync(dbName)
 
 db.exec(`
 CREATE TEMPORARY TABLE ProfileDataPivot AS 
@@ -80,6 +80,6 @@ GROUP BY playerId
 ORDER BY value DESC
 `)
 
-const rows = res.all({ metric: "Derpy Weight" })
+const rows = res.all({ ':metric': "Derpy Weight" })
 
 console.log(rows)
