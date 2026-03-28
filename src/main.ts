@@ -70,6 +70,14 @@ discordBot.setEventScheduler(async (eventConfig) => {
   await doAllUpdates();
 });
 
+discordBot.setSelectMenuHandler(async (interaction) => {
+  const identifier = interaction.customId.split('_')[1];
+  const eventData = activeEvents.get(identifier);
+  if (eventData) {
+    await discordBot.handleSelectMenu(interaction, eventData.event);
+  }
+});
+
 console.log("Bot ready and listening for commands.");
 
 // Cron Jobs

@@ -36,6 +36,7 @@ export class DiscordBot {
   private currentMessages: Map<string, Message<true>> = new Map()
   private pendingEvents: Map<string, any> = new Map()
   private onEventScheduled?: (eventConfig: any) => Promise<void>
+  private onSelectMenu?: (interaction: StringSelectMenuInteraction) => Promise<void>
 
   private constructor(private client: Client<true>) {
     this.setupInteractions()
@@ -57,6 +58,10 @@ export class DiscordBot {
             await this.handleConfirmButton(interaction)
           } else if (interaction.customId === 'cancelEvent') {
             await this.handleCancelButton(interaction)
+          }
+        } else if (interaction.isStringSelectMenu()) {
+          if (this.onSelectMenu) {
+            await this.onSelectMenu(interaction)
           }
         }
       } catch (e) {
@@ -274,6 +279,10 @@ export class DiscordBot {
     this.onEventScheduled = fn
   }
 
+  setSelectMenuHandler(fn: (interaction: StringSelectMenuInteraction) => Promise<void>) {
+    this.onSelectMenu = fn
+  }
+
   static async create(token: string, intents: GatewayIntentBits[]) {
     const client = new Client({ intents: intents })
     
@@ -442,7 +451,7 @@ export class DiscordBot {
 
   async handleSelectMenu(interaction: StringSelectMenuInteraction, event: GuildEvent) {
     if (interaction.customId !== `leaderboardSelector_${event.identifier()}`) return
-    await interaction.deferUpdate() // DeferUpdate is better here to prevent visual loading issues
+    await interaction.deferReply({ ephemeral: true })
     const metric = interaction.values[0]
     const data = await this.getLeaderboardEmbed(event, metric).catch(console.error)
     if (!data) return
