@@ -25,7 +25,8 @@ import {
   ModalSubmitInteraction,
   StringSelectMenuInteraction,
   ButtonBuilder,
-  ButtonStyle
+  ButtonStyle,
+  MessageFlags
 } from "discord.js"
 import { Client } from "discord.js"
 import { LeaderboardPosition } from "../core/types.js"
@@ -99,7 +100,7 @@ export class DiscordBot {
 
   private async handleScheduleEventCommand(interaction: ChatInputCommandInteraction) {
     if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply({ content: "You need Administrator permissions to use this command.", ephemeral: true })
+      return interaction.reply({ content: "You need Administrator permissions to use this command.", flags: [MessageFlags.Ephemeral] })
     }
 
     const modal = new ModalBuilder()
@@ -178,16 +179,16 @@ export class DiscordBot {
 
   private async handleListEventsCommand(interaction: ChatInputCommandInteraction) {
     if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply({ content: "You need Administrator permissions to use this command.", ephemeral: true })
+      return interaction.reply({ content: "You need Administrator permissions to use this command.", flags: [MessageFlags.Ephemeral] })
     }
 
     if (!this.onListEvents) {
-      return interaction.reply({ content: "Event lister not initialized.", ephemeral: true })
+      return interaction.reply({ content: "Event lister not initialized.", flags: [MessageFlags.Ephemeral] })
     }
 
     const events = this.onListEvents()
     if (events.length === 0) {
-      return interaction.reply({ content: "No events currently scheduled or active.", ephemeral: true })
+      return interaction.reply({ content: "No events currently scheduled or active.", flags: [MessageFlags.Ephemeral] })
     }
 
     const embed = new EmbedBuilder()
@@ -207,22 +208,22 @@ export class DiscordBot {
 
     embed.setDescription(eventList)
 
-    await interaction.reply({ embeds: [embed], ephemeral: true })
+    await interaction.reply({ embeds: [embed], flags: [MessageFlags.Ephemeral] })
   }
 
   private async handleDeleteEventCommand(interaction: ChatInputCommandInteraction) {
     if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply({ content: "You need Administrator permissions to use this command.", ephemeral: true })
+      return interaction.reply({ content: "You need Administrator permissions to use this command.", flags: [MessageFlags.Ephemeral] })
     }
 
     const identifier = interaction.options.getString('identifier', true)
-    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", ephemeral: true })
+    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", flags: [MessageFlags.Ephemeral] })
     
     const events = this.onListEvents()
     const event = events.find(e => e.identifier() === identifier)
 
     if (!event) {
-      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, ephemeral: true })
+      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, flags: [MessageFlags.Ephemeral] })
     }
 
     this.pendingDeletions.set(interaction.user.id, identifier)
@@ -248,7 +249,7 @@ export class DiscordBot {
     await interaction.reply({ 
       embeds: [confirmEmbed],
       components: [row],
-      ephemeral: true 
+      flags: [MessageFlags.Ephemeral] 
     })
   }
 
@@ -257,7 +258,7 @@ export class DiscordBot {
     
     const identifier = this.pendingDeletions.get(interaction.user.id)
     if (!identifier) {
-      return interaction.reply({ content: "No pending deletion request found.", ephemeral: true })
+      return interaction.reply({ content: "No pending deletion request found.", flags: [MessageFlags.Ephemeral] })
     }
 
     if (this.onDeleteEvent) {
@@ -278,7 +279,7 @@ export class DiscordBot {
         })
       }
     } else {
-      await interaction.reply({ content: "Error: Event deleter not initialized.", ephemeral: true })
+      await interaction.reply({ content: "Error: Event deleter not initialized.", flags: [MessageFlags.Ephemeral] })
     }
   }
 
@@ -295,21 +296,21 @@ export class DiscordBot {
 
   private async handleForceStartEventCommand(interaction: ChatInputCommandInteraction) {
     if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply({ content: "You need Administrator permissions to use this command.", ephemeral: true })
+      return interaction.reply({ content: "You need Administrator permissions to use this command.", flags: [MessageFlags.Ephemeral] })
     }
 
     const identifier = interaction.options.getString('identifier', true)
-    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", ephemeral: true })
+    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", flags: [MessageFlags.Ephemeral] })
     
     const events = this.onListEvents()
     const event = events.find(e => e.identifier() === identifier)
 
     if (!event) {
-      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, ephemeral: true })
+      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, flags: [MessageFlags.Ephemeral] })
     }
 
     if (event.hasStarted) {
-      return interaction.reply({ content: `Event \`${event.name}\` has already started.`, ephemeral: true })
+      return interaction.reply({ content: `Event \`${event.name}\` has already started.`, flags: [MessageFlags.Ephemeral] })
     }
 
     this.pendingForceStarts.set(interaction.user.id, identifier)
@@ -335,7 +336,7 @@ export class DiscordBot {
     await interaction.reply({ 
       embeds: [confirmEmbed],
       components: [row],
-      ephemeral: true 
+      flags: [MessageFlags.Ephemeral] 
     })
   }
 
@@ -344,7 +345,7 @@ export class DiscordBot {
     
     const identifier = this.pendingForceStarts.get(interaction.user.id)
     if (!identifier) {
-      return interaction.reply({ content: "No pending force-start request found.", ephemeral: true })
+      return interaction.reply({ content: "No pending force-start request found.", flags: [MessageFlags.Ephemeral] })
     }
 
     if (this.onForceStartEvent) {
@@ -365,7 +366,7 @@ export class DiscordBot {
         })
       }
     } else {
-      await interaction.reply({ content: "Error: Event starter not initialized.", ephemeral: true })
+      await interaction.reply({ content: "Error: Event starter not initialized.", flags: [MessageFlags.Ephemeral] })
     }
   }
 
@@ -382,27 +383,27 @@ export class DiscordBot {
 
   private async handleModifyDurationCommand(interaction: ChatInputCommandInteraction) {
     if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply({ content: "You need Administrator permissions to use this command.", ephemeral: true })
+      return interaction.reply({ content: "You need Administrator permissions to use this command.", flags: [MessageFlags.Ephemeral] })
     }
 
     const identifier = interaction.options.getString('identifier', true)
     const action = interaction.options.getString('action', true) as 'extend' | 'reduce'
     const hours = interaction.options.getNumber('hours', true)
 
-    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", ephemeral: true })
+    if (!this.onListEvents) return interaction.reply({ content: "Event lister not initialized.", flags: [MessageFlags.Ephemeral] })
     
     const events = this.onListEvents()
     const event = events.find(e => e.identifier() === identifier)
 
     if (!event) {
-      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, ephemeral: true })
+      return interaction.reply({ content: `No event found with ID \`${identifier}\`.`, flags: [MessageFlags.Ephemeral] })
     }
 
     const currentDurationHours = event.duration / 3600000
     const newDurationHours = action === 'extend' ? currentDurationHours + hours : currentDurationHours - hours
 
     if (newDurationHours <= 0) {
-      return interaction.reply({ content: "Resulting duration must be greater than 0.", ephemeral: true })
+      return interaction.reply({ content: "Resulting duration must be greater than 0.", flags: [MessageFlags.Ephemeral] })
     }
 
     const newEnd = event.start + (newDurationHours * 3600000)
@@ -434,7 +435,7 @@ export class DiscordBot {
     await interaction.reply({ 
       embeds: [confirmEmbed],
       components: [row],
-      ephemeral: true 
+      flags: [MessageFlags.Ephemeral] 
     })
   }
 
@@ -443,7 +444,7 @@ export class DiscordBot {
     
     const config = this.pendingDurationModifications.get(interaction.user.id)
     if (!config) {
-      return interaction.reply({ content: "No pending duration modification found.", ephemeral: true })
+      return interaction.reply({ content: "No pending duration modification found.", flags: [MessageFlags.Ephemeral] })
     }
 
     if (this.onModifyDuration) {
@@ -464,7 +465,7 @@ export class DiscordBot {
         })
       }
     } else {
-      await interaction.reply({ content: "Error: Duration modifier not initialized.", ephemeral: true })
+      await interaction.reply({ content: "Error: Duration modifier not initialized.", flags: [MessageFlags.Ephemeral] })
     }
   }
 
@@ -487,7 +488,7 @@ export class DiscordBot {
     const preset = eventPresets.find(p => p.id === presetId)
     
     if (!preset) {
-      return interaction.reply({ content: "Please select a valid event preset.", ephemeral: true })
+      return interaction.reply({ content: "Please select a valid event preset.", flags: [MessageFlags.Ephemeral] })
     }
 
     const startTimeStr = fields.getTextInputValue('startTime')
@@ -495,7 +496,7 @@ export class DiscordBot {
     const timezone = fields.fields.get('timezone')?.values?.[0]
     
     if (!timezone) {
-      return interaction.reply({ content: "Please select a timezone.", ephemeral: true })
+      return interaction.reply({ content: "Please select a timezone.", flags: [MessageFlags.Ephemeral] })
     }
     
     const selectedGuildIds = fields.fields.get('guildSelection')?.values || []
@@ -508,19 +509,19 @@ export class DiscordBot {
       const isoDateStr = `${fullYear}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T${timePart}:00${timezone}`
       startTime = new Date(isoDateStr).getTime()
     } catch (e) {
-      return interaction.reply({ content: `Invalid date format. Please use DD/MM/YY HH:mm. Provided: ${startTimeStr}`, ephemeral: true })
+      return interaction.reply({ content: `Invalid date format. Please use DD/MM/YY HH:mm. Provided: ${startTimeStr}`, flags: [MessageFlags.Ephemeral] })
     }
 
     if (isNaN(startTime)) {
-      return interaction.reply({ content: `Invalid date or timezone format. Provided: ${startTimeStr} ${timezone}`, ephemeral: true })
+      return interaction.reply({ content: `Invalid date or timezone format. Provided: ${startTimeStr} ${timezone}`, flags: [MessageFlags.Ephemeral] })
     }
 
     if (isNaN(durationHours) || durationHours <= 0) {
-      return interaction.reply({ content: "Invalid duration.", ephemeral: true })
+      return interaction.reply({ content: "Invalid duration.", flags: [MessageFlags.Ephemeral] })
     }
 
     if (selectedGuildIds.length === 0) {
-      return interaction.reply({ content: "You must select at least one guild.", ephemeral: true })
+      return interaction.reply({ content: "You must select at least one guild.", flags: [MessageFlags.Ephemeral] })
     }
 
     const pingRoleIds = selectedGuildIds
@@ -569,7 +570,7 @@ export class DiscordBot {
     await interaction.reply({ 
       embeds: [confirmEmbed],
       components: [row],
-      ephemeral: true 
+      flags: [MessageFlags.Ephemeral] 
     })
   }
 
@@ -578,7 +579,7 @@ export class DiscordBot {
     
     const eventConfig = this.pendingEvents.get(interaction.user.id)
     if (!eventConfig) {
-      return interaction.reply({ content: "No pending event request found or it has expired.", ephemeral: true })
+      return interaction.reply({ content: "No pending event request found or it has expired.", flags: [MessageFlags.Ephemeral] })
     }
 
     await interaction.update({ 
@@ -844,7 +845,7 @@ export class DiscordBot {
 
   async handleSelectMenu(interaction: StringSelectMenuInteraction, event: GuildEvent) {
     if (interaction.customId !== `leaderboardSelector_${event.identifier()}`) return
-    await interaction.deferReply({ ephemeral: true })
+    await interaction.deferReply({ flags: [MessageFlags.Ephemeral] })
     const metric = interaction.values[0]
     const data = await this.getLeaderboardEmbed(event, metric).catch(console.error)
     if (!data) return
