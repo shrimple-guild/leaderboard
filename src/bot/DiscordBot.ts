@@ -93,7 +93,7 @@ export class DiscordBot {
 
     const startInput = new TextInputBuilder()
       .setCustomId('startTime')
-      .setPlaceholder("e.g. 2026/04/01 18:00")
+      .setPlaceholder("e.g. 01/04/26 18:00")
       .setStyle(TextInputStyle.Short)
       .setRequired(true)
 
@@ -123,7 +123,7 @@ export class DiscordBot {
 
     const durationInput = new TextInputBuilder()
       .setCustomId('durationHours')
-      .setPlaceholder("e.g. 48")
+      .setPlaceholder("e.g. 124 (1 SB Year)")
       .setStyle(TextInputStyle.Short)
       .setRequired(true)
 
