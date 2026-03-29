@@ -48,6 +48,7 @@ export class EventManager {
   saveEvents() {
     const configs = Array.from(this.activeEvents.values()).map(e => {
       const { lb, iconAttachment, metric, ...config } = e.event as any
+      config.id = e.event.identifier()
       return config
     })
     fs.writeFileSync(EVENTS_FILE, JSON.stringify(configs, null, 2))
@@ -60,8 +61,9 @@ export class EventManager {
     const event = GuildEvent.from(eventConfig, lb)
     
     await event.fetchMetric()
-    this.activeEvents.set(event.identifier(), { event, database })
-    console.log(`Initialized event: ${event.name} (${event.identifier()})`)
+    const identifier = event.identifier()
+    this.activeEvents.set(identifier, { event, database })
+    console.log(`Initialized event: ${event.name} (${identifier})`)
   }
 
   async checkEventStatus() {
@@ -171,6 +173,9 @@ export class EventManager {
       const ms = hours * 3600000
       if (action === 'extend') {
         eventData.event.duration += ms
+        if (eventData.event.outroSent && Date.now() < eventData.event.end) {
+          eventData.event.outroSent = false
+        }
       } else {
         eventData.event.duration = Math.max(3600000, eventData.event.duration - ms)
       }

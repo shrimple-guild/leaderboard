@@ -1,6 +1,6 @@
 [
     {
-        "id": "trophy_fishing",
+        "slug": "trophy_fishing",
         "name": "Trophy Fishing Event",
         "metrics": ["Trophy Fish Weight"],
         "related": [
@@ -22,7 +22,7 @@
         "description": "Shrimple and Prawn Academy are hosting a {metric} event for the duration of Scorpius, as is tradition! Get your diamond trophy hunter or bring up your magmafish collection."
     },
     {
-        "id": "slayer_weight",
+        "slug": "slayer_weight",
         "name": "Slayer Weight",
         "metrics": ["Slayer Weight"],
         "related": [

@@ -1,7 +1,7 @@
 import { Leaderboard } from "./Leaderboard.js"
 import { pickRandom } from "../utils/random.js"
 import { AttachmentBuilder } from "discord.js"
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 export class GuildEvent {
   discordGuildId!: string
@@ -23,16 +23,20 @@ export class GuildEvent {
   lb!: Leaderboard
   introSent: boolean = false
   outroSent: boolean = false
+  private id: string | undefined
 
   private constructor() {}
 
   identifier(): string {
-    const data = [this.guildIds.toSorted(), this.start, this.duration]
-    return crypto.createHash("md5").update(data.toString()).digest('hex')
+    if (!this.id) {
+      this.id = crypto.randomUUID()
+    }
+    return this.id
   }
 
   static from(json: any, lb: Leaderboard) {
     const obj = Object.assign<GuildEvent, GuildEvent>(new GuildEvent(), json)
+    if (json.id) obj.id = json.id
     obj.iconAttachment = new AttachmentBuilder(`./assets/${obj.icon}`, {
       name: "icon.png",
     })

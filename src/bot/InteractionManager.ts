@@ -23,7 +23,6 @@ import { EventManager } from "../core/EventManager.js"
 import { EmbedGenerator } from "./EmbedGenerator.js"
 import eventPresets from "../data/event_presets.json" with { type: "json" }
 import guildsConfig from "../data/guilds.json" with { type: "json" }
-import crypto from "node:crypto"
 
 export class InteractionManager {
   private readonly pendingEvents: Map<string, any> = new Map()
@@ -77,7 +76,7 @@ export class InteractionManager {
         .addOptions(eventPresets.map(p => 
           new StringSelectMenuOptionBuilder()
             .setLabel(p.name)
-            .setValue(p.id)
+            .setValue(p.slug)
         ))
       )
 
@@ -223,7 +222,7 @@ export class InteractionManager {
     const fields = interaction.fields as any
 
     const presetId = fields.fields.get('presetId')?.values?.[0]
-    const preset = eventPresets.find(p => p.id === presetId)
+    const preset = eventPresets.find(p => (p as any).slug === presetId)
     
     if (!preset) {
       return interaction.reply({ content: "Please select a valid event preset.", flags: [MessageFlags.Ephemeral] })
@@ -258,8 +257,9 @@ export class InteractionManager {
       .map((id: string) => guildsConfig.find((g: any) => g.id === id)?.pingRoleId)
       .filter((id: string | undefined): id is string => id !== undefined)
 
+    const { slug, ...presetData } = preset as any
     const eventConfig = {
-      ...preset,
+      ...presetData,
       discordGuildId: interaction.guildId,
       discordChannelId: interaction.channelId,
       guildIds: selectedGuildIds,
@@ -288,13 +288,17 @@ export class InteractionManager {
       const config = this.pendingEvents.get(user.id)
       if (!config) return interaction.reply({ content: "Expired request.", flags: [MessageFlags.Ephemeral] })
       
-      const identifier = crypto.createHash('md5').update(`${config.guildIds.join("_")}-${config.start}-${config.start + config.duration}`).digest('hex')
+      await this.eventManager.initEvent(config)
+      this.eventManager.saveEvents()
+
+      const events = this.eventManager.getEvents()
+      const event = events.find(e => e.start === config.start && e.name === config.name)
+      const identifier = event ? event.identifier() : "Error: ID not found"
+
       const guildNames = config.guildIds.map((id: string) => guildsConfig.find((g: any) => g.id === id)?.name || id).join(", ")
       const embed = EmbedGenerator.createScheduleSuccessEmbed(config, identifier, guildNames)
 
       await interaction.update({ content: "", embeds: [embed], components: [] })
-      await this.eventManager.initEvent(config)
-      this.eventManager.saveEvents()
       this.pendingEvents.delete(user.id)
 
     } else if (customId === 'cancelEvent') {
