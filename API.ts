@@ -136,8 +136,8 @@ function getMetric(member: any, metric: Metric): number | undefined {
     return (
       (member.player_data?.experience?.SKILL_FISHING ?? 0) * 0.25 +
       (member.player_data?.experience?.SKILL_MINING ?? 0) * 0.17 +
-      (member.player_data?.experience?.SKILL_FORAGING ?? 0) * 0.18 +
-      (member.player_data?.experience?.SKILL_FARMING ?? 0) * 1 +
+      (member.player_data?.experience?.SKILL_FORAGING ?? 0) * 0.15 +
+      (member.player_data?.experience?.SKILL_FARMING ?? 0) * 0.5 +
       (member.player_data?.experience?.SKILL_ENCHANTING ?? 0) * 0.04 +
       (member.slayer?.slayer_bosses?.zombie?.xp ?? 0) * 2.5 +
       (member.slayer?.slayer_bosses?.spider?.xp ?? 0) * 8 +
