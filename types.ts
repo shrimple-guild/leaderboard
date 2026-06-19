@@ -22,6 +22,7 @@ export type Profile = {
 export type LeaderboardPosition = LeaderboardPositionWithoutRank & { rank: number }
 
 export type LeaderboardPositionWithoutRank = {
+  uuid: string
   username: string
   cuteName: string
   value: number

@@ -67,9 +67,10 @@ async function doEventUpdate() {
     } else {
       console.log(`Skipping because the event hasn't started yet!`)
     }
-    updateTime = updateEventJob.nextDate().toMillis()
   } catch (e) {
     console.error(e)
+  } finally {
+    updateTime = updateEventJob.nextDate().toMillis()
   }
 }
 

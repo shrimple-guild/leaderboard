@@ -60,6 +60,7 @@ export class Database {
         GROUP BY profileId
       )
       SELECT
+        Players.id AS uuid,
         username,
         cuteName,
         MAX(profileValue) AS value,

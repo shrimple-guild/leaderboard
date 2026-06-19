@@ -127,9 +127,10 @@ export class DiscordBot {
     if (!leaderboard) return
     const plot = generateLeaderboardPlot(event, leaderboard, metric)
     if (!plot) return
-    let fields = leaderboard.slice(0, 10).map(({ rank, username, cuteName, value, counter }) => {
+    let fields = leaderboard.slice(0, 10).map(({ rank, uuid, username, cuteName, value, counter }) => {
+      var name = username != null ? this.escapeMarkdown(username) : uuid;
       return {
-        name: `${rank}. ${this.escapeMarkdown(username)} (${cuteName})`,
+        name: `${rank}. ${name} (${cuteName})`,
         value: `**${formatter.format(value)}** ${counter}`,
         inline: true,
       }
